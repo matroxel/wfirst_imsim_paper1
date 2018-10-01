@@ -1,0 +1,67 @@
+\pdfoutput=1
+\documentclass[aps,prd, amsmath,amssymb,superscriptaddress,showkeys,nofootinbib,reprint,preprintnumbers]{revtex4-1}
+\usepackage{color}
+\usepackage{aas_macros}
+\usepackage{hyperref,breakurl}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{dcolumn}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{dcolumn}
+
+\usepackage{amsmath,amssymb,latexsym,times}
+\DeclareMathOperator\arctanh{arctanh}
+
+\usepackage{todonotes}
+\newcommand{\verify}[1]{\textcolor{red}{\textbf{{#1}}}}
+
+\newcommand\assign[1]{\todo[color=RoyalPurple!40, inline, size=\small]{Contributing: #1}}
+\newcommand\troxel[1]{\todo[color=cyan!40, inline, size=\small]{Troxel: #1}}
+ 
+
+\newcommand\green[1]{\textcolor{green}{#1}}
+
+\begin{document}
+
+\title{TBD}
+
+\author{Troxel, M.A.}
+\email{michael.troxel@duke.edu}
+\author{and others}
+
+\collaboration{WFIRST HLS Cosmology SIT}
+
+\noaffiliation
+
+\date{\today}
+
+\label{firstpage}
+
+\begin{abstract}
+\end{abstract}
+
+\keywords{}
+
+\maketitle
+
+%\tableofcontents
+
+\section{Introduction}\label{sec:intro}
+
+\section{Simulation}\label{sec:simulation}
+
+\section{Tests}\label{sec:tests}
+
+\section{Conclusion}\label{sec:conclusion}
+
+\section*{Acknowledgements}
+
+This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987} and computing resources at SLAC National Accelerator Laboratory. Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
+
+\bibliographystyle{apsrev4-1}
+\bibliography{wfirst_imsim_paper1}
+
+\label{lastpage}
+
+\end{document}
