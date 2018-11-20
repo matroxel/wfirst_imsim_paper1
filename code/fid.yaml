@@ -13,7 +13,7 @@ overwrite : False
 draw_sca            : True
 
 # Limit which SCAs are drawn. Can be a single number or list. None or not defined will simulate all.
-sca  : 1
+sca  : None
 
 # initialise random seed
 random_seed         : 314
@@ -21,6 +21,7 @@ random_seed         : 314
 # output directory
 out_path            : /fs/scratch/cond0083/wfirst_sim_out/
 # output meds (and other) filename prefix
+output_truth        : 'fiducial_lensing_galaxia'
 output_meds         : 'fiducial'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
@@ -31,6 +32,7 @@ nside               : 256
 
 # File containing dither information
 dither_file         : /users/PCON0003/cond0083/observing_sequence_hlsonly_5yr.fits
+dither_from_file    : dither_list.txt # None to read dither from command line instead of assume number corresponds to entry in dither list file.
 
 # PSF properties
 # To do a more exact calculation of the chromaticity and pupil plane configuration, set the `approximate_struts` and the `n_waves` keyword to defaults
@@ -84,3 +86,5 @@ use_interpix_cap    : True # Add interpixel capacitance effect
 use_read_noise      : True # Add read noise
 use_persistence     : False # Currently not implemented.
 save_diff           : False # Save difference images during add_effects() - will do this for every call and overwrite the previous call's files, so be prepared to kill job otherwise will be very slow. 
+
+produce_coadd       : True
