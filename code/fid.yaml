@@ -19,7 +19,7 @@ sca  : None
 random_seed         : 314
 
 # output directory
-out_path            : /fs/scratch/cond0083/wfirst_sim_out/
+out_path            : /fs/scratch/osu10670/wfirst_sim_out/
 # output meds (and other) filename prefix
 output_truth        : 'fiducial_lensing_galaxia'
 output_meds         : 'fiducial'
