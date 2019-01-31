@@ -29,6 +29,7 @@ stamp_size          : 32
 num_sizes           : 9
 # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
 nside               : 256
+meds_from_file      : None # meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
 
 # File containing dither information
 dither_file         : /users/PCON0003/cond0083/observing_sequence_hlsonly_5yr.fits
@@ -70,6 +71,8 @@ shear_list          : [[0.2,0.0],[-0.2,0.0],[0.0,0.2],[0.0,-0.2]]
 sedpath_E           : /users/PCON0003/cond0083/GalSim/share/SEDs/NGC_4926_spec.dat
 sedpath_Scd         : /users/PCON0003/cond0083/GalSim/share/SEDs/NGC_4670_spec.dat
 sedpath_Im          : /users/PCON0003/cond0083/GalSim/share/SEDs/Mrk_33_spec.dat
+# NGMIX model
+ngmix_model         : exp
 
 # Files for cosmos galaxy models
 cat_name            : real_galaxy_catalog_25.2.fits
@@ -87,4 +90,5 @@ use_read_noise      : True # Add read noise
 use_persistence     : False # Currently not implemented.
 save_diff           : False # Save difference images during add_effects() - will do this for every call and overwrite the previous call's files, so be prepared to kill job otherwise will be very slow. 
 
-produce_coadd       : True
+produce_coadd       : False
+chip_enlarge        : 0.2
