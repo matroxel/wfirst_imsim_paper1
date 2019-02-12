@@ -1,0 +1,34 @@
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+ErfaWarning: ERFA function "d2dtf" yielded 1 of "dubious year (Note 5)"
+
+-----------------------
+Resources requested:
+nodes=1:ppn=20
+-----------------------
+Resources used:
+cput=00:17:32
+walltime=00:01:14
+mem=2.104 GB
+vmem=16.072 GB
+-----------------------
+Resource units charged (estimate):
+0.041 RUs
+-----------------------
