@@ -1,15 +1,14 @@
-#PBS -N H158
-# request 1 node
+#PBS -N fid
 #PBS -l nodes=1:ppn=20
-#PBS -m abe
 #PBS -A PCON0003
-# request 6 hours of cpu time
-#PBS -l walltime=6:00:00
-# mail is sent to you when the job starts and when it terminates or aborts
+#PBS -l walltime=5:00:00
+#PBS -t 1
+
 cd $PBS_O_WORKDIR
-# run the program
 export OMP_NUM_THREADS=1
 #psrecord --log memory_log.txt --interval 1.0 --include-children "python mcaltest.py"
+export PYTHONPATH=$PYTHONPATH:/users/PCON0003/cond0083/wfirst_imsim/
 source activate galsim
-export PYTHONPATH=$PYTHONPATH:/users/PCON0003/osu10670/wfirst_imsim/
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 30597
+
+mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml None $PBS_ARRAYID
+
