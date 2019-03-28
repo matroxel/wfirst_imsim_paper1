@@ -63,7 +63,7 @@ gal_type            : 0
 gal_sample          : /users/PCON0003/cond0083/Simulated_WFIRST+LSST_photometry_catalog_CANDELSbased.fits
 # Type of sersic model to build. Disk, bulge, or composite (sum of disk + bulge + star-forming knots)
 gal_model           : composite
-# Number of random, irregular star-forming knots to include in disk of object.# knots               : 25
+# Number of random, irregular star-forming knots to include in disk of object
 knots               : 25
 # List of shears to select from
 shear_list          : [[0.2,0.0],[-0.2,0.0],[0.0,0.2],[0.0,-0.2]]
@@ -89,6 +89,6 @@ use_interpix_cap    : True # Add interpixel capacitance effect
 use_read_noise      : True # Add read noise
 use_persistence     : False # Currently not implemented.
 save_diff           : False # Save difference images during add_effects() - will do this for every call and overwrite the previous call's files, so be prepared to kill job otherwise will be very slow. 
-#
+
 produce_coadd       : False
 chip_enlarge        : 0.2
