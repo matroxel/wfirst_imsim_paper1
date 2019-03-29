@@ -2,7 +2,7 @@
 #PBS -l nodes=1:ppn=20
 #PBS -A PCON0003
 #PBS -l walltime=5:00:00
-#PBS -t 320%5
+#PBS -t 1-189%5
 
 cd $PBS_O_WORKDIR
 export OMP_NUM_THREADS=1
