@@ -1,0 +1,10 @@
+discarding /usr/local/anaconda/anaconda2/bin from PATH
+prepending /users/PCON0003/osu10670/.conda/envs/galsim/bin to PATH
+Traceback (most recent call last):
+  File "../../wfirst_imsim/wfirst_imsim/simulate.py", line 3284, in <module>
+    m = accumulate_output_disk( param_file, filter_, pix, sim.comm, ignore_missing_files = False, setup = setup )
+  File "../../wfirst_imsim/wfirst_imsim/simulate.py", line 1902, in __init__
+    self.accumulate_index_table()
+  File "../../wfirst_imsim/wfirst_imsim/simulate.py", line 1952, in accumulate_index_table
+    self.index = np.zeros(length,dtype=fio.FITS(index_files[0])[-1].read().dtype)
+IndexError: list index out of range

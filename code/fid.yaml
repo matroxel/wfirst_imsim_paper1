@@ -19,6 +19,55 @@ sca  : None
 random_seed         : 314
 
 # output directory
+out_path            : /fs/scratch/cond0083/wfirst_sim_out/
+# output meds (and other) filename prefix
+output_truth        : 'fiducial_lensing_galaxia'
+output_meds         : 'fiducial'
+# Minimum postage stamp size (all stamps will be multiples of this)
+stamp_size          : 32
+# Number of stamp sizes
+num_sizes           : 9
+# nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
+nside               : 256
+meds_from_file      : meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
+
+# File containing dither information
+dither_file         : /users/PCON0003/cond0083/observing_sequence_hlsonly_5yr.fits
+dither_from_file    : dither_list.txt # None to read dither from command line instead of assume number corresponds to entry in dither list file.
+
+# PSF properties
+# To do a more exact calculation of the chromaticity and pupil plane configuration, set the `approximate_struts` and the `n_waves` keyword to defaults
+approximate_struts  : True # Approximate strut configuration
+n_waves             : 10 # Number of wavelengths used to create chromatic model of PSF
+extra_aberrations   : None # Include (additive) changes specification zernike parameters. None for default.
+#los_motion         : 0.015 # Include extra jitter in rms of arcsec. Ignored if not defined.
+#los_motion_e1      : 0.3 # Shear to apply to jitter gaussian to simulate orientation-dependent rms
+#los_motion_e2      : 0.0
+# Draw stars into SCA
+draw_stars          : True
+# Catalog containing star positions and fluxes
+star_sample         : /fs/scratch/cond0083/galaxia_stars_full.fits
+# Write true psf to stamps for meds Input file for wfirst.py
+
+# Number of procs to limit star parallelisation to for memory reasons
+starproc  : 20
+
+# Split over nodes/procs with MPI
+mpi       : True
+
+# If overwrite is False, the job will crash if the output directories already exist to safeguard against overwriting results.
+overwrite : False
+
+# Draw and save full SCA images. In this mode, the isolated single-galaxy postage stamps will still be saved.
+draw_sca            : True
+
+# Limit which SCAs are drawn. Can be a single number or list. None or not defined will simulate all.
+sca  : None
+
+# initialise random seed
+random_seed         : 314
+
+# output directory
 out_path            : /fs/scratch/PCON0003/osu10670/wfirst_sim_out/
 # output meds (and other) filename prefix
 output_truth        : 'z4_diff_lensing_galaxia'
