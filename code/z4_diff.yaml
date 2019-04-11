@@ -29,7 +29,7 @@ stamp_size          : 32
 num_sizes           : 9
 # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
 nside               : 256
-meds_from_file      : None # meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
+meds_from_file      : meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
 
 # File containing dither information
 dither_file         : /users/PCON0003/cond0083/observing_sequence_hlsonly_5yr.fits
@@ -92,3 +92,4 @@ save_diff           : False # Save difference images during add_effects() - will
 
 produce_coadd       : False
 chip_enlarge        : 0.2
+avg_fit             : True
