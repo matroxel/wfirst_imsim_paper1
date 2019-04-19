@@ -8,6 +8,7 @@ mpi       : True
 
 # If overwrite is False, the job will crash if the output directories already exist to safeguard against overwriting results.
 overwrite : False
+condor    : False
 
 # Draw and save full SCA images. In this mode, the isolated single-galaxy postage stamps will still be saved.
 draw_sca            : True
@@ -30,6 +31,8 @@ num_sizes           : 9
 # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
 nside               : 256
 meds_from_file      : meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
+avg_fit             : True
+shape_code          : ngmix
 
 # File containing dither information
 dither_file         : /users/PCON0003/cond0083/observing_sequence_hlsonly_5yr.fits
@@ -62,17 +65,17 @@ gal_type            : 0
 # Photometric properties to draw from. Must provide file if gal_type == 0
 gal_sample          : /users/PCON0003/cond0083/Simulated_WFIRST+LSST_photometry_catalog_CANDELSbased.fits
 # Type of sersic model to build. Disk, bulge, or composite (sum of disk + bulge + star-forming knots)
-gal_model           : composite
+gal_model           : exp
 # Number of random, irregular star-forming knots to include in disk of object.
 knots               : 25
 # List of shears to select from
-shear_list          : [[0.2,0.0],[-0.2,0.0],[0.0,0.2],[0.0,-0.2]]
+shear_list          : [[0.1,0.0],[-0.1,0.0],[0.0,0.1],[0.0,-0.1],[0.1,0.1],[0.1,-0.1],[-0.1,0.1],[-0.1,-0.1]]
 # SEDs for galaxy components
 sedpath_E           : /users/PCON0003/cond0083/GalSim/share/SEDs/NGC_4926_spec.dat
 sedpath_Scd         : /users/PCON0003/cond0083/GalSim/share/SEDs/NGC_4670_spec.dat
 sedpath_Im          : /users/PCON0003/cond0083/GalSim/share/SEDs/Mrk_33_spec.dat
 # NGMIX model
-ngmix_model         : exp
+ngmix_model         : disk
 
 # Files for cosmos galaxy models
 cat_name            : real_galaxy_catalog_25.2.fits
