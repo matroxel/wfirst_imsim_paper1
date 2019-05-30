@@ -12,12 +12,12 @@ export OMP_NUM_THREADS=1
 export PYTHONPATH=$PYTHONPATH:/users/PCON0003/cond0083/wfirst_imsim/
 source activate galsim
 
-mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds setup
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 1
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 2
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 3
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 4
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 5
+#mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds setup
+#mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 1
+#mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 2
+mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 6
+#mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 4
+#mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py z4_diff.yaml H158 meds 5
 #571311
 ##mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 571322
 ##mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 572688

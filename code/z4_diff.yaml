@@ -19,10 +19,10 @@ sca  : None
 random_seed         : 314
 
 # output directory
-out_path            : /fs/scratch/PCON0003/osu10670/wfirst_sim_out 
+out_path            : /fs/scratch/PCON0003/osu10670/wfirst_sim_out/ 
 # output meds (and other) filename prefix
-output_truth        : 'z4_diff_lensing_galaxia'
-output_meds         : 'z4_0.005'
+output_truth        : 'z4_diff_lensing_galaxia_v2'
+output_meds         : 'z4_0.005_v2'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
 # Number of stamp sizes
@@ -93,3 +93,6 @@ save_diff           : False # Save difference images during add_effects() - will
 produce_coadd       : False
 chip_enlarge        : 0.2
 avg_fit             : True
+shape_code          : ngmix
+
+condor              : False

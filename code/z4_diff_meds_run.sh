@@ -1,4 +1,4 @@
-#PBS -N fid_meds_run
+#PBS -N z4_diff_meds_run
 #PBS -l nodes=1:ppn=20
 #PBS -A PCON0003
 #PBS -l walltime=5:00:00
