@@ -1,5 +1,8 @@
 # Input file for wfirst.py
 
+condor : False
+condor_zip_dir : /stash/user/troxel/wfirst_sim_fiducial/
+
 # Number of procs to limit star parallelisation to for memory reasons
 starproc  : 20
 
@@ -30,6 +33,10 @@ num_sizes           : 9
 # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
 nside               : 256
 meds_from_file      : meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
+avg_fit             : True
+shape_code          : ngmix
+psf_meds            : fiducial
+
 
 # File containing dither information
 dither_file         : /users/PCON0003/cond0083/observing_sequence_hlsonly_5yr.fits
@@ -66,7 +73,7 @@ gal_model           : composite
 # Number of random, irregular star-forming knots to include in disk of object.
 knots               : 25
 # List of shears to select from
-shear_list          : [[0.2,0.0],[-0.2,0.0],[0.0,0.2],[0.0,-0.2]]
+shear_list          : [[0.1,0.0],[-0.1,0.0],[0.0,0.1],[0.0,-0.1],[0.1,0.1],[0.1,-0.1],[-0.1,0.1],[-0.1,-0.1]]
 # SEDs for galaxy components
 sedpath_E           : /users/PCON0003/cond0083/GalSim/share/SEDs/NGC_4926_spec.dat
 sedpath_Scd         : /users/PCON0003/cond0083/GalSim/share/SEDs/NGC_4670_spec.dat
