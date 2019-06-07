@@ -1,7 +1,7 @@
 # Input file for wfirst.py
 
 condor : True
-condor_zip_dir : /stash/user/troxel/wfirst_sim_fiducial/
+condor_zip_dir : /stash/user/troxel/wfirst_sim_gradz4/
 
 # Number of procs to limit star parallelisation to for memory reasons
 starproc  : 1
@@ -25,7 +25,7 @@ random_seed         : 314
 out_path            : ./
 # output meds (and other) filename prefix
 output_truth        : 'fiducial_lensing_galaxia'
-output_meds         : 'fiducial'
+output_meds         : 'gradz4'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
 # Number of stamp sizes
@@ -45,18 +45,12 @@ dither_from_file    : None #dither_list.txt # None to read dither from command l
 # To do a more exact calculation of the chromaticity and pupil plane configuration, set the `approximate_struts` and the `n_waves` keyword to defaults
 approximate_struts  : True # Approximate strut configuration
 n_waves             : 10 # Number of wavelengths used to create chromatic model of PSF
-extra_aberrations   : None # Include (additive) changes specification zernike parameters. None for default.
+extra_aberrations   : [0, 0, 0, 0, 0.005, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # Include (additive) changes specification zernike parameters. None for default.
 #los_motion         : 0.015 # Include extra jitter in rms of arcsec. Ignored if not defined.
 #los_motion_e1      : 0.3 # Shear to apply to jitter gaussian to simulate orientation-dependent rms
 #los_motion_e2      : 0.0
 # Create a gradiaent across the focal plane in the extra_aberrations
-gradient_aberration : False
-# Create random aberration up to extra_aberrations for each SCA
-random_aberration : False
-# Create gradient of random amplitude up to extra_abberations across SCA in x pixel coordinate
-random_aberration_gradient : False
-# Add los_motion to random 15% of images
-random_los_motion : False
+gradient_aberration : True
 # Draw stars into SCA
 draw_stars          : True
 # Catalog containing star positions and fluxes

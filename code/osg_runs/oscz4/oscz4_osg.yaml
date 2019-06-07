@@ -49,14 +49,6 @@ extra_aberrations   : None # Include (additive) changes specification zernike pa
 #los_motion         : 0.015 # Include extra jitter in rms of arcsec. Ignored if not defined.
 #los_motion_e1      : 0.3 # Shear to apply to jitter gaussian to simulate orientation-dependent rms
 #los_motion_e2      : 0.0
-# Create a gradiaent across the focal plane in the extra_aberrations
-gradient_aberration : False
-# Create random aberration up to extra_aberrations for each SCA
-random_aberration : False
-# Create gradient of random amplitude up to extra_abberations across SCA in x pixel coordinate
-random_aberration_gradient : False
-# Add los_motion to random 15% of images
-random_los_motion : False
 # Draw stars into SCA
 draw_stars          : True
 # Catalog containing star positions and fluxes
