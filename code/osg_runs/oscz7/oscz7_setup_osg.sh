@@ -24,19 +24,19 @@ should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
                           /stash/user/troxel/wfirst_sim_input/, \
-                          /home/troxel/wfirst_imsim_paper1/code/fid_osg.yaml, \
+                          /home/troxel/wfirst_imsim_paper1/code/oscz7_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt
 
 transfer_output_files   = truth
 
-Initialdir     = /stash/user/troxel/wfirst_sim_fiducial/
-log            = fid_setup.log
+Initialdir     = /stash/user/troxel/wfirst_sim_oscz7/
+log            = oscz7_setup.log
 
 Executable     = run_osg.sh
-Arguments      = fid_osg.yaml None setup
-Output         = fid_setup.log
-Error          = fid_setup.log
+Arguments      = oscz7_osg.yaml None setup
+Output         = oscz7_setup.log
+Error          = oscz7_setup.log
 
 # Science sensors only. Ignore 0,0 4,0 0,4 and 4,4. 
 

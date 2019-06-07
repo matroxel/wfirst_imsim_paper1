@@ -24,20 +24,20 @@ should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
                           /stash/user/troxel/wfirst_sim_input/, \
-                          /home/troxel/wfirst_imsim_paper1/code/fid_osg.yaml, \
+                          /home/troxel/wfirst_imsim_paper1/code/oscz4_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
-                          /stash/user/troxel/wfirst_sim_fiducial/run.tar
+                          /stash/user/troxel/wfirst_sim_oscz4/run.tar
 
-transfer_output_files   = truth/fiducial_H158_index_sorted.fits
+transfer_output_files   = truth/oscz4_H158_index_sorted.fits
 
-Initialdir     = /stash/user/troxel/wfirst_sim_fiducial/
-log            = fid_meds_setup_log.log
+Initialdir     = /stash/user/troxel/wfirst_sim_oscz4/
+log            = oscz4_meds_setup_log.log
 
-Arguments = fid_osg.yaml H158 meds setup
+Arguments = oscz4_osg.yaml H158 meds setup
 Executable     = run_osg.sh
-Output         = fid_meds_setup.log
-Error          = fid_meds_setup.log
+Output         = oscz4_meds_setup.log
+Error          = oscz4_meds_setup.log
 
 # Science sensors only. Ignore 0,0 4,0 0,4 and 4,4. 
 
