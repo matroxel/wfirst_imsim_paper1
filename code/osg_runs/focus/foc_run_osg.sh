@@ -25,8 +25,8 @@ when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
                           /stash/user/troxel/wfirst_sim_input/, \
                           /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_osg.yaml, \
-                          /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/dither_list.txt,\
-                          /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/meds_pix_list.txt, \
+                          /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
+                          /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
                           /stash/user/troxel/wfirst_sim_focus/run.tar
 
 transfer_output_files   = stamps, \
