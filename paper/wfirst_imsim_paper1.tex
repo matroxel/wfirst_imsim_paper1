@@ -24,7 +24,7 @@
 
 \begin{document}
 
-\title{TBD}
+\title{A synthetic WFIRST survey: Simulation suite and the impact of wavefront errors on weak lensing}
 
 \author{Troxel, M.A.}
 \email{michael.troxel@duke.edu}
@@ -49,15 +49,65 @@
 
 \section{Introduction}\label{sec:intro}
 
-\section{Simulation}\label{sec:simulation}
+\section{WFIRST and requirements}\label{sec:wfirst}
 
-\section{Tests}\label{sec:tests}
+\def\arraystretch{1.4}
+\setlength{\tabcolsep}{4pt}
+\begin{table}
+\caption{Table}
+\label{table:values}
+\begin{center}
+\begin{tabular}{lcccc }
+\hline
+\hline
+%Parameter & $o$CDM & $w$CDM & $w$CDM (Ext) & Flat Prior \\ 
+%\hline
+%$\Omega_m$                                                  & $0.299^{+0.024}_{-0.020}$  &  $0.300^{+0.023}_{-0.021}$  & $0.303^{+0.007}_{-0.009}$ & [0.1, 0.9] \\
+%$\Omega_b$                                                   & $0.069^{+0.009}_{-0.012}$   & $0.064^{+0.013}_{-0.009}$  & $0.048^{+0.001}_{-0.001}$ & [0.03, 0.12] \\
+%$\Omega_k$                                                   & $0.252^{+0.095}_{-0.14}$     & 0 & 0 & [-0.1, 0.5] \\
+%$\Omega_\Lambda$                                       & $0.47^{+0.14}_{-0.12}$        & $0.700^{+0.021}_{-0.023}$  & $0.697^{+0.009}_{-0.007}$ & Derived \\
+%$w$                                                                 & $-1$                                      & $-0.80^{+0.09}_{-0.11}$       & $-1.02^{+0.03}_{-0.04}$ & [-2, -0.33] \\
+%$S_8$  							    & $0.801^{+0.028}_{-0.026}$  & $0.786^{+0.029}_{-0.019}$   & $0.814^{+0.016}_{-0.011}$ & Derived \\ 
+\hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=\textwidth]{figures/fov.pdf}
+\end{center}
+\caption[]{
+Simulated field-of-view. (give info about size)
+\label{fig:fov}}
+\end{figure*}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/sca.png}
+\end{center}
+\caption[]{
+sca 10
+\label{fig:sca}}
+\end{figure}
+
+\section{Simulation suite}\label{sec:sim}
+
+\section{Impact of wavefront errors}\label{sec:results}
+
+\subsection{Static biases}\label{sec:static}
+
+\subsection{High-frequency biases}\label{sec:low}
+
+\subsection{Low-frequency biases}\label{sec:high}
 
 \section{Conclusion}\label{sec:conclusion}
 
 \section*{Acknowledgements}
 
-This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987} and computing resources at SLAC National Accelerator Laboratory. Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
+This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987} and ...OSG, Duke.... Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
 
 \bibliographystyle{apsrev4-1}
 \bibliography{wfirst_imsim_paper1}
