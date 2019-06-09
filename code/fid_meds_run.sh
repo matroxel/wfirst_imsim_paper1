@@ -10,4 +10,4 @@ export OMP_NUM_THREADS=1
 export PYTHONPATH=$PYTHONPATH:/users/PCON0003/cond0083/wfirst_imsim/
 source activate galsim
 
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds $PBS_ARRAYID
+mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fiducial.yaml H158 meds $PBS_ARRAYID

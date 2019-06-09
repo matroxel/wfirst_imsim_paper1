@@ -1,8 +1,11 @@
-import os
+import sys, os
 from astropy.io import fits
-import matplotlib.pyplot as plt
+import fitsio
 import numpy as np
-import csv
+import treecorr
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 class field_methods:
 
@@ -82,11 +85,10 @@ class field_methods:
 
 class shear_error:
 
-	def __init__(self,path,file_name,output_path):
+	def __init__(self,path,file_name):
 
 		self.path=path
 		self.file_name=file_name
-		self.output_path=output_path
 
 	def extract_shear(self):
 
@@ -102,7 +104,7 @@ class shear_error:
 
 		return shear
 
-	def estimate_cfs(self,shear)
+	def estimate_cfs(self,shear):
 
 		A1 = np.vstack([shear[:,0], np.ones(len(shear[:,0]))]).T
 		m1, c1 = np.linalg.lstsq(A1, shear[:,3], rcond=None)[0]
@@ -124,6 +126,132 @@ class shear_error:
 		plt.plot(x,x,label="e=g")
 		plt.legend(loc="upper left")
 		plt.show()
+
+class corr_func:
+	def __init__(self,path,file_name):
+
+		self.path=path
+		self.file_name=file_name
+
+	def extract_info(self):
+
+		file=self.path+'/'+self.file_name
+		file2=self.path.rstrip('ngmix')+'meds/'+self.file_name
+		
+		ra=fitsio.read(file,columns='ra')
+		dec=fitsio.read(file,columns='dec')
+		e1=fitsio.read(file,columns='e1')
+		e2=fitsio.read(file,columns='e2')
+		sca_x=fitsio.read(file2,columns='orig_col')
+		sca_y=fitsio.read(file2,columns='orig_row')
+		sca=fitsio.read(file2,columns='sca')
+
+		focal_plane_x = []
+		focal_plane_y =[]
+		for i in range(len(sca)):
+			for j in range(len(sca[i])):
+				sca_to_plane=field_methods(sca[i][j],sca_x[i][j],sca_y[i][j])
+				x, y=sca_to_plane.get_field_pos()
+				focal_plane_x.append(x)
+				focal_plane_y.append(y)
+
+		return ra,dec,e1,e2,e1.repeat(len(sca[0])),e2.repeat(len(sca[0])),np.array(focal_plane_x),np.array(focal_plane_y)
+
+	def xy_corr(self,x,y,g1,g2):
+		cat = treecorr.Catalog(x=x, y=y, g1=g1, g2=g2)
+		gg = treecorr.GGCorrelation(min_sep=0.1, max_sep=200, nbins=20)
+		gg.process(cat)
+
+		return gg
+
+	def sky_corr(self,ra,dec,g1,g2):
+		cat = treecorr.Catalog(ra=ra, dec=dec, g1=g1, g2=g2,ra_units='deg',dec_units='deg')
+		gg = treecorr.GGCorrelation(min_sep=1, max_sep=400, nbins=20, sep_units='arcmin')
+		gg.process(cat)
+
+	def corr_plot(self,gg,file_name):
+		r = np.exp(gg.meanlogr)
+		xip = gg.xip
+		xim = gg.xim
+		sig = np.sqrt(gg.varxip)
+
+		plt.plot(r, xip, color='blue')
+		plt.plot(r, -xip, color='blue', ls=':')
+		plt.errorbar(r[xip>0], xip[xip>0], yerr=sig[xip>0], color='blue', lw=0.1, ls='')
+		plt.errorbar(r[xip<0], -xip[xip<0], yerr=sig[xip<0], color='blue', lw=0.1, ls='')
+		lp = plt.errorbar(-r, xip, yerr=sig, color='blue')
+
+		plt.plot(r, xim, color='green')
+		plt.plot(r, -xim, color='green', ls=':')
+		plt.errorbar(r[xim>0], xim[xim>0], yerr=sig[xim>0], color='green', lw=0.1, ls='')
+		plt.errorbar(r[xim<0], -xim[xim<0], yerr=sig[xim<0], color='green', lw=0.1, ls='')
+		lm = plt.errorbar(-r, xim, yerr=sig, color='green')
+
+		plt.xscale('log')
+		plt.yscale('log', nonposy='clip')
+		plt.xlabel(r'$d$(mm)')
+
+
+		plt.legend([lp, lm], [r'$\xi_+(d)$', r'$\xi_-(d)$'])
+		plt.xlim( [1,200] )
+		plt.ylabel(r'$\xi_{+,-}$')
+		plt.savefig(file_name)
+		plt.show()
+
+path = sys.argv[1]
+files = os.listdir(path)
+ra=dec=sky_e1=sky_e2=e1=e2=x=y=np.array([],dtype='>f8')
+
+for file in files:
+	print (file)
+	corr=corr_func(path,file)
+	ra_tmp,dec_tmp,e1_tmp,e2_tmp,e1_xy_tmp,e2_xy_tmp,x_tmp,y_tmp=corr.extract_info()
+	ra = np.append(ra,ra_tmp)
+	dec = np.append(dec,dec_tmp)
+	sky_e1 = np.append(e1,e1_tmp)
+	sky_e2 = np.append(e2,e2_tmp)
+	e1 = np.append(e1,e1_xy_tmp)
+	e2 = np.append(e2,e2_xy_tmp)
+	x = np.append(x,x_tmp)
+	y = np.append(y,y_tmp)
+	
+
+
+gg = corr.xy_corr(x,y,e1,e2)
+corr.corr_plot(gg,'xy_corr'),
+
+		# ra=np.array([],dtype='>f8')
+		# dec=np.array([],dtype='>f8')
+		# e1=np.array([],dtype='>f8')
+		# e2=np.array([],dtype='>f8')
+		# x=np.array([],dtype='>f8')
+		# y=np.array([],dtype='>f8')
+
+		# for file in files:
+		# 	# ra_tmp = fitsio.read(path+'/'+file,columns='ra')
+		# 	# dec_tmp = fitsio.read(path+'/'+file,columns='dec')
+		# 	e1_tmp = fitsio.read(path+'/'+file,columns='e1')
+		# 	e2_tmp = fitsio.read(path+'/'+file,columns='e2')
+		# 	x_tmp = fitsio.read(path.rstrip('ngmix')+'meds/'+file,columns='orig_col')
+		# 	y_tmp = fitsio.read(path.rstrip('ngmix')+'meds/'+file,columns='orig_row')
+		# 	# ra=np.append(ra,ra_tmp)
+		# 	# dec=np.append(dec,dec_tmp)
+		# 	e1=np.append(e1,e1_tmp)
+		# 	e2=np.append(e2,e2_tmp)
+
+
+
+
+
+
+# ra_min = np.min(cat.ra)
+# ra_max = np.max(cat.ra)
+# dec_min = np.min(cat.dec)
+# dec_max = numpy.max(cat.dec)
+# print('ra range = %f .. %f' % (ra_min, ra_max))
+# print('dec range = %f .. %f' % (dec_min, dec_max))
+
+
 
 
 # path = '/fs/scratch/PCON0003/osu10670/wfirst_sim_out/ngmix'
