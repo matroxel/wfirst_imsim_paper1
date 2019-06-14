@@ -23,19 +23,20 @@ random_seed         : 314
 
 # output directory
 out_path            : ./
+psf_path            : /stash/user/troxel/wfirst_sim_fiducial/
 # output meds (and other) filename prefix
 output_truth        : 'fiducial_lensing_galaxia'
 output_meds         : 'coma'
+psf_meds            : 'fiducial'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
 # Number of stamp sizes
 num_sizes           : 9
 # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
-nside               : 256
+nside               : 512
 meds_from_file      : None #meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
-avg_fit             : True
-shape_code          : ngmix
-psf_meds            : None
+avg_fit             : False
+shape_code          : mof
 
 # File containing dither information
 dither_file         : observing_sequence_hlsonly_5yr.fits
@@ -77,8 +78,8 @@ shear_list          : [[0.1,0.0],[-0.1,0.0],[0.0,0.1],[0.0,-0.1],[0.1,0.1],[0.1,
 sedpath_E           : NGC_4926_spec.dat
 sedpath_Scd         : NGC_4670_spec.dat
 sedpath_Im          : Mrk_33_spec.dat
-# NGMIX model
-ngmix_model         : exp
+# mof model
+ngmix_model         : bdf
 
 # Files for cosmos galaxy models
 cat_name            : real_galaxy_catalog_25.2.fits

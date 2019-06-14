@@ -86,7 +86,7 @@ shear_list          : [[0.1,0.0],[-0.1,0.0],[0.0,0.1],[0.0,-0.1],[0.1,0.1],[0.1,
 sedpath_E           : NGC_4926_spec.dat
 sedpath_Scd         : NGC_4670_spec.dat
 sedpath_Im          : Mrk_33_spec.dat
-# NGMIX model
+# mof model
 ngmix_model         : bdf
 
 # Files for cosmos galaxy models
