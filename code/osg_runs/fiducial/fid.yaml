@@ -3,7 +3,7 @@
 condor : False
 condor_zip_dir : /stash/user/troxel/wfirst_sim_fiducial/
 
-# Number of procs to limit star parallelisation to for memory reasons
+# Number of procs to limit star parallelisation to for memory reasons# starproc  : 1
 starproc  : 1
 
 # Split over nodes/procs with MPI
@@ -32,9 +32,9 @@ psf_meds            : 'fiducial'
 stamp_size          : 32
 # Number of stamp sizes
 num_sizes           : 9
-# nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
+# # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
 nside               : 256
-meds_from_file      : meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
+meds_from_file      : ../../meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
 avg_fit             : False
 shape_code          : mof
 
@@ -73,7 +73,7 @@ psf_stampsize       : 8
 # Distribution of objects in ra, dec
 gal_dist            : radec_sub.fits
 # Type of galaxy model: real cosmos objects (2), models from real cosmos objects (1), sersic disk (0) - Only 0 works now
-gal_type            : 0
+ gal_type            : 0
 # Photometric properties to draw from. Must provide file if gal_type == 0
 gal_sample          : Simulated_WFIRST+LSST_photometry_catalog_CANDELSbased.fits
 # Type of sersic model to build. Disk, bulge, or composite (sum of disk + bulge + star-forming knots)

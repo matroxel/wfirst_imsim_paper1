@@ -12,4 +12,4 @@ export OMP_NUM_THREADS=1
 #psrecord --log memory_log.txt --interval 1.0 --include-children "python mcaltest.py"
 source activate galsim
 
-mpiexec -n 1 python ./analysis.py '/fs/scratch/PCON0003/osu10670/wfirst_sim_out/ngmix'
+mpiexec -n 1 python ./analysis.py shear_error '/fs/scratch/cond0083/wfirst_sim_fiducial/ngmix' shear_error

@@ -76,7 +76,7 @@ class field_methods:
 
  	    return scax*10e-6*1000+centrex, scay*10e-6*1000+centrey
 
- 	def get_field_pos(self):
+	def get_field_pos(self):
 
 		x, y = self.sca_to_field(self.sca,self.scax,self.scay)
 
@@ -85,37 +85,52 @@ class field_methods:
 
 class shear_error:
 
-	def __init__(self,path,file_name):
+	def __init__(self,path):
 
 		self.path=path
-		self.file_name=file_name
+
+# for file in files:
+# 	hdul = fits.open(path+'/'+file)
+# 	for i in hdul[1].data:
+# 		e1 = i[7]
+# 		e2 = i[8]
+# 		int_e1 = i[9]
+# 		int_e2 = i[10]
+# 		g1 = i[17]
+# 		g2 =i[18]
+# 		shear.append([e1,e2,g1,g2,int_e1,int_e2])
 
 	def extract_shear(self):
 
-		file=fits.open(self.path+'/'+self.file_name)
-		shear=[]
+		files=os.listdir(self.path)
+		e1=e2=g1=g2=np.array([],dtype='>f8')
 
-		for i in file[1].data:
-			e1=i[7]
-			e2=i[8]
-			g1=i[17]
-			g2=i[18]
-			shear.append([g1,g2,e1,e2])
+		for file in files:
+			f = self.path+'/'+file
+			e1_tmp=fitsio.read(f,columns='e1')
+			e2_tmp=fitsio.read(f,columns='e2')
+			g1_tmp=fitsio.read(f,columns='g1')
+			g2_tmp=fitsio.read(f,columns='g2')
+			e1=np.append(e1,e1_tmp)
+			e2=np.append(e2,e2_tmp)
+			g1=np.append(g1,g1_tmp)
+			g2=np.append(g2,g2_tmp)
 
-		return shear
+		return e1,e2,g1,g2
 
-	def estimate_cfs(self,shear):
+	def estimate_cfs(self,e1,e2,g1,g2):
 
-		A1 = np.vstack([shear[:,0], np.ones(len(shear[:,0]))]).T
-		m1, c1 = np.linalg.lstsq(A1, shear[:,3], rcond=None)[0]
+		A1 = np.vstack([g1, np.ones(len(g1))]).T
+		m1, c1 = np.linalg.lstsq(A1, e1, rcond=None)[0]
 		m1 = m1-1
-		A2 = np.vstack([shear[:,2], np.ones(len(shear[:,2]))]).T
+		A2 = np.vstack([g2, np.ones(len(g2))]).T
 		m2, c2 = np.linalg.lstsq(A2, e2, rcond=None)[0]
 		m2 = m2-1
+		print ('m1='+str(m1),'c1='+str(c1), 'm2='+str(m2), 'c2='+str(c2))
 
-		return (m1,c1, m2, c2)
+		return m1,c1, m2, c2
 
-	def line_plot(self,m1,c1,m2,c2):
+	def line_plot(self,m1,c1,m2,c2,file_name):
 
 		x = np.zeros(100)
 		for i in range(100):
@@ -123,8 +138,11 @@ class shear_error:
 
 		plt.plot(x,(1+m1)*x+c1,label="m1="+str(m1)+", c1="+str(c1))
 		plt.plot(x,(1+m2)*x+c2,label="m2="+str(m2)+", c2="+str(c2))
-		plt.plot(x,x,label="e=g")
+		plt.plot(x,x,label="$\gamma_{true}=\gamma_{obs}$")
+		plt.xlabel('$\gamma_{true}$')
+		plt.ylabel('$\gamma_{obs}$')
 		plt.legend(loc="upper left")
+		plt.savefig(file_name)
 		plt.show()
 
 class corr_func:
@@ -132,6 +150,7 @@ class corr_func:
 
 		self.path=path
 		self.file_name=file_name
+		ra=dec=sky_e1=sky_e2=e1=e2=x=y=np.array([],dtype='>f8')
 
 	def extract_info(self):
 
@@ -198,27 +217,59 @@ class corr_func:
 		plt.savefig(file_name)
 		plt.show()
 
-path = sys.argv[1]
-files = os.listdir(path)
-ra=dec=sky_e1=sky_e2=e1=e2=x=y=np.array([],dtype='>f8')
+path = sys.argv[2]
+if sys.argv[1] == 'shear_error':
+	f = shear_error(path)
+	e1,e2,g1,g2 = f.extract_shear()
+	m1,c1,m2,c2 = f.estimate_cfs(e1,e2,g1,g2)
+	image_name = sys.argv[3]
+	f.line_plot(m1,c1,m2,c2,image_name)
 
-for file in files:
-	print (file)
-	corr=corr_func(path,file)
-	ra_tmp,dec_tmp,e1_tmp,e2_tmp,e1_xy_tmp,e2_xy_tmp,x_tmp,y_tmp=corr.extract_info()
-	ra = np.append(ra,ra_tmp)
-	dec = np.append(dec,dec_tmp)
-	sky_e1 = np.append(e1,e1_tmp)
-	sky_e2 = np.append(e2,e2_tmp)
-	e1 = np.append(e1,e1_xy_tmp)
-	e2 = np.append(e2,e2_xy_tmp)
-	x = np.append(x,x_tmp)
-	y = np.append(y,y_tmp)
+if sys.argv[2] == '2pt_corr':
+	files = os.listdir(path)
+	for file in files:
+		corr = corr_func(path,file)
+		ra_tmp,dec_tmp,e1_tmp,e2_tmp,e1_xy_tmp,e2_xy_tmp,x_tmp,y_tmp=corr.extract_info()
+		ra = np.append(ra,ra_tmp)
+		dec = np.append(dec,dec_tmp)
+	 	sky_e1 = np.append(e1,e1_tmp)
+	 	sky_e2 = np.append(e2,e2_tmp)
+	 	e1 = np.append(e1,e1_xy_tmp)
+	 	e2 = np.append(e2,e2_xy_tmp)
+	 	x = np.append(x,x_tmp)
+		y = np.append(y,y_tmp)
+	sky_im_name = argv[3]
+	xy_im_name = argv[4]
+	gg_sky = corr.sky_corr(ra,dec,g1,g2)
+	corr.corr_plot(gg_sky,sky_im_name)
+	gg_xy = corr.xy_corr(x,y,g1,g2)
+	corr.corr_plot(gg_xy,xy_im_name)
+
+
+
+# if sys.argv[2] = 'sky_corr'
+
+# path = sys.argv[1]
+# files = os.listdir(path)
+# ra=dec=sky_e1=sky_e2=e1=e2=x=y=np.array([],dtype='>f8')
+
+# for file in files:
+# 	print (file)
+# 	corr=corr_func(path,file)
+# 	ra_tmp,dec_tmp,e1_tmp,e2_tmp,e1_xy_tmp,e2_xy_tmp,x_tmp,y_tmp=corr.extract_info()
+# 	ra = np.append(ra,ra_tmp)
+# 	dec = np.append(dec,dec_tmp)
+# 	sky_e1 = np.append(e1,e1_tmp)
+# 	sky_e2 = np.append(e2,e2_tmp)
+# 	e1 = np.append(e1,e1_xy_tmp)
+# 	e2 = np.append(e2,e2_xy_tmp)
+# 	x = np.append(x,x_tmp)
+# 	y = np.append(y,y_tmp)
 	
 
 
-gg = corr.xy_corr(x,y,e1,e2)
-corr.corr_plot(gg,'xy_corr'),
+# gg = corr.xy_corr(x,y,e1,e2)
+# corr.corr_plot(gg,'xy_corr'),
 
 		# ra=np.array([],dtype='>f8')
 		# dec=np.array([],dtype='>f8')

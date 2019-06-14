@@ -10,5 +10,5 @@ cd $PBS_O_WORKDIR
 export OMP_NUM_THREADS=1
 #psrecord --log memory_log.txt --interval 1.0 --include-children "python mcaltest.py"
 export PYTHONPATH=$PYTHONPATH:/users/PCON0003/cond0083/wfirst_imsim/
-source activate galsim
-mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fiducial.yaml H158 meds setup
+source /users/PCON0003/osu10670/lsst_stack/loadLSST.bash
+mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid_osg.yaml H158 meds setup

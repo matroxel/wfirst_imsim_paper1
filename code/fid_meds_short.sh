@@ -10,14 +10,14 @@ cd $PBS_O_WORKDIR
 export OMP_NUM_THREADS=1
 #psrecord --log memory_log.txt --interval 1.0 --include-children "python mcaltest.py"
 export PYTHONPATH=$PYTHONPATH:/users/PCON0003/cond0083/wfirst_imsim/
-source activate galsim
+source /users/PCON0003/osu10670/lsst_stack/loadLSST.bash
 
-mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds setup
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 1
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 2
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 3
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 4
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 5
+#mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds setup
+mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid_osg.yaml H158 meds 2284539
+# mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 2
+#mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 3
+# mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 4
+# mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 5
 #571311
 ##mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 571322
 ##mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds 572688
