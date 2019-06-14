@@ -10,7 +10,7 @@ mkdir images
 mkdir stamps
 mkdir ngmix
 mkdir meds
-python wfirst_imsim/wfirst_imsim/simulate.py3 $1 $2 $3 $4 $5
+python wfirst_imsim/wfirst_imsim/simulate.py3 $1 $2 $3 $4 $5 $6 $7
 if [ -f "$FILE" ]; then
     rm truth/*truth_gal.fits
 fi
