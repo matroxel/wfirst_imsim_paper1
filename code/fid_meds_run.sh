@@ -10,4 +10,4 @@ export OMP_NUM_THREADS=1
 export PYTHONPATH=$PYTHONPATH:/users/PCON0003/cond0083/wfirst_imsim/
 source /users/PCON0003/osu10670/lsst_stack/loadLSST.bash
 
-mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds $PBS_ARRAYID
+mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid_osg.yaml H158 meds $PBS_ARRAYID

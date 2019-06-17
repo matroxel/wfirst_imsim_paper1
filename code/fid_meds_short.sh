@@ -14,6 +14,7 @@ source /users/PCON0003/osu10670/lsst_stack/loadLSST.bash
 
 #mpiexec -n 1 python ../../wfirst_imsim/wfirst_imsim/simulate.py fid.yaml H158 meds setup
 mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid_osg.yaml H158 meds 2284539
+mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid_osg.yaml H158 meds shape 2284539 0 1
 # mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 2
 #mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 3
 # mpiexec -n 20 python ../../wfirst_imsim/wfirst_imsim/simulate.py3 fid.yaml H158 meds 4

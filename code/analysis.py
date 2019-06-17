@@ -85,9 +85,10 @@ class field_methods:
 
 class shear_error:
 
-	def __init__(self,path):
+	def __init__(self,path,file_name):
 
 		self.path=path
+		self.file_name = file_name
 
 # for file in files:
 # 	hdul = fits.open(path+'/'+file)
@@ -102,19 +103,21 @@ class shear_error:
 
 	def extract_shear(self):
 
-		files=os.listdir(self.path)
+		# files=os.listdir(self.path)
 		e1=e2=g1=g2=np.array([],dtype='>f8')
 
-		for file in files:
-			f = self.path+'/'+file
-			e1_tmp=fitsio.read(f,columns='e1')
-			e2_tmp=fitsio.read(f,columns='e2')
-			g1_tmp=fitsio.read(f,columns='g1')
-			g2_tmp=fitsio.read(f,columns='g2')
-			e1=np.append(e1,e1_tmp)
-			e2=np.append(e2,e2_tmp)
-			g1=np.append(g1,g1_tmp)
-			g2=np.append(g2,g2_tmp)
+		# for file in files:
+		# 	f = self.path+'/'+file
+		f = self.path+'/'+self.file_name
+		zeros = fitsio.read(f,columns='flags').nonzero()
+		e1_tmp=np.delete(fitsio.read(f,columns='e1'),zeros,axis=0)
+		e2_tmp=np.delete(fitsio.read(f,columns='e2'),zeros,axis=0)
+		g1_tmp=np.delete(fitsio.read(f,columns='g1'),zeros,axis=0)
+		g2_tmp=np.delete(fitsio.read(f,columns='g2'),zeros,axis=0)
+		e1=np.append(e1,e1_tmp)
+		e2=np.append(e2,e2_tmp)
+		g1=np.append(g1,g1_tmp)
+		g2=np.append(g2,g2_tmp)
 
 		return e1,e2,g1,g2
 
@@ -130,7 +133,7 @@ class shear_error:
 
 		return m1,c1, m2, c2
 
-	def line_plot(self,m1,c1,m2,c2,file_name):
+	def line_plot(self,m1,c1,m2,c2,image_name):
 
 		x = np.zeros(100)
 		for i in range(100):
@@ -142,7 +145,7 @@ class shear_error:
 		plt.xlabel('$\gamma_{true}$')
 		plt.ylabel('$\gamma_{obs}$')
 		plt.legend(loc="upper left")
-		plt.savefig(file_name)
+		plt.savefig(image_name)
 		plt.show()
 
 class corr_func:
@@ -218,11 +221,12 @@ class corr_func:
 		plt.show()
 
 path = sys.argv[2]
+filename = sys.argv[3]
 if sys.argv[1] == 'shear_error':
-	f = shear_error(path)
+	f = shear_error(path,filename)
 	e1,e2,g1,g2 = f.extract_shear()
 	m1,c1,m2,c2 = f.estimate_cfs(e1,e2,g1,g2)
-	image_name = sys.argv[3]
+	image_name = sys.argv[4]
 	f.line_plot(m1,c1,m2,c2,image_name)
 
 if sys.argv[2] == '2pt_corr':

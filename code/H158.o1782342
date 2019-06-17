@@ -1,0 +1,194 @@
+mpi 2 20
+mpi check 2 20
+mpi 4 20
+mpi check 4 20
+mpi 6 20
+mpi check 6 20
+mpi 7 20
+mpi check 7 20
+mpi 8 20
+mpi check 8 20
+mpi 9 20
+mpi check 9 20
+mpi 14 20
+mpi check 14 20
+mpi 15 20
+mpi check 15 20
+mpi 17 20
+mpi check 17 20
+mpi 18 20
+mpi check 18 20
+mpi 19 20
+mpi check 19 20
+mpi 1 20
+mpi check 1 20
+mpi 3 20
+mpi check 3 20
+mpi 5 20
+mpi check 5 20
+mpi 10 20
+mpi check 10 20
+mpi 11 20
+mpi check 11 20
+mpi 12 20
+mpi check 12 20
+mpi 13 20
+mpi check 13 20
+mpi 16 20
+mpi check 16 20
+mpi 0 20
+mpi check 0 20
+to before setup
+./meds/fiducial_H158_2284539.fits
+Starting empty meds pixel 2284539
+Writing empty meds pixel 2284539
+Done empty meds pixel 2284539
+mpi check 0 20
+Starting meds pixel 2284539
+number of files [(    -1, 11) (    -1, 14) ( 30587, 11) ( 30587, 14) ( 30588, 11)
+ ( 30588, 14) ( 30589, 10) ( 30589, 11) ( 30590, 10) ( 30590, 11)
+ (176233, 18) (176234, 18) (176235, 18)]
+30587 11
+30587 14
+30588 11
+30588 14
+30589 10
+30589 11
+30590 10
+30590 11
+176233 18
+176234 18
+176235 18
+Writing meds pixel 2284539
+Done meds pixel 2284539
+start meds finish
+done meds finish
+mpi 3 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 3 20
+shape 0 1
+mpi check 2 3 20
+rank in coadd_shape 3
+mpi 8 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 8 20
+shape 0 1
+mpi check 2 8 20
+rank in coadd_shape 8
+mpi 14 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 14 20
+shape 0 1
+mpi check 2 14 20
+rank in coadd_shape 14
+mpi 11 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 11 20
+shape 0 1
+mpi check 2 11 20
+rank in coadd_shape 11
+mpi 15 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 15 20
+shape 0 1
+mpi check 2 15 20
+rank in coadd_shape 15
+mpi 6 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 6 20
+shape 0 1
+mpi check 2 6 20
+rank in coadd_shape 6
+mpi 9 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 9 20
+shape 0 1
+mpi check 2 9 20
+rank in coadd_shape 9
+mpi 5 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 5 20
+shape 0 1
+mpi check 2 5 20
+rank in coadd_shape 5
+mpi 18 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 18 20
+shape 0 1
+mpi check 2 18 20
+rank in coadd_shape 18
+mpi 16 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 16 20
+shape 0 1
+mpi check 2 16 20
+rank in coadd_shape 16
+mpi 19 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 19 20
+shape 0 1
+mpi check 2 19 20
+rank in coadd_shape 19
+mpi 13 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 13 20
+shape 0 1
+mpi check 2 13 20
+rank in coadd_shape 13
+mpi 1 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 1 20
+shape 0 1
+mpi check 2 1 20
+rank in coadd_shape 1
+mpi 7 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 7 20
+shape 0 1
+mpi check 2 7 20
+rank in coadd_shape 7
+mpi 17 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 17 20
+shape 0 1
+mpi check 2 17 20
+rank in coadd_shape 17
+mpi 12 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 12 20
+shape 0 1
+mpi check 2 12 20
+rank in coadd_shape 12
+mpi 0 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 0 20
+shape 0 1
+mpi check 2 0 20
+rank in coadd_shape 0
+made it to object 0
+mpi 4 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 4 20
+shape 0 1
+mpi check 2 4 20
+rank in coadd_shape 4
+mpi 2 20
+['../../wfirst_imsim/wfirst_imsim/simulate.py3', 'fid_osg.yaml', 'H158', 'meds', 'shape', '2284539', '0', '1']
+mpi check 2 20
+shape 0 1
+mpi check 2 2 20
+rank in coadd_shape 2
+
+-----------------------
+Resources requested:
+nodes=1:ppn=20
+-----------------------
+Resources used:
+cput=06:06:23
+walltime=00:19:00
+mem=2.393 GB
+vmem=16.807 GB
+-----------------------
+Resource units charged (estimate):
+0.633 RUs
+-----------------------

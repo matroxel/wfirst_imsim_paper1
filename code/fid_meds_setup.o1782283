@@ -1,0 +1,20 @@
+mpi 0 1
+mpi check 0 1
+to before setup
+inside accumulate
+break accumulate
+exiting
+
+-----------------------
+Resources requested:
+nodes=1:ppn=1
+-----------------------
+Resources used:
+cput=00:00:06
+walltime=00:00:14
+mem=0.000 GB
+vmem=0.000 GB
+-----------------------
+Resource units charged (estimate):
+0.007 RUs
+-----------------------

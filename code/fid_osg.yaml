@@ -1,7 +1,7 @@
 # Input file for wfirst.py
 
 condor : False
-condor_zip_dir : /stash/user/troxel/wfirst_sim_fiducial/
+condor_zip_dir : /fs/scratch/cond0083/wfirst_sim_fiducial/
 
 # Number of procs to limit star parallelisation to for memory reasons
 starproc  : 1
@@ -23,9 +23,11 @@ random_seed         : 314
 
 # output directory
 out_path            : /fs/scratch/cond0083/wfirst_sim_fiducial/
+psf_path            : /fs/scratch/cond0083/wfirst_sim_fiducial/
 # output meds (and other) filename prefix
 output_truth        : 'fiducial_lensing_galaxia'
 output_meds         : 'fiducial'
+psf_meds            : 'fiducial'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
 # Number of stamp sizes
@@ -35,7 +37,6 @@ nside               : 512
 meds_from_file      : None #meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
 avg_fit             : False
 shape_code          : mof
-psf_meds            : None
 
 # File containing dither information
 dither_file         : observing_sequence_hlsonly_5yr.fits
