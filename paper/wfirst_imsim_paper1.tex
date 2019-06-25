@@ -56,10 +56,10 @@
 \end{itemize}
 
 
-The nature of dark energy, which drives cosmic acceleration in the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \cite{}. 
+The nature of dark energy, which drives cosmic acceleration in the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \cite{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
 A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift space distortions, Type Ia supernovae, and weak gravitational lensing. 
 Current generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM) that will require more and better data to resolve. 
-The Wide-Field InfraRed Space Telescope (WFIRST) has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \cite{}.
+The Wide-Field InfraRed Space Telescope (WFIRST) has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \cite{2019BAAS...51c.341D,2019arXiv190205569A}.
 
 In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES), Hyper-Suprime Cam (HSC), and Kilo-Degree Survey (KiDS) have reached levels of precision that rival the previously best possible cosmological constraints including dark energy \cite{}. 
 These surveys have spurred the development of revolutionary algorithms and methods for galaxy shape measurement and weak lensing analysis \cite{}, highlighting the immense power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
@@ -77,6 +77,7 @@ We use a blending-free version of this simulation to test the impact on weak len
 
 
 \section{WFIRST and requirements}\label{sec:wfirst}
+\assign{Hirata}
 
 \begin{itemize}
 \item What WFIRST is \& timeline
@@ -131,7 +132,7 @@ A simulated WFIRST Sensor Chip Array (SCA). Each SCA (HgCdTe H4RG) has a useable
 \includegraphics[width=\columnwidth]{figures/galaxies.pdf}
 \end{center}
 \caption[]{
-Galaxies, avg. 40 per sq arcmin, dist. from buzzard, phot/morph props from candels catalog
+The distribution of simulated galaxies. The mean galaxy density is 40 arcmin$^{-2}$. 
 \label{fig:galaxies}}
 \end{figure}
 
@@ -140,7 +141,7 @@ Galaxies, avg. 40 per sq arcmin, dist. from buzzard, phot/morph props from cande
 \includegraphics[width=\columnwidth]{figures/stars.pdf}
 \end{center}
 \caption[]{
-Stars, avg. 2.5 per sq. arcmin, from galaxia
+The distribution of simulated stars. The mean stellar density is 2.5 arcmin$^{-2}$. 
 \label{fig:stars}}
 \end{figure}
 
@@ -149,7 +150,7 @@ Stars, avg. 2.5 per sq. arcmin, from galaxia
 \includegraphics[width=\textwidth]{figures/hist.pdf}
 \end{center}
 \caption[]{
-True galaxy and star properties.
+The input distributions of half-light radius, redshift, and H158 magnitude for galaxies (blue) and stars (orange).
 \label{fig:hist}}
 \end{figure*}
 
@@ -201,18 +202,20 @@ To empirically test weak lensing requirements, methods, and algorithms in WFIRST
 
 \subsection{Galaxy catalog}
 
-The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{1901.02401,wechsler 2019}, to introduce realistic galaxy clustering. Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{}. We show the galaxy distribution in Fig. \ref{fig:galaxies}. We use a galaxy density that is approx. 40 arcmin$^{-2}$. In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
+The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{2019ApJ...877..117H}. We show the galaxy distribution in Fig. \ref{fig:galaxies}. We use a galaxy density that is approx. 40 arcmin$^{-2}$. In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
 
 \verify{Need lensing selection cuts and maybe short description of candels sample.}
 
 \subsection{Star catalog}
 
-We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia \cite{}. 
+We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. Galaxia uses an analytic model \cite{galaxia2}  to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with GalSim. 
 
 \subsection{Survey strategy}
+\assign{Hirata}
+
 \subsection{Current implementation}
 
-
+The image simulation used in this 
 
 \section{Impact of wavefront errors}\label{sec:results}
 
@@ -222,7 +225,7 @@ We simulate the positions and magnitudes in WFIRST bandpasses of input stars usi
 \item summary of approach 
 \end{itemize}
 
-In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST.
+In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. 
 
 \subsection{Static biases}\label{sec:static}
 
@@ -233,6 +236,7 @@ Describe static bias cases
 Describe high-frequency bias cases
 
 \subsection{Low-frequency biases}\label{sec:high}
+\assign{Long}
 
 Describe low-frequency bias cases
 
@@ -251,7 +255,7 @@ future work and timeline
 This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987} and ...OSG, Duke.... Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
 
 \bibliographystyle{apsrev4-1}
-\bibliography{wfirst_imsim_paper1}
+\bibliography{short}
 
 \label{lastpage}
 
