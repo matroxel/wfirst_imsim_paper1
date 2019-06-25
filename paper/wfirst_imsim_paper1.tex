@@ -78,13 +78,12 @@ We use a blending-free version of this simulation to test the impact on weak len
 
 \section{WFIRST and requirements}\label{sec:wfirst}
 
-What WFIRST is \& timeline
-
-Previous requirements information
-
-context in broader sit work
-
-transition to empirical validation (next section)
+\begin{itemize}
+\item What WFIRST is \& timeline
+\item Previous requirements information
+\item context in broader sit work
+\item transition to empirical validation (next section)
+\end{itemize}
 
 \def\arraystretch{1.4}
 \setlength{\tabcolsep}{4pt}
@@ -114,17 +113,16 @@ transition to empirical validation (next section)
 \includegraphics[width=\textwidth]{figures/fov.pdf}
 \end{center}
 \caption[]{
-Simulated field-of-view. (give info about size) (obviously chip orientation is still wrong in this...
+A simulated field-of-view (FOV) from the fiducial simulation matching Cycle 7 specifications. The WFIRST FOV is 0.282 deg$^2$, composed of 18 near-IR Sensor Chip Arrays (H4RGs). This FOV is 200 times the area of the Hubble Space Telescope Wide Field Camera 3 FOV and 90 times that of its Advanced Camera for Surveys. (check chip orientation)
 \label{fig:fov}}
 \end{figure*}
-
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/sca1.png}
 \end{center}
 \caption[]{
-sca 10
+A simulated WFIRST Sensor Chip Array (SCA). Each SCA (HgCdTe H4RG) has a useable pixel grid of 4088$\times$4088, with a pixel scale of 0.11''. One interesting feature can be seen in the relatively bright galaxy in the lower middle part of the SCA, for which six faint diffraction spikes due to the WFIRST secondary mirror support struts are visible.
 \label{fig:sca}}
 \end{figure}
 
@@ -185,27 +183,46 @@ Example oversampled PSF model compared to native pixel PSF, SCA 1. Top row - ful
 
 \section{Simulation suite}\label{sec:sim}
 
-We have developed a realistic synthetic survey 
+\begin{itemize}
+\item We have developed a realistic synthetic survey 
+\item into to a synthetic survey and necessary components
+\item galsim framework and cycle 7 (\verify{6?}) baseline
+\item Detailed description of simulation suite components
+\end{itemize}
 
-into to a synthetic survey and necessary components
-
-galsim framework and cycle 7 (\verify{6?}) baseline
-
-Detailed description of simulation suite components
+To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a sufficiently complex synthetic survey that, while not entirely realistic in all object properties, contains sufficiently complex objects as to enable informative tests and preliminary algorithm development. This synthetic survey utilizes several external simulation and data sources, which are described in the following subsections, and generates WFIRST-like imaging using the GalSim framework and its WFIRST module. The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications. Figure \ref{fig:fov} shows an example pointing produced in the fiducial simulation, and Fig. \ref{fig:sca} shows a larger view of one of the SCAs. Performance details are provided in Appendix \cite{app:performance}. 
 
 \subsection{GalSim}
+
+
+
 \subsubsection{Implemented detector effects}
+
+
 \subsection{Galaxy catalog}
+
+The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{1901.02401,wechsler 2019}, to introduce realistic galaxy clustering. Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{}. We show the galaxy distribution in Fig. \ref{fig:galaxies}. We use a galaxy density that is approx. 40 arcmin$^{-2}$. In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
+
+\verify{Need lensing selection cuts and maybe short description of candels sample.}
+
 \subsection{Star catalog}
+
+We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia \cite{}. 
+
 \subsection{Survey strategy}
+\subsection{Current implementation}
+
+
 
 \section{Impact of wavefront errors}\label{sec:results}
 
-background on psf and wavefront errors
+\begin{itemize}
+\item background on psf and wavefront errors
+\item details of wfirst psf in cycle 7 (\verify{6?}) baseline
+\item summary of approach 
+\end{itemize}
 
-details of wfirst psf in cycle 7 (\verify{6?}) baseline
-
-summary of approach 
+In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST.
 
 \subsection{Static biases}\label{sec:static}
 
