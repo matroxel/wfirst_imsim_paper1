@@ -23,19 +23,19 @@ request_memory = 4G
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
-                          /stash/user/troxel/wfirst_sim_input/, \
                           /home/troxel/wfirst_imsim_paper1/code/astig_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
                           /stash/user/troxel/wfirst_sim_astigmatism/run.tar
 
 transfer_output_files   = truth/astigmatism_H158_index_sorted.fits
+transfer_output_remaps  = "astigmatism_H158_index_sorted.fits.gz = /stash/user/troxel/wfirst_sim_astigmatism/truth/astigmatism_H158_index_sorted.fits.gz"
 
 Initialdir     = /stash/user/troxel/wfirst_sim_astigmatism/
 log            = astig_meds_setup_log.log
 
 Arguments = astig_osg.yaml H158 meds setup
-Executable     = run_osg.sh
+Executable     = ../run_osg.sh
 Output         = astig_meds_setup.log
 Error          = astig_meds_setup.log
 

@@ -23,19 +23,19 @@ request_memory = 4G
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
-                          /stash/user/troxel/wfirst_sim_input/, \
                           /home/troxel/wfirst_imsim_paper1/code/foc_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
                           /stash/user/troxel/wfirst_sim_focus/run.tar
 
 transfer_output_files   = truth/focus_H158_index_sorted.fits
+transfer_output_remaps  = "focus_H158_index_sorted.fits.gz = /stash/user/troxel/wfirst_sim_focus/truth/focus_H158_index_sorted.fits.gz"
 
 Initialdir     = /stash/user/troxel/wfirst_sim_focus/
 log            = foc_meds_setup_log.log
 
 Arguments = foc_osg.yaml H158 meds setup
-Executable     = run_osg.sh
+Executable     = ../run_osg.sh
 Output         = foc_meds_setup.log
 Error          = foc_meds_setup.log
 
