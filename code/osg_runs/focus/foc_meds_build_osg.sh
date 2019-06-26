@@ -23,14 +23,12 @@ request_memory = 4G
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
-                          /stash/user/troxel/wfirst_sim_input/, \
-                          /home/troxel/wfirst_imsim_paper1/code/foc_osg.yaml, \
-                          /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
+                          /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
                           /stash/user/troxel/wfirst_sim_focus/run.tar
 
-transfer_output_files   = foc_meds_run_osg.sh
-transfer_output_remaps  = "foc_meds_run_osg.sh = /home/troxel/wfirst_imsim_paper1/code/foc_meds_run_osg.sh"
+transfer_output_files   = foc_meds_run_osg_0.sh,foc_meds_run_osg_1.sh,foc_meds_run_osg_2.sh,foc_meds_run_osg_3.sh,foc_meds_run_osg_4.sh,foc_meds_run_osg_5.sh,foc_meds_run_osg_6.sh,foc_meds_run_osg_7.sh,foc_meds_run_osg_8.sh,foc_meds_run_osg_9.sh,foc_meds_shape_osg.sh,
+transfer_output_remaps  = "foc_meds_run_osg_0.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_0.sh; foc_meds_run_osg_1.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_1.sh; foc_meds_run_osg_2.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_2.sh; foc_meds_run_osg_3.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_3.sh; foc_meds_run_osg_4.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_4.sh; foc_meds_run_osg_5.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_5.sh; foc_meds_run_osg_6.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_6.sh; foc_meds_run_osg_7.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_7.sh; foc_meds_run_osg_8.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_8.sh; foc_meds_run_osg_9.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_run_osg_9.sh; foc_meds_shape_osg.sh = /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_meds_shape_osg.sh"
 
 Initialdir     = /stash/user/troxel/wfirst_sim_focus/
 log            = foc_meds_build_log.log
