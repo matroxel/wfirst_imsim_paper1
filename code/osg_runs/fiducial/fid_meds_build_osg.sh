@@ -2,7 +2,8 @@
 
 universe     = vanilla
 Requirements = OSGVO_OS_VERSION == "7" && \
-               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686 
+               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686   && \
+               GLIDEIN_ResourceName != "MWT2"
 
 +ProjectName = "duke.lsst"
 +WantsCvmfsStash = true

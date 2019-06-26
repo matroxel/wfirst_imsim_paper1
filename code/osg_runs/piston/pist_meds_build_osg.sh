@@ -2,7 +2,8 @@
 
 universe     = vanilla
 Requirements = OSGVO_OS_VERSION == "7" && \
-               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686 
+               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686   && \
+               GLIDEIN_ResourceName != "MWT2"
 
 +ProjectName = "duke.lsst"
 +WantsCvmfsStash = true
@@ -35,7 +36,7 @@ Initialdir     = /stash/user/troxel/wfirst_sim_piston/
 log            = pist_meds_build_log.log
 
 Arguments = pist_osg.yaml H158 meds condor_build
-Executable     = run_osg.sh
+Executable     = ../run_osg.sh
 Output         = pist_meds_build.log
 Error          = pist_meds_build.log
 
