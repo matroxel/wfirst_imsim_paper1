@@ -2,11 +2,14 @@
 
 universe     = vanilla
 Requirements = OSGVO_OS_VERSION == "7" && \
-               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686 
+               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686 && \
+               GLIDEIN_ResourceName != "MWT2"
 
 +ProjectName = "duke.lsst"
 +WantsCvmfsStash = true
 request_memory = 4G
+
+
 
 #PeriodicRemove = ( JobStatus == 2 ) && ( ( CurrentTime - EnteredCurrentStatus ) > 600 )
 
@@ -23,12 +26,12 @@ request_memory = 4G
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
-                          /home/troxel/wfirst_imsim_paper1/code/anismear_osg.yaml, \
+                          /home/troxel/wfirst_imsim_paper1/code/osg_runs/anismear/anismear_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
                           /stash/user/troxel/wfirst_sim_anismear/run.tar
 
-transfer_output_files   = truth/anismear_H158_index_sorted.fits
+transfer_output_files   = truth/anismear_H158_index_sorted.fits.gz
 transfer_output_remaps  = "anismear_H158_index_sorted.fits.gz = /stash/user/troxel/wfirst_sim_anismear/truth/anismear_H158_index_sorted.fits.gz"
 
 Initialdir     = /stash/user/troxel/wfirst_sim_anismear/

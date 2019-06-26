@@ -19,10 +19,8 @@ Error          = fid_meds_$(MEDS)_$(ITER).log
 
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, /home/troxel/wfirst_imsim_paper1/code/osg_runs/fiducial/fid_osg.yaml, /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, /stash/user/troxel/wfirst_sim_fiducial/run.tar, /stash/user/troxel/wfirst_sim_fiducial/meds/fiducial_H158_$(MEDS).fits.gz
 
-MEDS=2284535
-Queue ITER in 1,2,3,4,5,6,7,8,9
+MEDS=2290005
+Queue ITER in 0,1,2,3,4,5,6,7,8,9
 
-MEDS=2284539
-Queue ITER in 1,2,3,4,5,6,7,8,9
 
 

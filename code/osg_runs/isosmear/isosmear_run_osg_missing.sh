@@ -2,8 +2,7 @@
 
 universe     = vanilla
 Requirements = OSGVO_OS_VERSION == "7" && \
-               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686  && \
-               GLIDEIN_ResourceName != "MWT2"
+               CVMFS_oasis_opensciencegrid_org_REVISION >= 10686 
 
 +ProjectName = "duke.lsst"
 +WantsCvmfsStash = true
@@ -24,23 +23,38 @@ request_memory = 4G
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files    = /home/troxel/wfirst_stack/wfirst_stack.tar.gz, \
-                          /home/troxel/wfirst_imsim_paper1/code/osg_runs/focus/foc_osg.yaml, \
+                          /stash/user/troxel/wfirst_sim_input/, \
+                          /home/troxel/wfirst_imsim_paper1/code/osg_runs/isosmear/isosmear_osg.yaml, \
                           /home/troxel/wfirst_imsim_paper1/code/dither_list.txt,\
                           /home/troxel/wfirst_imsim_paper1/code/meds_pix_list.txt, \
-                          /stash/user/troxel/wfirst_sim_focus/run.tar
+                          /stash/user/troxel/wfirst_sim_isosmear/run.tar
 
-transfer_output_files   = truth/focus_H158_index_sorted.fits.gz
-transfer_output_remaps  = "focus_H158_index_sorted.fits.gz = /stash/user/troxel/wfirst_sim_focus/truth/focus_H158_index_sorted.fits.gz"
+transfer_output_files   = stamps, \
+                          images, \
+                          truth
 
-Initialdir     = /stash/user/troxel/wfirst_sim_focus/
-log            = foc_meds_setup_log.log
+Initialdir     = /stash/user/troxel/wfirst_sim_isosmear/
+log            = isosmear_run_short_log_$(DITHER)_$(CHIP).log
 
-Arguments = foc_osg.yaml H158 meds setup
+Arguments = isosmear_osg.yaml None $(DITHER) $(CHIP) verify_output
 Executable     = ../run_osg.sh
-Output         = foc_meds_setup.log
-Error          = foc_meds_setup.log
+Output         = isosmear_run_short_$(DITHER)_$(CHIP).log
+Error          = isosmear_run_short_$(DITHER)_$(CHIP).log
 
 # Science sensors only. Ignore 0,0 4,0 0,4 and 4,4. 
 
+#Queue
+priority = 1
+
+CHIP=18
+DITHER=81032
+Queue
+
+CHIP=18
+DITHER=81033
+Queue
+
+CHIP=18
+DITHER=173108
 Queue
 
