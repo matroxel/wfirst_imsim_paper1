@@ -27,6 +27,7 @@ psf_path            : /stash/user/troxel/wfirst_sim_fiducial/
 # output meds (and other) filename prefix
 output_truth        : 'fiducial_lensing_galaxia'
 output_meds         : 'gradz6'
+output_tag          : 'gradz6'
 psf_meds            : 'fiducial'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
