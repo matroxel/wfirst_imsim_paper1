@@ -45,7 +45,7 @@ dither_from_file    : None #dither_list.txt # None to read dither from command l
 # To do a more exact calculation of the chromaticity and pupil plane configuration, set the `approximate_struts` and the `n_waves` keyword to defaults
 approximate_struts  : True # Approximate strut configuration
 n_waves             : 10 # Number of wavelengths used to create chromatic model of PSF
-extra_aberrations   : [0, 0, 0, 0, 0.005, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # Include (additive) changes specification zernike parameters. None for default.
+extra_aberrations   : [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # Include (additive) changes specification zernike parameters. None for default.
 #los_motion         : 0.015 # Include extra jitter in rms of arcsec. Ignored if not defined.
 #los_motion_e1      : 0.3 # Shear to apply to jitter gaussian to simulate orientation-dependent rms
 #los_motion_e2      : 0.0
