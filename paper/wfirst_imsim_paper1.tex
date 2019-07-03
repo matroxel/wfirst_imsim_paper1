@@ -172,14 +172,14 @@ Dates of observations (is this useful? hard to make it readable)
 \label{fig:dates}}
 \end{figure*}
 
-\begin{figure}
+\begin{figure*}
 \begin{center}
-\includegraphics[width=\columnwidth]{figures/psf.pdf}
+\includegraphics[width=\textwidth]{figures/psf.pdf}
 \end{center}
 \caption[]{
-Example oversampled PSF model compared to native pixel PSF, SCA 1. Top row - full resolution, bottom row - approx. used in sim, left - native pixel scale, right - oversample factor 8
-\label{fig:pointings}}
-\end{figure}
+PSF model for SCA 1. The top row shows the model in native pixel scale, while the bottom row is oversampled by a factor of 8. From left to right: a comparison of the high-resolution ('true') model, the low-resolution model used in the simulation, and the difference of the two models. The color bars are defined by the range of the high-resolution model.
+\label{fig:psf}}
+\end{figure*}
 
 
 \section{Simulation suite}\label{sec:sim}
@@ -191,31 +191,95 @@ Example oversampled PSF model compared to native pixel PSF, SCA 1. Top row - ful
 \item Detailed description of simulation suite components
 \end{itemize}
 
-To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a sufficiently complex synthetic survey that, while not entirely realistic in all object properties, contains sufficiently complex objects as to enable informative tests and preliminary algorithm development. This synthetic survey utilizes several external simulation and data sources, which are described in the following subsections, and generates WFIRST-like imaging using the GalSim framework and its WFIRST module. The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications. Figure \ref{fig:fov} shows an example pointing produced in the fiducial simulation, and Fig. \ref{fig:sca} shows a larger view of one of the SCAs. Performance details are provided in Appendix \cite{app:performance}. 
+To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a sufficiently complex synthetic survey that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects as to enable informative tests and preliminary algorithm development. 
+This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the GalSim framework and its WFIRST module. 
+The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications. 
+The code is publicly available at \url{https://github.com/matroxel/wfirst_imsim}, where configuration files are provided for the fiducial simulation used in this work.
+Figure \ref{fig:fov} shows an example pointing produced in the fiducial simulation, and Fig. \ref{fig:sca} shows a larger view of one of the SCAs. 
+Performance details are provided in Appendix \cite{app:performance}. 
+
+\subsection{Simulation stages}\label{stages}
+
+The simulation is broken into several stages:
+
+\textbf{\textit{Truth catalog generation}} -- A truth catalog is generated from the input galaxy distribution, photometric galaxy catalog, and Milky Way simulation. 
+The following true object properties are assigned to each galaxy in the input galaxy distribution (from which the unique galaxy id is generated): 
+1) The position in RA and Dec from the galaxy distribution; 
+2) Photometric properties drawn from a random object in the photometric galaxy catalog (consistent $YJHF$ magnitudes, size, and redshift); 
+3) Intrinsic ellipticity components drawn from a Gaussian distribution of width 0.27 (truncated at $\pm$0.7); 
+4) A random rotation angle; 
+5) The ratio of fluxes in each of the three galaxy components: a) de Vaucouleurs bulge, b) exponential disk, and c) random walk star-forming knots (a maximum of 25\% of flux can exist in the knots); 
+6) The gravitational shear applied to the object, drawn from a discrete list of $(e_1, e_2) \in \{\pm 0.1, \pm 0.1\}$, though including a coherent shear field instead is a simple modification. 
+Further details on the provenance of the galaxy catalogs and Milky Way simulation can be found in Secs. \ref{galcats} and \ref{starcat}, respectively. 
+These truth properties are saved in a light-weight FITS format that is accessed by the following stages.
+
+\textbf{\textit{Image generation}} -- In this stage, an empty SCA image is initialized ($4088\times4088$ pixels), and a model is built for each galaxy and star is turn, then drawn into the image. 
+The galaxy models are built chromatically from the truth parameters for the object, with each component being assigned a different representative SED of types: S0 (bulge), SBa (disk), and Im (knots), respectively. 
+The assigned SED is the same for all objects, since after redshifting the spectrum and applying the appropriate flux in each component and size, the model is converted to be achromatic in each passband to speed up the drawing.\footnote{This simplification can be removed, however, at the cost of multiple factors of increased runtime.}
+The intrinsic ellipticity, random rotation, and gravitational shear is then applied.
+For stars, we apply the SED of Alpha Lyra to a chromatic delta function model. 
+Stars are also converted to be achromatic before drawing.
+Both stars and galaxies are then convolved with the appropriate PSF for the SCA (constant across the SCA in the fiducial simulation). An example of the PSF model for an object is shown in Fig. \ref{fig:psf}. We save images of the true PSF model both at native pixel scale and oversampled by a factor of 8, in stamps of native pixel size $8\times 8$ at the position of each galaxy.
+
+The models are drawn in dynamically-sized squares stamps, the sizes of which are chosen automatically by GalSim to include at least 99.5\% of the flux.
+These stamps are then added to the SCA image and saved separately (if drawing a galaxy) to provide an isolated image of each simulated galaxy to allow for tests of the impact of blending.
+Objects that would have a postage stamp that overlaps the SCA image are drawn, such that light from objects in chip gaps are appropriately drawn onto the SCA, but we only save postage stamps for objects that have a centroid that falls on the SCA. 
+We do not save isolated postage stamps of objects that have a stamp size of greater than 288$\times$288 pixels, but they are drawn into the images.
+Finally, each isolated postage stamp is processed through the steps described in Sec. \ref{effects} to simulate the WFIRST observatory and detectors and written to disk. When all objects are added to the full SCA image, it is also processed through these steps and written to a FITS image file.
+The simulation is parallelized at the SCA level, such that each SCA in each pointing can be run independently. 
+(send sentence to appendix) The truth file is lightweight and completion time semi-random, such that even remote disk I/O has not been a limiting factor at the level of thousands of parallel jobs. 
+
+\textbf{\textit{MEDS creation}} -- We then compile the output across pointings of the isolated object stamps into MEDS (Multi-Epoch Data Structure) files\footnote{https://github.com/esheldon/meds}. 
+These files concatenate all exposures of unique objects to allow for fast access for object-by-object data processing (like shape measurement). 
+Each MEDS file also stores for each object (and stamp) its original SCA, the object position and the stamp position within the SCA, the WCS for each stamp, the PSF model for each object, and other ancillary information. 
+Each MEDS file contains all objects within a $n_{\textrm{side}}=512$ Healpixel.
+
+\textbf{\textit{Shape measurement}} -- We utilize the MEDS files to measure the shapes of each galaxy and the PSF. 
+The galaxy shape is measured by jointly fitting a two-component model, de Vaucouleurs bulge and exponential disk, across all suitable exposures. 
+Exposures where more than 20\% of the pixels are masked (i.e., the centroid falls too close to the edge of the SCA) are rejected. 
+The model fit has x parameters: $e_{1,2}$, $p_{x,y}$, half-light radius, flux, and bulge flux fraction, where $e_{1,2}$ is the component of the ellipticity and $p_{x,y}$ is the pixel centroid offset. 
+The fits are done using the \textsc{ngmix}\footnote{https://github.com/esheldon/ngmix} and \textsc{MOF}\footnote{https://github.com/esheldon/mof} packages \cite{2014MNRAS.444L..25S}. 
+We also measure the PSF size and shape using an adaptive moments method \cite{2003MNRAS.343..459H}. 
+This stage writes a set of FITS files containing the galaxy and PSF measurement results and relevant truth catalog information.
 
 \subsection{GalSim}
 
 
 
-\subsubsection{Implemented detector effects}
+\subsubsection{Implemented detector effects}\label{effects}
 
 
-\subsection{Galaxy catalog}
+\subsection{Galaxy catalogs}\label{galcats}
 
 The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{2019ApJ...877..117H}. We show the galaxy distribution in Fig. \ref{fig:galaxies}. We use a galaxy density that is approx. 40 arcmin$^{-2}$. In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
 
 \verify{Need lensing selection cuts and maybe short description of candels sample.}
 
-\subsection{Star catalog}
+\subsection{Star catalog}\label{starcat}
 
 We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. Galaxia uses an analytic model \cite{galaxia2}  to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with GalSim. 
 
 \subsection{Survey strategy}
 \assign{Hirata}
 
-\subsection{Current implementation}
+\subsection{Simulation implementation for this study}
 
-The image simulation used in this 
+In this work, we are interested in the impact of how a variety of biases in the PSF model propagate to shape measurement and the weak lensing signal. To study this, we produce a set of 13 image simulations that are identical, including noise, modulo a single PSF model change relative to the fiducial simulation in each case. The details of these changes and their impacts are described in more detail in Sec. \ref{results}. Shape measurement is then performed on the images with some PSF model bias, but using the fiducial, unbiased PSF model for deconvolution, to simulate an unknown wavefront error .
+
+Several simplifications are employed relative to the generic synthetic survey generation described in Sec. \ref{stages} to accommodate the computational load of the many realizations of the survey we are producing. 
+\begin{itemize}
+\item We simulate objects in a 2.5$\times$2.5 deg$^2$ patch of the sky.
+\item We only simulate pointings targeted for the H158 filter. 
+Since we are not simulating chromatic effects, the specific filter choice does not make a large difference in our results. 
+\verify{This will have an impact on the 'averaging' of PSF errors, however, ...need justification or explanation} 
+\item We use a lower-resolution version of the PSF, which significantly speeds up the convolution.
+The impact of this approximation on the PSF model, in both native and oversampled pixels, can be seen in Fig. \ref{fig:psf}. 
+\item To better isolate the effects of PSF changes, we only utilize the isolated object postage stamps in shape measurement.
+\item We do not simulate objects with photometry that would fall below the fiducial weak lensing selection criteria.
+\item We do not implement a shear calibration scheme like metacalibration, since we only care about changes to the recovered shape between simulation runs.
+\end{itemize}
+
+We simulate a total of \verify{...} unique galaxies and \verify{...} unique stars in \verify{...} pointings in each run. 
 
 \section{Impact of wavefront errors}\label{sec:results}
 
