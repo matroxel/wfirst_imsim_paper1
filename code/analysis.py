@@ -1,11 +1,10 @@
 import sys, os
-from astropy.io import fits
-import fitsio
+import fitsio as fio
 import numpy as np
-import treecorr
-import matplotlib
-matplotlib.use('Agg')
+# import treecorr
 import matplotlib.pyplot as plt
+# matplotlib.use('Agg')
+# import matplotlib.pyplot as plt
 
 class field_methods:
 
@@ -85,10 +84,10 @@ class field_methods:
 
 class shear_error:
 
-	def __init__(self,path,file_name):
+	def __init__(self,path):
 
 		self.path=path
-		self.file_name = file_name
+		# self.file_name = file_name
 
 # for file in files:
 # 	hdul = fits.open(path+'/'+file)
@@ -101,23 +100,39 @@ class shear_error:
 # 		g2 =i[18]
 # 		shear.append([e1,e2,g1,g2,int_e1,int_e2])
 
+
+
+
+# for i in range(10):
+# 	f = fio.FITS(files+str(i)+'.fits')[1].read()
+# 	for j in range(len(f)):
+# 		if (f['flags'][j]==0 and f['ra'][j]>0):
+# 			e1.append(f['e1'][j])
+# 			e2.append(f['e2'][j])
+# 			snr.append(f['snr'][j])
+# 			g1.append(f['g1'][j])
+# 			g2.append(f['g2'][j])
+# 	print len(e1),len(e2)
+
 	def extract_shear(self):
 
-		# files=os.listdir(self.path)
-		e1=e2=g1=g2=np.array([],dtype='>f8')
+		files=os.listdir(self.path)
+		# e1=e2=g1=g2=np.array([],dtype='>f8')
+		e1=[]
+		e2=[]
+		g1=[]
+		g2=[]
 
-		# for file in files:
-		# 	f = self.path+'/'+file
-		f = self.path+'/'+self.file_name
-		zeros = fitsio.read(f,columns='flags').nonzero()
-		e1_tmp=np.delete(fitsio.read(f,columns='e1'),zeros,axis=0)
-		e2_tmp=np.delete(fitsio.read(f,columns='e2'),zeros,axis=0)
-		g1_tmp=np.delete(fitsio.read(f,columns='g1'),zeros,axis=0)
-		g2_tmp=np.delete(fitsio.read(f,columns='g2'),zeros,axis=0)
-		e1=np.append(e1,e1_tmp)
-		e2=np.append(e2,e2_tmp)
-		g1=np.append(g1,g1_tmp)
-		g2=np.append(g2,g2_tmp)
+		for file in files:
+			# f = self.path+'/'+file
+			f = fio.FITS(self.path+'/'+file)[1].read()
+		# zeros = fitsio.read(f,columns='flags').nonzero()
+			for j in range(len(f)):
+				if (f['flags'][j]==0 and f['ra'][j]>0):
+					e1.append(f['e1'][j])
+					e2.append(f['e2'][j])
+					g1.append(f['g1'][j])
+					g2.append(f['g2'][j])					
 
 		return e1,e2,g1,g2
 
@@ -160,13 +175,13 @@ class corr_func:
 		file=self.path+'/'+self.file_name
 		file2=self.path.rstrip('ngmix')+'meds/'+self.file_name
 		
-		ra=fitsio.read(file,columns='ra')
-		dec=fitsio.read(file,columns='dec')
-		e1=fitsio.read(file,columns='e1')
-		e2=fitsio.read(file,columns='e2')
-		sca_x=fitsio.read(file2,columns='orig_col')
-		sca_y=fitsio.read(file2,columns='orig_row')
-		sca=fitsio.read(file2,columns='sca')
+		ra=fio.read(file,columns='ra')
+		dec=fio.read(file,columns='dec')
+		e1=fio.read(file,columns='e1')
+		e2=fio.read(file,columns='e2')
+		sca_x=fio.read(file2,columns='orig_col')
+		sca_y=fio.read(file2,columns='orig_row')
+		sca=fio.read(file2,columns='sca')
 
 		focal_plane_x = []
 		focal_plane_y =[]
@@ -220,27 +235,190 @@ class corr_func:
 		plt.savefig(file_name)
 		plt.show()
 
+class shape_results:
+	def __init__(self,path,dir_name):
+		self.path=path
+		self.dir_name=dir_name
+
+	def results(self):
+		e1=[]
+		e2=[]
+		int_e1=[]
+		int_e2=[]
+		psf_e1=[]
+		psf_e2=[]
+		psf_T=[]
+		hlr=[]
+		snr=[]
+		g1=[]
+		g2=[]
+		nexp_used=[]
+		fid_e1=[]
+		fid_e2=[]
+		fid_int_e1=[]
+		fid_int_e2=[]
+		fid_psf_e1=[]
+		fid_psf_e2=[]
+		fid_psf_T=[]
+		fid_hlr=[]
+		fid_snr=[]
+		fid_nexp_used=[]
+
+		file_names=os.listdir(self.path)
+		
+		for file in file_names:
+			# f = fio.FITS('/fs/scratch/cond0083/wfirst_sim_fiducial/ngmix/'+file)[1].read()
+			f = fio.FITS('/fs/scratch/cond0083/wfirst_sim_fiducial/ngmix/'+'fiducial'+file.lstrip(self.dir_name))[1].read()
+			f2 = fio.FITS('/fs/scratch/cond0083/wfirst_sim_'+self.dir_name+'/ngmix/'+file)[1].read()
+			for j in range(len(f)):
+				if (f['flags'][j]==0 and f['ra'][j]>0):
+				# if True:
+					fid_e1.append(f['e1'][j])
+					fid_e2.append(f['e2'][j])
+					fid_int_e1.append(f['int_e1'][j])
+					fid_int_e2.append(f['int_e2'][j])
+					fid_psf_e1.append(f['psf_e1'][j])
+					fid_psf_e2.append(f['psf_e2'][j])
+					fid_psf_T.append(f['psf_T'][j])
+					fid_nexp_used.append(f['nexp_used'][j])
+					fid_hlr.append(f['hlr'][j])
+					fid_snr.append(f['snr'][j])
+					e1.append(f2['e1'][j])
+					e2.append(f2['e2'][j])
+					int_e1.append(f2['int_e1'][j])
+					int_e2.append(f2['int_e2'][j])
+					psf_e1.append(f2['psf_e1'][j])
+					psf_e2.append(f2['psf_e2'][j])
+					psf_T.append(f2['psf_T'][j])
+					hlr.append(f2['hlr'][j])
+					snr.append(f2['snr'][j])
+					g1.append(f2['g1'][j])
+					g2.append(f2['g2'][j])
+					nexp_used.append(f2['nexp_used'][j])
+
+		mean_fid_e1=np.mean(np.array(fid_e1))
+		std_fid_e1=np.std(np.array(fid_e1))
+		mean_fid_e2=np.mean(np.array(fid_e2))
+		std_fid_e2=np.std(np.array(fid_e2))
+		mean_fid_psf_e1=np.mean(np.array(fid_psf_e1))
+		std_fid_psf_e1=np.std(np.array(fid_psf_e1))
+		mean_fid_psf_e2=np.mean(np.array(fid_psf_e2))
+		std_fid_psf_e2=np.std(np.array(fid_psf_e2))
+		mean_fid_psf_T=np.mean(np.array(fid_psf_T))
+		std_fid_psf_T=np.std(np.array(fid_psf_T))
+		mean_fid_hlr=np.mean(np.array(fid_hlr))
+		std_fid_hlr=np.std(np.array(fid_hlr))
+		mean_fid_snr=np.mean(np.array(fid_snr))
+		std_fid_snr=np.std(np.array(fid_snr))
+
+		delta_e1=np.array(e1)-np.array(fid_e1)
+		delta_e2=np.array(e2)-np.array(fid_e2)
+		mean_de1=np.mean(delta_e1)
+		mean_de2=np.mean(delta_e2)
+		std_de1=np.std(delta_e1)
+		std_de2=np.std(delta_e2)
+		de1_dz4=np.mean(delta_e1)/6.465
+		de2_dz4=np.mean(delta_e2)/6.465
+		de1_dz4_std=np.std(delta_e1)/6.465
+		de2_dz4_std=np.std(delta_e2)/6.465
+
+		mean_e1=np.mean(np.array(e1))
+		std_e1=np.std(np.array(e1))
+		mean_e2=np.mean(np.array(e2))
+		std_e2=np.std(np.array(e2))
+		mean_hlr=np.mean(np.array(hlr))
+		std_hlr=np.std(np.array(hlr))
+		mean_snr=np.mean(np.array(snr))
+		std_snr=np.std(np.array(snr))
+
+
+		# mod1 = sm.OLS(e1,g1)
+		# mod2 = sm.OLS(e2,g2)
+		# res1 = mod1.fit()
+		# res2 = mod2.fit()
+
+		print('fid_e1='+str(mean_fid_e1)+'+-'+str(std_fid_e1))
+		print('fid_e2='+str(mean_fid_e2)+'+-'+str(std_fid_e2))
+		print('fid_psf_e1='+str(mean_fid_psf_e1)+'+-'+str(std_fid_psf_e1))
+		print('fid_psf_e2='+str(mean_fid_psf_e2)+'+-'+str(std_fid_psf_e2))
+		print('fid_psf_T='+str(mean_fid_psf_T)+'+-'+str(std_fid_psf_T))
+		print('fid_hlr='+str(mean_fid_hlr)+'+-'+str(std_fid_hlr))
+		print('fid_snr='+str(mean_fid_snr)+'+-'+str(std_fid_snr))
+		print('z4_e1='+str(mean_e1)+'+-'+str(std_e1))
+		print('z4_e2='+str(mean_e2)+'+-'+str(std_e2))
+		print('z4_hlr='+str(mean_hlr)+'+-'+str(std_hlr))
+		print('z4_snr='+str(mean_snr)+'+-'+str(std_snr))
+		print('z4_de1='+str(mean_de1)+'+-'+str(std_de1))
+		print('z4_de2='+str(mean_de2)+'+-'+str(std_de2))
+
+		plt.hist(e1,bins=50)
+		plt.ylabel('N')
+		plt.xlabel('e1')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_e1')
+
+		plt.hist(e2,bins=50)
+		plt.ylabel('N')
+		plt.xlabel('e2')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_e2')
+
+		plt.hist(psf_e1,bins=200)
+		plt.ylabel('N')
+		plt.xlabel('PSF e1')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_psf_e1')
+
+		plt.hist(psf_e2,bins=200)
+		plt.ylabel('N')
+		plt.xlabel('PSF e2')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_psf_e2')
+
+		plt.hist(psf_T,bins=200)
+		plt.ylabel('N')
+		plt.xlabel('PSF FWHM(pix)')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_psf_fwhm')
+
+		plt.hist(nexp_used,bins=np.arange(-1,14))
+		plt.ylabel('N')
+		plt.xlabel('Number of exposures')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_nexp')
+
+		plt.hist(hlr,bins=np.arange(0,4,0.1))
+		plt.ylabel('N')
+		plt.xlabel('radius')
+		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_hlr')
+		
+		# snr=np.log10(np.array(snr))
+		# plt.hist(snr,bins=200)
+		# plt.ylabel('N')
+		# plt.xlabel('log10(snr)')
+		# plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/figures/hist_'+self.dir_name+'_snr')
+
+
+
 path = sys.argv[2]
-filename = sys.argv[3]
 if sys.argv[1] == 'shear_error':
-	f = shear_error(path,filename)
+	f = shear_error(path)
 	e1,e2,g1,g2 = f.extract_shear()
 	m1,c1,m2,c2 = f.estimate_cfs(e1,e2,g1,g2)
-	image_name = sys.argv[4]
+	image_name = sys.argv[3]
 	f.line_plot(m1,c1,m2,c2,image_name)
 
-if sys.argv[2] == '2pt_corr':
+elif sys.argv[1] == 'shape_results':
+	dir_name=sys.argv[3]
+	f = shape_results(path,dir_name)
+	f.results()
+
+if sys.argv[1] == '2pt_corr':
 	files = os.listdir(path)
 	for file in files:
 		corr = corr_func(path,file)
 		ra_tmp,dec_tmp,e1_tmp,e2_tmp,e1_xy_tmp,e2_xy_tmp,x_tmp,y_tmp=corr.extract_info()
 		ra = np.append(ra,ra_tmp)
 		dec = np.append(dec,dec_tmp)
-	 	sky_e1 = np.append(e1,e1_tmp)
-	 	sky_e2 = np.append(e2,e2_tmp)
-	 	e1 = np.append(e1,e1_xy_tmp)
-	 	e2 = np.append(e2,e2_xy_tmp)
-	 	x = np.append(x,x_tmp)
+		sky_e1 = np.append(e1,e1_tmp)
+		sky_e2 = np.append(e2,e2_tmp)
+		e1 = np.append(e1,e1_xy_tmp)
+		e2 = np.append(e2,e2_xy_tmp)
+		x = np.append(x,x_tmp)
 		y = np.append(y,y_tmp)
 	sky_im_name = argv[3]
 	xy_im_name = argv[4]
@@ -248,6 +426,7 @@ if sys.argv[2] == '2pt_corr':
 	corr.corr_plot(gg_sky,sky_im_name)
 	gg_xy = corr.xy_corr(x,y,g1,g2)
 	corr.corr_plot(gg_xy,xy_im_name)
+
 
 
 

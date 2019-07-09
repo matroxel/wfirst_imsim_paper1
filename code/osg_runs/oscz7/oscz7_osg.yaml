@@ -1,7 +1,7 @@
 # Input file for wfirst.py
 
 condor : True
-condor_zip_dir : /stash/user/troxel/wfirst_sim_fiducial/
+condor_zip_dir : /stash/user/troxel/wfirst_sim_oscz7/
 
 # Number of procs to limit star parallelisation to for memory reasons
 starproc  : 1
@@ -23,20 +23,19 @@ random_seed         : 314
 
 # output directory
 out_path            : ./
-psf_path            : /stash/user/troxel/wfirst_sim_fiducial/
 # output meds (and other) filename prefix
 output_truth        : 'fiducial_lensing_galaxia'
-output_meds         : 'fiducial'
-psf_meds            : 'fiducial'
+output_meds         : 'oscz7'
 # Minimum postage stamp size (all stamps will be multiples of this)
 stamp_size          : 32
 # Number of stamp sizes
 num_sizes           : 9
 # nside of meds tiling (healpix pixels). Choose so that full meds can be held in memory of node.
-nside               : 512
+nside               : 256
 meds_from_file      : None #meds_pix_list.txt # None to read pixel from command line instead of assume number correponds to entry in pixel file.
-avg_fit             : False
-shape_code          : mof
+avg_fit             : True
+shape_code          : ngmix
+psf_meds            : None
 
 # File containing dither information
 dither_file         : observing_sequence_hlsonly_5yr.fits
@@ -46,18 +45,10 @@ dither_from_file    : None #dither_list.txt # None to read dither from command l
 # To do a more exact calculation of the chromaticity and pupil plane configuration, set the `approximate_struts` and the `n_waves` keyword to defaults
 approximate_struts  : True # Approximate strut configuration
 n_waves             : 10 # Number of wavelengths used to create chromatic model of PSF
-extra_aberrations   : None # Include (additive) changes specification zernike parameters. None for default.
+extra_aberrations   : [0, 0, 0, 0, 0, 0, 0, 0.005, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # Include (additive) changes specification zernike parameters. None for default.
 #los_motion         : 0.015 # Include extra jitter in rms of arcsec. Ignored if not defined.
 #los_motion_e1      : 0.3 # Shear to apply to jitter gaussian to simulate orientation-dependent rms
 #los_motion_e2      : 0.0
-# Create a gradiaent across the focal plane in the extra_aberrations
-gradient_aberration : False
-# Create random aberration up to extra_aberrations for each SCA
-random_aberration : False
-# Create gradient of random amplitude up to extra_abberations across SCA in x pixel coordinate
-random_aberration_gradient : False
-# Add los_motion to random 15% of images
-random_los_motion : False
 # Draw stars into SCA
 draw_stars          : True
 # Catalog containing star positions and fluxes
@@ -86,8 +77,8 @@ shear_list          : [[0.1,0.0],[-0.1,0.0],[0.0,0.1],[0.0,-0.1],[0.1,0.1],[0.1,
 sedpath_E           : NGC_4926_spec.dat
 sedpath_Scd         : NGC_4670_spec.dat
 sedpath_Im          : Mrk_33_spec.dat
-# mof model
-ngmix_model         : bdf
+# NGMIX model
+ngmix_model         : exp
 
 # Files for cosmos galaxy models
 cat_name            : real_galaxy_catalog_25.2.fits
