@@ -1,4 +1,4 @@
-#PBS -N im_ana
+#PBS -N focus_corr
 # request 1 node
 #PBS -l nodes=1:ppn=20
 #PBS -A PCON0003
@@ -10,6 +10,6 @@
 cd $PBS_O_WORKDIR
 export OMP_NUM_THREADS=1
 #psrecord --log memory_log.txt --interval 1.0 --include-children "python mcaltest.py"
-source activate galsim
+source loadLSST.bash
 
-mpiexec -n 1 python ./analysis.py shear_error '/fs/scratch/cond0083/wfirst_sim_fiducial/ngmix' shear_error_fid100
+mpiexec -n 20 python analysis.py 2pt_corr '/fs/scratch/cond0083/wfirst_sim_focus/ngmix' focus focus_sky_corr focus_plane_corr
