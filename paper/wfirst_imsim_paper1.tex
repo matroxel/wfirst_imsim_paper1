@@ -231,20 +231,31 @@ This stage writes a set of FITS files containing the galaxy and PSF measurement 
 
 \subsection{Galaxy catalogs}\label{galcats}
 
-The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{2019ApJ...877..117H}. We show the galaxy distribution in Fig. \ref{fig:galaxies}. We use a galaxy density that is approx. 40 arcmin$^{-2}$. In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
+The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. 
+Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{2019ApJ...877..117H}. 
+We show the galaxy distribution in Fig. \ref{fig:galaxies}. 
+We use a galaxy density that is approx. 40 arcmin$^{-2}$. 
+In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. 
+We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. 
+In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
 
 \verify{Need lensing selection cuts and maybe short description of candels sample.}
 
 \subsection{Star catalog}\label{starcat}
 
-We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. Galaxia uses an analytic model \cite{galaxia2}  to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with GalSim. 
+We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. 
+Galaxia uses an analytic model \cite{galaxia2}  to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. 
+Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with GalSim. 
 
 \subsection{Survey strategy}
 \assign{Hirata}
 
 \subsection{Simulation implementation for this study}
 
-In this work, we are interested in the impact of how a variety of biases in the PSF model propagate to shape measurement and the weak lensing signal. To study this, we produce a set of 13 image simulations that are identical, including noise, modulo a single PSF model change relative to the fiducial simulation in each case. The details of these changes and their impacts are described in more detail in Sec. \ref{results}. Shape measurement is then performed on the images with some PSF model bias, but using the fiducial, unbiased PSF model for deconvolution, to simulate an unknown wavefront error .
+In this work, we are interested in the impact of how a variety of biases in the PSF model propagate to shape measurement and the weak lensing signal. 
+To study this, we produce a set of 13 image simulations that are identical, including noise, modulo a single PSF model change relative to the fiducial simulation in each case. 
+The details of these changes and their impacts are described in more detail in Sec. \ref{results}. 
+Shape measurement is then performed on the images with some PSF model bias, but using the fiducial, unbiased PSF model for deconvolution, to simulate an unknown wavefront error.
 
 Several simplifications are employed relative to the generic synthetic survey generation described in Sec. \ref{stages} to accommodate the computational load of the many realizations of the survey we are producing. 
 \begin{itemize}
@@ -302,15 +313,24 @@ OscZ7 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
 
 In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. \verify{Chris: insert text connecting to early motivation section when written}. 
 
-We simulate 13 identical 2.5$\times$2.5 deg$^2$ HLS survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate failure modes in the PSF reconstruction. These are split into three types of failure modes: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over lifetime of the mission, but can be considered static over the timescale of a single exposure. In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm. \verify{Chris: connect value back to requirement discussion when written.} These runs are summarized in Table \ref{table:runs}.
+We simulate 13 identical 2.5$\times$2.5 deg$^2$ HLS survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate failure modes in the PSF reconstruction. 
+These are split into three types of failure modes: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over lifetime of the mission, but can be considered static over the timescale of a single exposure. 
+In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm. 
+\verify{Chris: connect value back to requirement discussion when written.} These runs are summarized in Table \ref{table:runs}.
 
 \subsection{Static biases}\label{sec:static}
 
-We simulate seven static sources of bias in the PSF model. Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus ($Z_4$) -- \emph{Focus}, oblique astigmatism ($Z_5$) -- \emph{Astig}, and vertical coma ($Z_7$) -- \emph{Coma}. Two simulations include a coherent gradient in the defocus ($Z_4$) -- \emph{GradZ4} -- and vertical astigmatism ($Z_6$) -- \emph{GradZ6} -- across the focal plane with equivalent rms of 0.005 wavelengths. For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA  -- \emph{Piston}, and 2) a random tilt in the x or y direction is assigned to each SCA  -- \emph{Tilt}, with equivalent rms of up to 0.005 wavelengths. These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object assigned a different PSF consistent with this random tilt of the SCA). Potential correlated biases in the WCS model due to these changes are ignored in this work, but should be considered in future studies of the WCS model recovery.
+We simulate seven static sources of bias in the PSF model. 
+Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus ($Z_4$) -- \emph{Focus}, oblique astigmatism ($Z_5$) -- \emph{Astig}, and vertical coma ($Z_7$) -- \emph{Coma}. 
+Two simulations include a coherent gradient in the defocus ($Z_4$) -- \emph{GradZ4} -- and vertical astigmatism ($Z_6$) -- \emph{GradZ6} -- across the focal plane with equivalent rms of 0.005 wavelengths. 
+For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA  -- \emph{Piston}, and 2) a random tilt in the x or y direction is assigned to each SCA  -- \emph{Tilt}, with equivalent rms of up to 0.005 wavelengths. 
+These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object assigned a different PSF consistent with this random tilt of the SCA). 
+Potential correlated biases in the WCS model due to these changes are ignored in this work, but should be considered in future studies of the WCS model recovery.
 
 \subsection{High-frequency biases}\label{sec:low}
 
-Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_2=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
+Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
+These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_2=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
 
 \subsection{Low-frequency biases}\label{sec:high}
 \assign{Long}
@@ -319,7 +339,11 @@ Describe low-frequency bias cases
 
 \section{Results}\label{sec:results}
 
-Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which introduces varying levels of bias. We find that 3\% of objects do not make it to the shape measurement stage in the Fiducial simulation, due to being too large/bright or because too large a fraction of all cutouts are masked -- see Sec. \ref{stages} for more details on these selections. Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects. We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on the measured properties. If we were to do so, we would only lose an additional 
+Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which introduces varying levels of bias. 
+We find that 3\% of objects do not make it to the shape measurement stage in the Fiducial simulation, due to being too large/bright or because too large a fraction of all cutouts are masked -- see Sec. \ref{stages} for more details on these selections. 
+Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects. 
+We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on the measured properties. 
+If we were to do so, we would only lose an additional 
 
 \subsection{Fiducial simulation results}\label{sec:results}
 
