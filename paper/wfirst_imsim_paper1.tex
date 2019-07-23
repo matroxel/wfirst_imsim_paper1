@@ -48,6 +48,8 @@
 
 \section{Introduction}\label{sec:intro}
 
+no dust extinction on galaxies
+
 \begin{itemize}
 \item DE/cosmology context
 \item motivation for WFIRST in context of other stage iii and stage iv surveys
@@ -86,28 +88,6 @@ We use a blending-free version of this simulation to test the impact on weak len
 \item transition to empirical validation (next section)
 \end{itemize}
 
-\def\arraystretch{1.4}
-\setlength{\tabcolsep}{4pt}
-\begin{table}
-\caption{Table}
-\label{table:values}
-\begin{center}
-\begin{tabular}{lcccc }
-\hline
-\hline
-%Parameter & $o$CDM & $w$CDM & $w$CDM (Ext) & Flat Prior \\ 
-%\hline
-%$\Omega_m$                                                  & $0.299^{+0.024}_{-0.020}$  &  $0.300^{+0.023}_{-0.021}$  & $0.303^{+0.007}_{-0.009}$ & [0.1, 0.9] \\
-%$\Omega_b$                                                   & $0.069^{+0.009}_{-0.012}$   & $0.064^{+0.013}_{-0.009}$  & $0.048^{+0.001}_{-0.001}$ & [0.03, 0.12] \\
-%$\Omega_k$                                                   & $0.252^{+0.095}_{-0.14}$     & 0 & 0 & [-0.1, 0.5] \\
-%$\Omega_\Lambda$                                       & $0.47^{+0.14}_{-0.12}$        & $0.700^{+0.021}_{-0.023}$  & $0.697^{+0.009}_{-0.007}$ & Derived \\
-%$w$                                                                 & $-1$                                      & $-0.80^{+0.09}_{-0.11}$       & $-1.02^{+0.03}_{-0.04}$ & [-2, -0.33] \\
-%$S_8$  							    & $0.801^{+0.028}_{-0.026}$  & $0.786^{+0.029}_{-0.019}$   & $0.814^{+0.016}_{-0.011}$ & Derived \\ 
-\hline
-\hline
-\end{tabular}
-\end{center}
-\end{table}
 
 \begin{figure*}
 \begin{center}
@@ -281,7 +261,38 @@ The impact of this approximation on the PSF model, in both native and oversample
 
 We simulate a total of 907,170 unique galaxies and 56,128 unique stars across 189 pointings in each of the runs. The distribution of PSF properties and exposures per galaxy are shown in Fig. \ref{}.
 
-\section{Impact of wavefront errors}\label{sec:results}
+\def\arraystretch{1.4}
+\setlength{\tabcolsep}{4pt}
+\begin{table}
+\caption{Table} A summary of the 13 simulation runs.
+\label{table:values}
+\begin{center}
+\begin{tabular}{lcccc }
+\hline
+\hline
+Run name & PSF change & Mode & Notes \\ 
+\hline
+Fiducial              & -- & -- & -- \\
+Focus                & $Z_4$ & Static & --  \\
+Astig                  & $Z_5$ & Static &  -- \\
+Coma                & $Z_7$ & Static &  -- \\
+GradZ4             & $Z_4$ & Static & Gradient in focal plane  \\
+GradZ6              & $Z_6$ & Static &Gradient in focal plane    \\
+Piston 		 & $Z_4$ & Static  &Random per SCA   \\
+Tilt 			 & $Z_4$ & Static & Random gradient per SCA \\
+IsoJitter 		& Gaussian  & High-Freq. & Isotropic  \\
+AniJitter 		 & Gaussian & High-Freq. & Anisotropic  \\
+RanJitter 		 & Gaussian & High-Freq. & 15\% of pointings  \\
+OscZ4 		 & $Z_4$ & Low-Freq. & Time-dependent  \\
+OscZ7 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
+\hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\section{Wavefront model errors}\label{sec:results}
 
 \begin{itemize}
 \item background on psf and wavefront errors
@@ -289,24 +300,28 @@ We simulate a total of 907,170 unique galaxies and 56,128 unique stars across 18
 \item summary of approach 
 \end{itemize}
 
-In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. 
+In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. \verify{Chris: insert text connecting to early motivation section when written}. 
+
+We simulate 13 identical 2.5$\times$2.5 deg$^2$ HLS survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate failure modes in the PSF reconstruction. These are split into three types of failure modes: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over lifetime of the mission, but can be considered static over the timescale of a single exposure. In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm. \verify{Chris: connect value back to requirement discussion when written.} These runs are summarized in Table \ref{table:runs}.
 
 \subsection{Static biases}\label{sec:static}
 
-Describe static bias cases
+We simulate seven static sources of bias in the PSF model. Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus ($Z_4$) -- \emph{Focus}, oblique astigmatism ($Z_5$) -- \emph{Astig}, and vertical coma ($Z_7$) -- \emph{Coma}. Two simulations include a coherent gradient in the defocus ($Z_4$) -- \emph{GradZ4} -- and vertical astigmatism ($Z_6$) -- \emph{GradZ6} -- across the focal plane with equivalent rms of 0.005 wavelengths. For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA  -- \emph{Piston}, and 2) a random tilt in the x or y direction is assigned to each SCA  -- \emph{Tilt}, with equivalent rms of up to 0.005 wavelengths. These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object assigned a different PSF consistent with this random tilt of the SCA). Potential correlated biases in the WCS model due to these changes are ignored in this work, but should be considered in future studies of the WCS model recovery.
 
 \subsection{High-frequency biases}\label{sec:low}
 
-Describe high-frequency bias cases
+Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_2=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
 
 \subsection{Low-frequency biases}\label{sec:high}
 \assign{Long}
 
 Describe low-frequency bias cases
 
-\subsection{results}\label{sec:results}
+\section{Results}\label{sec:results}
 
-present results in some way
+Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which introduces varying levels of bias. We find that 3\% of objects do not make it to the shape measurement stage in the Fiducial simulation, due to being too large/bright or because too large a fraction of all cutouts are masked -- see Sec. \ref{stages} for more details on these selections. Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects. We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on the measured properties. If we were to do so, we would only lose an additional 
+
+\subsection{Fiducial simulation results}\label{sec:results}
 
 \section{Conclusion}\label{sec:conclusion}
 
