@@ -161,6 +161,15 @@ PSF model for SCA 1. The top row shows the model in native pixel scale, while th
 \label{fig:psf}}
 \end{figure}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/shape_hist.pdf}
+\end{center}
+\caption[]{
+A histogram of the difference in the measured shape from the true shape in the Fiducial simulation.
+\label{fig:shape_hist}}
+\end{figure}
+
 
 \section{Simulation suite}\label{sec:sim}
 
@@ -340,10 +349,34 @@ Describe low-frequency bias cases
 \section{Results}\label{sec:results}
 
 Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which introduces varying levels of bias. 
+All estimates of the multiplicative and additive bias will be explored relative to the Fiducial simulation run, since we have not employed a calibration scheme. 
+This is justified to first order, since we are only interested in the relative impacts of the PSF model biases and the bias on the uncalibrated shear is already relatively small.
 We find that 3\% of objects do not make it to the shape measurement stage in the Fiducial simulation, due to being too large/bright or because too large a fraction of all cutouts are masked -- see Sec. \ref{stages} for more details on these selections. 
-Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects. 
-We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on the measured properties. 
-If we were to do so, we would only lose an additional 
+Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects -- a total of 871,841 galaxies. 
+
+\subsection{Summary statistics}
+
+The bias in an ensemble shear measurement is typically characterized in the weak limit by 
+\begin{equation}
+e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + b_i.
+\end{equation}
+We find the following multiplicative and additive biases in the Fiducial simulation: 
+\begin{align*}
+m_1 &= -0.0756 \pm 0.0019\\ 
+m_2 &= -0.0940 \pm 0.0019\\ 
+b_1 &= 0.00120 \pm 0.00017\\
+b_2 &= -0.00157 \pm 0.00016.
+\end{align*}
+We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on measured properties, since we expect all objects to be within this selection if we were to simulate all remaining pointings in other bandpasses. 
+The recovered multiplicative shear bias is only approx. 2\% smaller and the mean shear is unchanged if we make this selection, which removes an additional 35\% of objects, almost exclusively due to the signal-to-noise cut. The difference in measured shape vs true input shape (intrinsic shape and shear) is shown in Fig. \ref{fig:shape_hist}.
+
+For each simulation, we compare the recovered shear to the Fiducial simulation in several ways. First, we compare the change to the recovered values of $m$ and $b$, along with the changes in the mean galaxy and PSF sizes and ellipticities, where we use the true model PSF images for each simulation and not the biased PSF model used in the shape measurement. 
+
+We will also represent the changes in $m$ and $b$ as a response to the wavefront error in units of nm. 
+
+\subsection{Spatially-Correlated biases}
+
+We are also interested in the spatial correlation of any biases, since this will propagate into the measured shear correlation functions. ...
 
 \subsection{Fiducial simulation results}\label{sec:results}
 
