@@ -79,18 +79,47 @@ We use a blending-free version of this simulation to test the impact on weak len
 (insert standard toc para) 
 
 
-\section{WFIRST and requirements}\label{sec:wfirst}
+\section{WFIRST weak lensing, the requirements process, and the need for simulations}
+\label{sec:wfirst}
 \assign{Hirata}
 
 \chris{need to write this; will make extensive reference to the appendices for technical details that aren't really necessary to understand the simulations}
 
-\begin{itemize}
-\item What WFIRST is \& timeline
-\item Previous requirements information
-\item context in broader sit work
-\item transition to empirical validation (next section)
-\end{itemize}
+%\begin{itemize}
+%\item What WFIRST is \& timeline
+%\item Previous requirements information
+%\item context in broader sit work
+%\item transition to empirical validation (next section)
+%\end{itemize}
 
+We now proceed to describe requirements and the role of this suite of image simulations in verifying that the requirements flowdown is correct. We begin with a description of weak lensing on WFIRST that emphasizes the issues most closely tied to the image simulations (\S\ref{ss:wlprog}), and a high-level review of the requirements process in a cosmology project (\S\ref{ss:req}). There we describe where in this process we need the mapping between the wavefront error and galaxy ellipticities, $\partial e_i/\partial \psi_j$ (where $\psi_j$ denotes a Zernike mode of the wavefront error). This mapping was obtained using a simplified analytic model, calibrated by toy simulations, in the Phase A requirements flowdown; this approach is described at a high level in \S\ref{ss:dedZ}, with technical details placed in the appendices. In the rest of this paper, we will use much more advanced image simulations, based on the {\sc GalSim} package, to estimate $\partial e_i/\partial \psi_j$.
+
+\subsection{WFIRST weak lensing}
+\label{ss:wlprog}
+
+\subsection{The requirements process}
+\label{ss:req}
+
+Every precision cosmology project has a requirements process to control both its statistical and systematic errors and ensure that the overall mission can achieve its science objectives. In the case of WFIRST, requirements on the Project (e.g., flight hardware and software or ground system support) were baselined early in the mission (the Science Requirements Document was placed under configuration control in 2018), but requirements on science analyses are more flexible and will be fixed at a later date. The statistical error requirements are usually formulated in terms of survey area, depth and image quality in each filter, cadence (for time-domain programs), etc.; their relation to the science reach of the mission is handled by forecasting tools \verify{ref. forecasting papers}. Systematic error control is much more difficult, and the approach may differ depending on whether a source of systematic error is {\em observational} or {\em astrophysical}. Usually, observational systematics (e.g., PSF calibration for weak lensing) can be budgeted within the systems requirements framework of a large project, whereas astrophysical systematics (e.g., baryonic feedback) are addressed through a combination of nuisance parameters, additional observations, and theory/simulation. These astrophysical systematics are important science team responsibilities but are not part of Project requirements and engineering reviews.
+
+We focus now on the approach to observational systematic errors; our focus is on the WFIRST process, but note that something similar has been done for other large weak lensing programs such as LSST and Euclid \verify{cites}.
+
+First, one identifies a {\em data vector} that will contain the cosmological information. For setting WFIRST weak lensing requirements, the data vector is the concatenated list of shear power spectra and cross-power spectra ${\bf C}$ across tomographic bins. (Other choices, such as including higher-order statistics, using all $3\times 2$-point information, or working in correlation function space are possible, but given the tools available at the time of Project start these would have required additional tool development that did not fit in the schedule.)
+
+Second, one identifies an {\em error metric} that summarizes the impact of a systematic error on the data vector. We have chosen the error metric $Z^2 = \Delta{\bf C}\cdot{\boldsymbol\Sigma}^{-1}\Delta{\bf C}$, where $\Delta{\bf C}$ is the bias on the data vector and ${\boldsymbol\Sigma}$ is the statistics-only covariance matrix. The metric $Z$ is essentially a metric for the ratio of the systematic to the statistical error, and this depends on the solid angle $\Omega$ covered by the survey ($Z\propto \sqrt\Omega$). One also sets a limit on the maximum allowed error $Z$; in our case, we set $Z=0.5$ at 2500 deg$^2$ (or $Z=1$ at 10,000 deg$^2$), which means that the observational systematic errors are required to be below 50\% of the statistical errors in a 2500 deg$^2$ survey and below 100\% of the statistical errors if the survey were to be extended to 10,000 deg$^2$. \verify{there are other choices; do we want to talk about the advantages of this choice here or put it in an appendix?}
+
+Third, we note that each category of observational systematic error contributes to $Z$. In cases where the errors are presumed independent, the $Z^2$ values can be summed (i.e., $Z$ obeys root-sum-square or RSS addition), and the ``top-level'' budget for $Z$ can be broken down into contributions from different sources. If a source of observational systematic is parameterized by a parameter $p$ (e.g., overall shear calibration), then a requirement on knowledge of $p$ can be obtained by computing the sensitivity $d{\bf C}/dp$ and setting
+\begin{equation}
+\sqrt{\frac{d{\bf C}}{dp} \Delta p \cdot {\boldsymbol\Sigma}^{-1} \frac{d{\bf C}}{dp} \Delta p}
+\end{equation}
+equal to the allocation for $Z$ from that contribution. An important aspect of this budgeting is that, like a requirements flowdown, it is {\em hierarchical} -- a top-level requirement on observational systematics may contain an allocation for shear calibration (one of several contributions), which itself may contain a branch for PSF size (one of several contributions), which itself may contain a branch for detector non-linearity, etc. In the life cycle of a cosmology project, more detail will be filled in first on the branches that have hardware impacts, and then branches related to algorithms or simulations later on.
+
+\chris{Lots of references to the appendix; need to clean that up so it contains only the needed information}
+
+\subsection{Mapping from wavefront error to galaxy ellipticities -- analytic approach}
+\label{ss:dedZ}
+
+\subsection{Limitations of the analytical approach}
 
 \begin{figure*}
 \begin{center}
