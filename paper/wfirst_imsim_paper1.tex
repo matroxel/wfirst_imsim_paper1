@@ -15,7 +15,6 @@
 
 \usepackage{todonotes}
 \newcommand{\verify}[1]{\textcolor{red}{\textbf{{#1}}}}
-\newcommand{\cmnt}[1]{}
 
 \newcommand\assign[1]{\todo[color=RoyalPurple!40, inline, size=\small]{Contributing: #1}}
 \newcommand\troxel[1]{\todo[color=cyan!40, inline, size=\small]{Troxel: #1}}
@@ -84,6 +83,8 @@ We use a blending-free version of this simulation to test the impact on weak len
 \label{sec:wfirst}
 \assign{Hirata}
 
+\chris{need to write this; will make extensive reference to the appendices for technical details that aren't really necessary to understand the simulations}
+
 %\begin{itemize}
 %\item What WFIRST is \& timeline
 %\item Previous requirements information
@@ -91,217 +92,36 @@ We use a blending-free version of this simulation to test the impact on weak len
 %\item transition to empirical validation (next section)
 %\end{itemize}
 
-We now proceed to describe requirements and the role of this suite of image simulations in verifying that the requirements flowdown is correct. We begin with a description of weak lensing on WFIRST that emphasizes the issues most closely tied to the image simulations (\S\ref{ss:wlprog}), and a high-level review of the requirements process in a cosmology project (\S\ref{ss:req}). There we describe where in this process we need the mapping between the wavefront error and shear systematics, $\partial c/\partial \psi_j$ and $\partial m/\partial\psi_j$ (where $c$ and $m$ are additive and multiplicative biases on the shear, and $\psi_j$ denotes a Zernike mode of the wavefront error). This mapping was obtained using a simplified analytic model, calibrated by toy simulations, in the Phase A requirements flowdown; this approach is described at a high level in \S\ref{ss:dedZ}, with technical details placed in the appendices. In the rest of this paper, we will use much more advanced image simulations -- the {\sc WFIRST-ImSim} code, built on top of the {\sc GalSim} package -- to estimate $\partial c/\partial \psi_j$ and $\partial m/\partial\psi_j$.
+We now proceed to describe requirements and the role of this suite of image simulations in verifying that the requirements flowdown is correct. We begin with a description of weak lensing on WFIRST that emphasizes the issues most closely tied to the image simulations (\S\ref{ss:wlprog}), and a high-level review of the requirements process in a cosmology project (\S\ref{ss:req}). There we describe where in this process we need the mapping between the wavefront error and galaxy ellipticities, $\partial e_i/\partial \psi_j$ (where $\psi_j$ denotes a Zernike mode of the wavefront error). This mapping was obtained using a simplified analytic model, calibrated by toy simulations, in the Phase A requirements flowdown; this approach is described at a high level in \S\ref{ss:dedZ}, with technical details placed in the appendices. In the rest of this paper, we will use much more advanced image simulations, based on the {\sc GalSim} package, to estimate $\partial e_i/\partial \psi_j$.
 
-Note that this section is {\em not} a comprehensive introduction to the WFIRST weak lensing program or the requirements flowdown, and many important areas are omitted -- only the aspects directly tied to the image simulations or sensitivity analyses are covered. For a more comprehensive overview, see \verify{[add some cites here]}.
-
-\chris{Do we need a short introduction on Zernikes? or a brief appendix? or simply a textbook reference?}
-
-\subsection{The weak lensing program}
+\subsection{WFIRST weak lensing}
 \label{ss:wlprog}
 
 \subsection{The requirements process}
 \label{ss:req}
 
-\subsubsection{Overview}
-\label{ss:req-overview}
-
-Every precision cosmology project has a requirements process to control both its statistical and systematic errors and ensure that the overall mission can achieve its science objectives. In the case of WFIRST, requirements on the Project (e.g., flight hardware and software or ground system support) were baselined early in the mission -- the Science Requirements Document (SRD) was baselined at the System Requirements Review (SRR) in Feb./Mar.\ 2018 -- but requirements on science analyses are more flexible and will be fixed at a later date. The statistical error requirements are usually formulated in terms of survey area, depth and image quality in each filter, cadence (for time-domain programs), etc.; their relation to the science reach of the mission is handled by forecasting tools \verify{ref. forecasting papers}. Systematic error control is much more difficult, and the approach may differ depending on whether a source of systematic error is {\em observational} or {\em astrophysical}. Usually, observational systematics (e.g., PSF calibration for weak lensing) can be budgeted within the systems requirements framework of a large project, whereas astrophysical systematics (e.g., baryonic feedback) are addressed through a combination of nuisance parameters, additional observations, and theory/simulation. These astrophysical systematics are important science team responsibilities but are not part of Project requirements and engineering reviews.
+Every precision cosmology project has a requirements process to control both its statistical and systematic errors and ensure that the overall mission can achieve its science objectives. In the case of WFIRST, requirements on the Project (e.g., flight hardware and software or ground system support) were baselined early in the mission (the Science Requirements Document was placed under configuration control in 2018), but requirements on science analyses are more flexible and will be fixed at a later date. The statistical error requirements are usually formulated in terms of survey area, depth and image quality in each filter, cadence (for time-domain programs), etc.; their relation to the science reach of the mission is handled by forecasting tools \verify{ref. forecasting papers}. Systematic error control is much more difficult, and the approach may differ depending on whether a source of systematic error is {\em observational} or {\em astrophysical}. Usually, observational systematics (e.g., PSF calibration for weak lensing) can be budgeted within the systems requirements framework of a large project, whereas astrophysical systematics (e.g., baryonic feedback) are addressed through a combination of nuisance parameters, additional observations, and theory/simulation. These astrophysical systematics are important science team responsibilities but are not part of Project requirements and engineering reviews.
 
 We focus now on the approach to observational systematic errors; our focus is on the WFIRST process, but note that something similar has been done for other large weak lensing programs such as LSST and Euclid \verify{cites}.
 
-First, one identifies a {\em data vector} that will contain the cosmological information. For setting WFIRST weak lensing requirements, the data vector is the concatenated list of shear power spectra and cross-power spectra ${\bf C}$ across tomographic bins. (Other choices, such as including higher-order statistics, using all $3\times 2$-point information, or working in correlation function space are possible, but given the tools available at the time of Project start these would have required additional tool development that did not fit in the schedule.) The details of the data model and binning are presented in Appendix~\ref{sec:datamodel}.
+First, one identifies a {\em data vector} that will contain the cosmological information. For setting WFIRST weak lensing requirements, the data vector is the concatenated list of shear power spectra and cross-power spectra ${\bf C}$ across tomographic bins. (Other choices, such as including higher-order statistics, using all $3\times 2$-point information, or working in correlation function space are possible, but given the tools available at the time of Project start these would have required additional tool development that did not fit in the schedule.)
 
 Second, one identifies an {\em error metric} that summarizes the impact of a systematic error on the data vector. We have chosen the error metric $Z^2 = \Delta{\bf C}\cdot{\boldsymbol\Sigma}^{-1}\Delta{\bf C}$, where $\Delta{\bf C}$ is the bias on the data vector and ${\boldsymbol\Sigma}$ is the statistics-only covariance matrix. The metric $Z$ is essentially a metric for the ratio of the systematic to the statistical error, and this depends on the solid angle $\Omega$ covered by the survey ($Z\propto \sqrt\Omega$). One also sets a limit on the maximum allowed error $Z$; in our case, we set $Z=0.5$ at 2500 deg$^2$ (or $Z=1$ at 10,000 deg$^2$), which means that the observational systematic errors are required to be below 50\% of the statistical errors in a 2500 deg$^2$ survey and below 100\% of the statistical errors if the survey were to be extended to 10,000 deg$^2$. \verify{there are other choices; do we want to talk about the advantages of this choice here or put it in an appendix?}
 
-Third, we note that each category of observational systematic error contributes to $Z$. In cases where the errors are presumed independent, the $Z^2$ values can be summed (i.e., $Z$ obeys root-sum-square or RSS addition), and the ``top-level'' budget for $Z$ can be broken down into contributions from different sources. If a source of observational systematic is parameterized by a single parameter $p$ (e.g., overall shear calibration), then a requirement on knowledge of $p$ can be obtained by computing the sensitivity $d{\bf C}/dp$ and setting
+Third, we note that each category of observational systematic error contributes to $Z$. In cases where the errors are presumed independent, the $Z^2$ values can be summed (i.e., $Z$ obeys root-sum-square or RSS addition), and the ``top-level'' budget for $Z$ can be broken down into contributions from different sources. If a source of observational systematic is parameterized by a parameter $p$ (e.g., overall shear calibration), then a requirement on knowledge of $p$ can be obtained by computing the sensitivity $d{\bf C}/dp$ and setting
 \begin{equation}
 \sqrt{\frac{d{\bf C}}{dp} \Delta p \cdot {\boldsymbol\Sigma}^{-1} \frac{d{\bf C}}{dp} \Delta p}
-\label{eq:zcont}
 \end{equation}
 equal to the allocation for $Z$ from that contribution. An important aspect of this budgeting is that, like a requirements flowdown, it is {\em hierarchical} -- a top-level requirement on observational systematics may contain an allocation for shear calibration (one of several contributions), which itself may contain a branch for PSF size (one of several contributions), which itself may contain a branch for detector non-linearity, etc. In the life cycle of a cosmology project, more detail will be filled in first on the branches that have hardware impacts, and then branches related to algorithms or simulations later on.
 
-\subsubsection{Implementation for additive and multiplicative biases}
-\label{ss:add_mult}
+\chris{Lots of references to the appendix; need to clean that up so it contains only the needed information}
 
-The cosmic shear measurement is sensitive to two major types of
-measurement errors. {\em Additive bias} or ``spurious shear'' is a
-shear signal that is detected even when none is present. {\em
-Multiplicative bias} or ``calibration bias'' is an incorrect response
-to a real shear, e.g.\ a shear $\gamma$ is present in the sky but the
-measurement yields 1.01$\gamma$. Normally, we think of additive biases
-as resulting from mis-estimation of the PSF ellipticity (or its
-variation across the sky), whereas multiplicative biases result from
-mis-estimation of the size of the PSF. However, detector
-nonlinearities, approximations used in the data processing/analysis
-pipelines, and uncertainties about the distribution of galaxy
-morphologies in the sky can also contribute to both types of
-biases. These biases produce an effect on the observed shear:
-\begin{equation}
-\gamma({\boldsymbol\theta},z;{\rm obs}) = [1+m(z)] \gamma({\boldsymbol\theta},z;{\rm true}) + c({\boldsymbol\theta},z),
-\label{eq:gmod}
-\end{equation}
-where $m$ is the multiplicative bias parameter (possibly
-redshift-dependent) and $c$ is the additive bias field. The $E$-mode
-shear cross-power spectrum between two redshift bins $z_i$ and $z_j$
-is modified in the presence of these biases:
-\begin{equation}
-C_\ell^{z_i,z_j}({\rm obs}) = (1+m_i)(1+m_j)C_\ell^{z_i,z_j}({\rm true}) + C_\ell^{c_i,c_j},
-\label{eq:mod}
-\end{equation}
-where we write $m_i\equiv m(z_i)$ as a shorthand. To linear order in
-the biases, the correction to the power spectrum can be written as
-\begin{equation}
-\Delta C_\ell^{z_i,z_j} %= C_\ell^{z_i,z_j}({\rm obs}) - C_\ell^{z_i,z_j}({\rm true}) 
-= (m_i+m_j)C_\ell^{z_i,z_j}+C_\ell^{c_i,c_j}.
-\label{eq:Delta C}
-\end{equation}
+\chris{need to write something describing how we get from shear power spectrum down to caring about galaxy shapes and then Zernikes; also describe in very simple terms what the S-factor is}
 
-The top-level requirement on observational systematics can then be broken into contributions for multiplicative biases and additive biases in each angular ($\ell$) bin. The SRD allocated -- in an RSS sense -- 25\% of the top-level budget on $Z$ to additive biases and 25\% to multiplicative biases. This can be done straightforwardly using Eq.~(\ref{eq:zcont}) {\em if} the correct angular and redshift dependence for each template is known and the systematic can be parameterized in terms of a single amplitude parameter $p$. Unfortunately, different underlying sources of error will lead to different angular and redshift dependences, and we must have a way to capture this in the requirements framework. We have chosen a 2-fold approach: for {\em angular} dependences of the additive shear, we have split in-band additive shear biases into 4 bins ($\log_{10}\ell = 1.5-2.0$, $2.0-2.5$, $2.5-3.0$, and $3.0-3.5$), each receiving 25\% of the additive shear budget (i.e., 6.25\% of the top-line budget on $Z$). The additive shear can thus be written as
-\begin{equation}
-C_\ell^{c_ic_j} = A_0^2 w_i w_j T_\ell,
-\end{equation}
-where $\ell(\ell+1)T_\ell/(2\pi)$ is a top-hat (constant for $\ell_{\rm min}\le \ell<\ell_{\rm max}$) and with the normalization set to $\sum_\ell (2\ell+1)T_\ell/(4\pi) = 1$. Here $i$ and $j$ represent redshift bin indices and $w_i$ indicates the redshift dependence of the additive shear. In this way, the total additive shear in redshift bin $i$ is $A_0w_i$ RMS per component. We normalize this redshift dependence so that $\max |w_i|=1$ (i.e., the additive shear in the worst redshift bin is $A_0$ RMS per component). The amount of additive shear variance is controlled by the parameter $p = A_0^2$. We have not incorporated an angular dependence for the multiplicative shear, so we set $m_i=w_ip$ for the multiplicative shear case. \verify{[there are some technicalities about this, but I don't think they affect the engineering]}
-
-We handle the {\em redshift} dependence of the systematic errors by first computing requirements for redshift-independent additive or multiplicative systematics ($w_i=1$). We then define a {\em scaling factor} for any other redshift dependence $w_i$:
-\begin{equation}
-S[{\bf w}] = \frac{Z \,{\rm for\,this\,}w_i}{Z\,{\rm for\,all\,}w_i=1}.
-\end{equation}
-A systematic that is ``made worse'' by its redshift dependence will have $S>1$, and a systematic that is ``made less serious'' by its redshift dependence will have $S<1$. The WFIRST SRD thus contains requirements on the additive shear bias in each of the 4 bins, and the multiplicative shear bias, but with the caveat that each source of systematic must have its scaling factor computed before comparison to a requirement.\footnote{If truly nothing can be said about the redshift dependence of a systematic, one could use the maximum possible values of the $S$-factor. Because $S[{\bf w}]$ is a positive-definite quadratic function of ${\bf w}$, one can simply search the corners of the $N$-dimensional hypercube $|w_i|<1$. However, we have not run into this situation, since usually if one understands the physics underlying an effect well enough to write a requirement, one can predict how it might scale with redshift.} These limits are shown in Table~\ref{tab:addbands}.
-
-\chris{Due to the small area of our simulations, I don't think this paper should get into checking the $S$-factors in simulations. There is enough content as it is.}
-
-\begin{table*}
-\caption{The allocations and bands used for the additive systematic errors (top part of table) and the multiplicative systematic errors. There are $N_{\rm band}=4$ bands ranging over a total signal band from $1.5\le \log_{10} \ell<3.5$. The fraction of the error budget allocated to each band is also indicated, as are the maximum allowed redshift-independent spurious shear ($A_0^{\rm flat}(\alpha)$, RMS per component), and the maximum scaling factors for redshift dependence, $S_{\rm max,\pm}(\alpha)$ and $S_{\rm max,+}(\alpha)$ (the former allowing arbitrary redshift dependence, i.e., any $w_i$ subject to $\max |w_i|=1$, and the latter restricting the redshift dependence to not change sign as a function of redshift, i.e., $0\le w_i\le 1$).
-\label{tab:addbands}}
-\center{
-\begin{tabular}{r|rrc|c|rr}
-\hline\hline
-\multicolumn7c{Additive shear systematics} \\
-Band $\alpha$ & $\ell_{\rm min}(\alpha)$ & $\ell_{\rm max}(\alpha)$ & Allocation $Z(\alpha)$ & Requirement on $A_0(\alpha)$ & $S_{\rm max,\pm}(\alpha)$ & $S_{\rm max,+}(\alpha)$ \\ \hline
-~ & ~ & ~ & ~ & for $z$-indep.\ ($w_i=1$) & ~ & ~ \\ \hline
-0 & 31 & 99 & 0.2500 & $6.791\times 10^{-5}$ &  8.876 &  2.878 \\
-1 & 100 & 315 & 0.2500 & $9.697\times 10^{-5}$ &  5.862 &  2.100 \\
-2 & 316 & 999 & 0.2500 & $1.360\times 10^{-4}$ &  3.712 &  1.544 \\
-3 & 1000 & 3161 & 0.2500 & $1.855\times 10^{-4}$ &  2.193 &  1.166 \\
-\hline
-\multicolumn7c{Multiplicative shear systematics} \\
-~ & ~ & ~ & Allocation $Z$ & Requirement on $m$ & $S_{\rm max,\pm}(\alpha)$ & $S_{\rm max,+}(\alpha)$ \\ \hline
-~ & ~ & ~ & ~ & for $z$-indep.\ ($w_i=1$) & ~ & ~ \\ \hline
-~ & ~ & ~ & 0.5000 & ? & ? & ? \\
-\hline\hline
-\end{tabular}
-}
-\end{table*}
-
-The next step in the hierarchy of the requirements flowdown is to build sub-allocations for the additive and multiplicative shear budgets. The contribution considered here is uncertainty in the wavefront model for WFIRST (there are others, associated with, e.g., detector effects and algorithm issues, but these are outside the scope of this paper).  As noted in \S\ref{ss:req-overview}, this involves two pieces, an understanding of how shear biases depend on the wavefront (what are $\partial c/\partial\psi_j$ and $\partial m/\partial\psi_j$, where $c$ and $m$ are the shear biases, and $\psi_j$ is a Zernike mode of the wavefront) and a requirement on the knowledge of the Zernike modes. The scope of this paper is concerned specifically with the sensitivities $\partial c/\partial\psi_j$ and $\partial m/\partial\psi_j$.
-
-% {\em If} the additive and multiplicative biases were redshift-independent, this would imply an allocation of .
-%The construction of $Z$-values for each angular band and each additive systematic is mathematically sufficient to build the error budget. However, they can be difficult to conceptualize. Therefore, we introduce some equivalent notation to describe the WL error budget. For each angular template, we introduce a limiting amplitude $A_0^{\rm flat}(\alpha)$, defined to be the amplitude $A_0$ at which we would saturate the requirement on $Z(\alpha)$ for bin $\alpha$ in the case of a redshift-independent systematic $w_i=1\,\forall i$. That is, if the additive systematics did not depend on redshift, we could tolerate a total additive systematic shear of $A_0^{\rm flat}$ (RMS per component) in band $\alpha$. We also introduce a scaling factor $S[{\bf w},\alpha]$ for a systematic error
-%\chris{need to write something describing how we get from shear power spectrum down to caring about galaxy shapes and then Zernikes; also describe in very simple terms what the S-factor is}
-
-\subsection{Mapping from wavefront error to shear systematics -- analytic approach}
+\subsection{Mapping from wavefront error to galaxy ellipticities -- analytic approach}
 \label{ss:dedZ}
 
-\subsubsection{Overview of approach}
-
-Given the limited schedule in preparation for the WFIRST SRR, we used an an analytic approach to estimate the sensitivities $\partial c/\partial X$ and $\partial m/\partial X$, where $X$ is any underlying parameter affecting the PSF. Some of the previous approaches to this problem \verify{[cite]} had been based on second moments of the PSF, however both the galaxy profiles and (from space) the PSF are strongly non-Gaussian and their second moments add in a non-trivial way, so we attempted one additional level of sophistication. The modeling was based on convolving a simple model PSF (the square of the Fourier transform of an annular pupil with the specified wavefront, following ``textbook'' methods \verify{[cite Born \& Wolf]}) with an exponential profile galaxy. This galaxy could be circular, with some half-light radius $r_{\rm eff}$, or it could have an applied shear $\gamma$ to have an axis ratio $e^\gamma:e^{-\gamma}$.\footnote{At higher order, one should take into account that the axis ratio of a sheared object is actually $1+g:1-g$, where $g$ is the reduced shear, but this subtlety should not affect weak lensing PSF determination requirements.} We fit an adaptive second moment Gaussian to the resulting postage stamp \verify{[Bernstein \& Jarvis]}, with no noise, sampling, or detector effects. This process leads to an estimate of the PSF-uncorrected ellipticity components $(e_1^{\rm raw},e_2^{\rm raw})$ for that galaxy and that PSF.
-
-\chris{Move some more details of these models up here.}
-
-The additive shear bias in redshift bin $i$ for component $\mu=1,2$ induced by a knowledge error $\Delta X = X_{\rm true} - X_{\rm model}$ in parameter $X$ is then taken to be
-\begin{equation}
-c_{i,\mu} = \frac{\langle \partial e_\mu^{\rm raw}/\partial X\rangle}{\langle \partial e_\mu^{\rm raw}/\partial \gamma_\mu \rangle} \Delta X,
-\label{eq:cimu}
-\end{equation}
-where the averages are taken over the population of galaxies in redshift bin $i$ (in this case, their distribution of half-light radii \verify{[make sure we describe this distribution from candels]}). The denominator is essentially a shear responsivity factor, and will be denoted ${\cal R}$.
-
-\chris{Describe how we did this for the multiplicative case.}
-
-\subsubsection{Scanning through wavefront parameter space}
-
-Unfortunately, the additive shear sensitivity matrix depends on the specific realization of the static wavefront, because $\langle \partial e_\mu^{\rm raw}\rangle$ is not a linear function of the Zernike amplitudes ${\boldsymbol\psi}$. Indeed, due to symmetries the possible form of $\langle \partial e_\mu^{\rm raw}\rangle$ is restricted, with the result that $\partial \langle \partial e_\mu^{\rm raw}\rangle/\partial\psi_j$ may be suppressed at zero wavefront error (${\boldsymbol\psi}=0$) and be much larger in the realistic case where ${\boldsymbol\psi}\neq 0$ \citep[e.g.][]{2010SPIE.7731E..1EN}. Therefore we must search the entire space of possible wavefront errors ${\boldsymbol\psi}$ -- bounded by the top-level requirement that $|{\boldsymbol\psi}|<92\,$nm -- to find the place where the operator norm is maximized.
-
-The requirement that the PSF inverts (i.e.\ preserves ellipticity and hence spurious shear) under ${\boldsymbol\psi}\rightarrow-{\boldsymbol\psi}$ implies that $\langle \partial e_\mu^{\rm raw}\rangle$ is an even function of ${\boldsymbol\psi}$ (this statement remains true even for an asymmetric pupil, due e.g.\ to the spider). For a circularly symmetric pupil, we find the further restrictions that
-\begin{eqnarray}
-\frac{\langle \partial e_1^{\rm raw}\rangle}{\cal R} &=& C_{fa} \psi_{20} \psi_{22} + C_{sa} \psi_{40} \psi_{22}
-+ C_{cc} (\psi_{31}^2-\psi_{3-1}^2)
-\nonumber \\ && + C_{ct} (\psi_{31}\psi_{33} + \psi_{3-1}\psi_{3-3})
-+ ...~{\rm and}
-\nonumber \\
-\frac{\langle \partial e_2^{\rm raw}\rangle}{\cal R} &=& C_{fa} \psi_{20} \psi_{2-2} + C_{sa} \psi_{40} \psi_{2-2}
-+ 2C_{cc} \psi_{31} \psi_{3-1}
-\nonumber \\ && + C_{ct} (\psi_{31}\psi_{3-3} - \psi_{3-1}\psi_{33})
-+ ...\,,
-\end{eqnarray}
-where we have taken the lowest-order aberrations (focus, astigmatism, coma, trefoil, and spherical) as these dominate the wavefront stability budget. With the wavefront error vector written in this order, ${\boldsymbol\psi} = (\psi_{20}; \psi_{22},\psi_{2-2}; \psi_{31},\psi_{3-1}; \psi_{33},\psi_{3-3}; \psi_{40})$, we find a sensitivity matrix
-\chris{Re-write these equations to be in the usual Zernike order!}
-\begin{eqnarray}
-{\bf M}^{\rm T} &=& \left[ \frac{\langle \partial e_\mu^{\rm raw}\rangle/{\cal R}}{\partial\psi_j} \right]^{\rm T}
-\nonumber \\
-&=& \left( \begin{array}{cc}
-C_{fa}\psi_{22}  & C_{fa}\psi_{2-2} \\
-C_{fa}\psi_{20}+C_{sa}\psi_{40} & 0 \\
-0 & C_{fa}\psi_{20}+C_{sa}\psi_{40} \\
-2C_{cc}\psi_{31}+C_{ct}\psi_{33} & 2C_{cc}\psi_{3-1}+C_{ct}\psi_{3-3} \\
--2C_{cc}\psi_{3-1}+C_{ct}\psi_{3-3} & 2C_{cc}\psi_{31}-C_{ct}\psi_{33} \\
-C_{ct}\psi_{31} & -C_{ct}\psi_{3-1} \\
-C_{ct}\psi_{3-1} & C_{ct}\psi_{31} \\
-C_{sa}\psi_{22} & C_{sa}\psi_{2-2}
-\end{array} \right) \nonumber \\ &&
-\label{eq:TheMatrix}
-\end{eqnarray}
-(we show the transpose here for ease of display).
-
-\chris{Put analytic $C$ coefficients here.}
-
-For error budgeting purposes, we want to know the maximum possible conversion factor from a change in Zernike modes $\Delta{\boldsymbol\psi}$ to a change in $\langle \partial {\bf e}^{\rm raw}\rangle/{\cal R}$. The maximum such conversion factor is given by the maximum singular value of the matrix ${\bf M}$ (this is the ``operator norm'' $\lVert{\bf M}\rVert$ in Banach space language). We thus write the singular value decomposition ${\bf M} = {\bf UDV}^{\rm T}$, where ${\bf U}$ is a $2\times 2$ orthogonal matrix, ${\bf D}$ has 2 diagonal non-negative entries in non-increasing order ($D_{11}\ge D_{22}$) and is otherwise zeroes (and has dimension $2\times N_{\rm Zern}$), and ${\bf V}$ is $N_{\rm Zern}\times N_{\rm Zern}$. Here ${\bf U}$ is simply a rotation of the shear derivative, and due to circular symmetry can be set to the identity by rotating the entire aberration pattern. Thus without loss of generality we can consider cases where ${\bf U}$ is the identity, and then
-\begin{equation}
-\lVert{\bf M} \rVert = \sqrt{ \sum_j \left(\frac1{\cal R} \frac{\partial \langle e_1 \rangle}{\partial\psi_j} \right)^2 }
-= \sqrt{ ({\boldsymbol\Lambda}{\boldsymbol\psi})^{\rm T} {\boldsymbol\Lambda}{\boldsymbol\psi} }
-\le \lVert{\boldsymbol\Lambda} \rVert |{\boldsymbol\psi}|,
-\end{equation}
-where we used the fact that ${\bf M}$ is a linear function of ${\boldsymbol\psi}$ and defined the matrix ${\boldsymbol\Lambda}$ to be the matrix of derivatives of the first row of ${\bf M}$:
-\begin{equation}
-{\boldsymbol\Lambda} = \left( \begin{array}{cccccccc}
-0 & C_{fa} & 0 & 0 & 0 & 0 & 0 & 0 \\
-C_{fa} & 0 & 0 & 0 & 0 & 0 & 0 & C_{sa} \\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 2C_{cc} & 0 & C_{ct} & 0 & 0 \\
-0 & 0 & 0 & 0 & -2C_{cc} & 0 & C_{ct} & 0 \\
-0 & 0 & 0 & C_{ct} & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & C_{ct} & 0 & 0 & 0 \\
-0 & C_{sa} & 0 & 0 & 0 & 0 & 0 & 0
-\end{array} \right),
-\end{equation}
-which has norm
-\begin{equation}
-\lVert {\boldsymbol\Lambda} \rVert = \max \left\{
-\sqrt{C_{fa}^2 + C_{sa}^2}, ~|C_{cc}|+\sqrt{C_{cc}^2+C_{ct}^2}
-\right\}.
-\label{eq:LambdaNorm}
-\end{equation}
-(There are both even-aberration and odd-aberration sectors of this matrix; the operator norm is determined by whichever has greater leverage on the spurious shear. In most cases, the even sector -- the first term -- is dominant.)
-
-Since $C_{fa}$ is usually dominant, we adopt its redshift dependence to determine the weights $w(z_i)$, with the last bin as the reference bin because it is the most heavily contaminated -- the galaxies are smallest in that bin and the $C$-coefficients are largest. However, the weights $w(z_i)$ obtained from $C_{ct}$ (the next largest coefficient) are only slightly different. The scaling factor in the worst angular bin is then $S=0.49$.
-
-We find the greatest contamination is in the $J$-band, where $\lVert{\boldsymbol\Lambda}\rVert = 1.25\times 10^{-5}\,$nm$^{-2}$. With a limit on the total wavefront error of $|{\boldsymbol\psi}({\boldsymbol\theta})|<\psi_{\rm max} = 92\,$nm, we find that the additive shear per component due to errors in the Zernike modes is
-\begin{equation}
-\sqrt{\frac12\sum_{\mu=1}^2 c_\mu^2} \le \frac1{\sqrt2} \lVert{\boldsymbol\Lambda}\rVert \psi_{\rm max} |\Delta{\boldsymbol\psi}|
-= 8.1\times 10^{-4} \,{\rm nm}^{-1}\, |\Delta{\boldsymbol\psi}|.
-\end{equation}
-Given that the requirements in Table~\ref{tab:addbands} give a top-level additive shear error of $2.6\times 10^{-4}$ per component (which rescales to $2.6\times 10^{-4}/\sqrt{0.49} = 3.7\times 10^{-4}$ using $S=0.49$), we can see that an error in the wavefront model of 0.46 nm, if in the worst possible configuration, can use up the entire allocation for additive shear.
-
 \subsection{Limitations of the analytical approach}
-
-While this type of analytic flowdown from a shear error budget to PSF properties is standard, it does have some limitations. These include:
-\begin{itemize}
-\item Interactions of the shape measurement with pixelization, undersampling, and noise are not treated.
-\item It does not treat galaxy shape fitting across multiple exposures, or any information on the observing strategy and PSF changes.
-\item Because the static wavefront error is not a priori known and the tiling strategy is not used, we do not know how the shear errors are distributed across angular scales.
-\item The assumed circular symmetry of the problem is not truly valid in the presence of pixelization, or the correct asymmetric pupil.
-\end{itemize}
-Image simulations offer a way to address all of these issues. By construction, the galaxy images they produce are pixelized at the native pixel scale of WFIRST and are inherently multi-epoch, with each epoch at the correct observatory roll angle. The asymmetric WFIRST pupil can be used as an input to the simulations. A field-dependent static wavefront model has been provided by the WFIRST Project, and the science teams have defined an example tiling strategy at the individual pointing level. The rest of this paper will describe our image simulation suite ({\sc WFIRST-ImSim}), apply it to a study of the sensitivity of galaxy shear errors to the Zernikes, and compare the results to the analytic forecast.
 
 \begin{figure*}
 \begin{center}
@@ -592,10 +412,10 @@ Three high-frequency resonant modes are simulated to represent residual vibratio
 These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_2=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
 
 \subsection{Low-frequency biases}\label{sec:high}
-\assign{Long}
+\verify{Heyang: Do we need to describe the details of the gaussian random field generation process in appendix?}
 
-Describe low-frequency bias cases
-
+Two low-frequency biases are simulated to represent the Zernike coefficients changes caused by thermal drift through exposures. Thermal perturbation propagates to the 4th and 7th Zernike terms ,which we simulate respectively as \emph{OscZ4} and \emph{OscZ7}.
+Here we generate a random time-dependent function $f(t)$ following a power spectrum to quantify  the perturbation of Zernike terms. The form of power spectrum is $P(\nu)=\frac{A}{1+(\nu/\nu_0)^2}$, with $A=\frac{\sigma^2}{\pi\nu_0}$, $\sigma=6nm$, $\nu_0=\frac{1}{2\pi\tau}=3.14\times10^{-4}Hz$ as the time constant $\tau=1hr$. 
 \section{Results}\label{sec:results}
 
 Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which introduces varying levels of bias. 
@@ -630,6 +450,123 @@ For each simulation, we compare the recovered shear to the Fiducial simulation i
 
 We will also represent the changes in $m$ and $b$ as a response to the wavefront error in units of nm. 
 
+\begin{table}
+\label{table:partials}
+\begin{center}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{ |c|c|c| }
+\hline
+\hline
+%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
+Run name & $\partial e_1/\partial\psi$ & $\partial e_2/\partial\psi \\
+\hline
+Fiducial              & -- & --  \\
+Focus                & $-8.7\times 10^{-5} \pm 3.2\times 10^{-6}$ & $-2.5\times 10^{-4} \pm 3.1\times 10^{-6}$  \\
+Astig                 & $-4.5\times 10^{-4} \pm 3.1\times 10^{-6}$ & $-1.0\times 10^{-4} \pm 3.0\times 10^{-6}$  \\
+Coma                & $-1.0\times 10^{-4} \pm 3.2\times 10^{-6}$ & $3.0\times 10^{-6} \pm 3.1\times 10^{-6}$  \\
+GradZ4             & $-8.9\times 10^{-6} \pm 3.0\times 10^{-6}$ & $1.0\times 10^{-4} \pm 2.9\times 10^{-6}$  \\
+GradZ6             & $2.2\times 10^{-4} \pm 2.9\times 10^{-6}$ & $4.4\times 10^{-6} \pm 2.8\times 10^{-6}$  \\
+Piston 		 & $-5.6\times 10^{-5} \pm 4.8\times 10^{-6}$ & $-1.2\times 10^{-4} \pm 4.8\times 10^{-6}$  \\
+Tilt 			& $-3.6\times 10^{-6} \pm 6.3\times 10^{-6}$ & $1.0\times 10^{-5} \pm 6.3\times 10^{-6}$  \\
+IsoJitter 		& $1.2\times 10^{-3} \pm 7.2\times 10^{-3}$ & $1.8\times 10^{-3} \pm 7.0\times 10^{-3}$  \\
+AniJitter 		& $0.29 \pm 6.9\times 10^{-3}$ & $-1.9\times 10^{-3} \pm 6.8\times 10^{-3}$  \\
+RanJitter 	        & $0.049 \pm 3.2\times 10^{-3}$ & $1.7\times 10^{-3} \pm 3.1\times 10^{-3}$  \\
+OscZ4 		 & -- & --  \\
+OscZ7 		&-- & --   \\
+\hline
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}
+\label{table:values}
+\begin{center}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{ |c|c|c|c|c| }
+\hline
+\hline
+%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
+Run name & $m_1$ & $b_1$ & $m_2$ & $b_2$   \\
+\hline
+Fiducial              & $ -0.0756 \pm 0.0019$ & $0.00120 \pm 0.00017$ &  $-0.0940 \pm 0.0019$ & $-0.00157 \pm 0.00016$  \\
+Focus                & $-0.0710 \pm 0.0019 $ & $ 0.00064\pm 0.00017$ & $ -0.0896\pm 0.0019 $ & $-0.00315\pm0.00016$   \\
+Astig                & $-0.076 \pm 0.0019 $ & $-0.00171\pm 0.00017$ & $ -0.0931\pm 0.0019 $ & $-0.00162\pm0.00016$    \\
+Coma                & $-0.0769 \pm 0.0019 $ & $0.00054\pm 0.00017$ & $ -0.0954\pm 0.0019 $ & $-0.00155\pm0.00016$   \\
+GradZ4             & $-0.0783 \pm 0.0019 $ & $0.00115\pm 0.00017$ & $ -0.0966\pm 0.0019 $ & $-0.00090\pm0.00016$   \\
+GradZ6             & $-0.0754 \pm 0.0019 $ & $0.00268\pm 0.00017$ & $ -0.0943\pm 0.0019 $ & $-0.00153\pm0.00016$ \\
+Piston 		 & $-0.0896 \pm 0.0019 $ & $0.00083\pm 0.00016$ & $ -0.1089\pm 0.0019 $ & $-0.00232\pm0.00016$   \\
+Tilt 			& $-0.1133 \pm 0.0019 $ & $0.00116\pm 0.00016$ & $ -0.1303\pm 0.0019 $ & $-0.00149\pm0.00016$   \\
+IsoJitter 		& $-0.1164 \pm 0.0019 $ & $0.00123\pm 0.00016$ & $ -0.1333\pm 0.0018 $ & $-0.00153\pm0.00016$ \\
+AniJitter 		& $-0.0870 \pm 0.0019 $ & $0.00553\pm 0.00016$ & $ -0.1054\pm 0.0019 $ & $-0.00158\pm0.00016$ \\
+RanJitter 	& $-0.0884 \pm 0.0019 $ & $0.00195\pm 0.00016$ & $ -0.1066\pm 0.0019 $ & $-0.00154\pm0.00016$   \\
+OscZ4 		 & -- & --&--&--  \\
+OscZ7 		&-- & -- &--&--  \\
+\hline
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}
+\label{table:bias}
+\begin{center}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{ |c|c|c|c|c| }
+\hline
+\hline
+%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
+Run name & $\triangle m_1\times 10^{3}$ & $\triangle b_1\times 10^{4}$ & $\triangle m_2\times 10^{3}$ & $\triangle b_2\times 10^{4}$   \\
+\hline
+Fiducial              & -- & -- &  -- & --  \\
+Focus                & $4.649 \pm 0.237 $ & $ -5.57\pm 0.238$ & $ 4.358\pm 0.228 $ & $-15.87 \pm 0.304$   \\
+Astig                & $-0.226 \pm 0.241 $ & $ -29.14 \pm 0.301$ & $ 0.901\pm 0.209 $ & $-0.549 \pm 0.189$    \\
+Coma                & $-1.328 \pm 0.259 $ & $ -6.66 \pm 0.262$ & $ -1.469 \pm 0.211 $ & $ 0.224 \pm 0.341$   \\
+GradZ4             & $-2.632 \pm 0.267 $ & $ -0.507\pm 0.210$ & $ -2.515\pm 0.228 $ & $ 6.71 \pm 0.423$  \\
+GradZ6             & $0.216 \pm 0.226 $ & $ 14.72 \pm 0.624$ & $ -0.216\pm 0.226 $ & $ 0.441\pm 0.227$ \\
+Piston 		 & $-13.596 \pm 4.986 $ & $ -3.70 \pm 0.313$ & $ -14.972\pm 5.256 $ & $-7.51 \pm 0.34$   \\
+Tilt 			& $-37.978 \pm 8.044 $ & $ -0.403 \pm 0.382$ & $ -36.629\pm 7.996 $ & $ 0.731 \pm 0.381$   \\
+IsoJitter 		& $-40.797 \pm 8.612 $ & $ 0.244\pm 0.835$ & $ -39.489\pm 8.549 $ & $0.425 \pm 0.905$ \\
+AniJitter 		& $-11.399 \pm 1.057 $ & $43.27 \pm 0.845$ & $ -11.473\pm 0.958 $ & $ -0.132 \pm 0.857$ \\
+RanJitter 	& $-12.820 \pm 4.413 $ & $ 7.50 \pm 0.637$ & $ -12.603\pm 4.099 $ & $ 0.326 \pm 0.431$   \\
+OscZ4 		 & -- & --&--&--  \\
+OscZ7 		&-- & -- &--&--  \\
+\hline
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}
+\label{table:re_dm}
+\begin{center}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{ |c|c|c|c|c| }
+\hline
+\hline
+%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
+Run name & $\triangle m_1/m_{1fid}\times 10^{3}$ & $\triangle m_2/m_{2fid}\times 10^{3}$ & $\triangle b_1/b_{1fid}$ & $\triangle b_2/b_{2fid}$   \\
+\hline
+Fiducial              & -- & -- &  -- & --  \\
+Focus                & $5.029 \pm 0.257 $ &  $ -4.809\pm 0.254 $ & $ -0.462862\pm 0.055216$ & $ 1.01220 \pm 0.111853$   \\
+Astig                & $-2.44 \pm 0.260 $ &  $0.994\pm 0.231 $ & $ -2.420371 \pm 0.291650 $ & $ 0.034980 \pm 0.012969$    \\
+Coma                & $-1.436 \pm 0.281 $ &  $ -1.622 \pm 0.233 $ & $ -0.552890 \pm 0.068065$ & $ -0.014333 \pm 0.021670$   \\
+GradZ4             & $-2.847 \pm 0.289 $ &  $ -2.775\pm 0.251 $ & $ -0.042084 \pm 0.018697$ & $-0.417965 \pm0.051765$  \\
+GradZ6             & $ 0.233 \pm 0.244 $ &  $ -0.337\pm 0.236 $ & $ 1.222809 \pm 0.160794$ & $ -0.026453 \pm 0.014106$ \\
+Piston 		 & $-15.100 \pm 5.402 $ &  $ -16.524\pm 5.805 $ & $ -0.307647 \pm 0.041169$ & $ 0.479172 \pm 0.056785$   \\
+Tilt 			& $-41.084 \pm 8.696 $ & $ -40.428\pm 8.822 $ & $ -0.033508 \pm 0.031404$ & $ -0.046589 \pm 0.002347$   \\
+IsoJitter 		& $-44.134 \pm 9.314 $ & $ -43.584\pm 9.439 $ & $ 0.020227 \pm 0.069474$ & $-0.027127 \pm 0.056551$ \\
+AniJitter 		& $ -12.332 \pm 1.129 $ & $ -12.663\pm 1.050 $ & $ 3.594399 \pm 0.441964$ & $ 0.00838 \pm 0.054719$ \\
+RanJitter 	& $-13.869 \pm 4.774 $ & $ -13.911\pm 4.525 $ & $ 0.622797 \pm 0.095830$ & $ -0.020775 \pm 0.027366$   \\
+OscZ4 		 & -- & --&--&--  \\
+OscZ7 		&-- & -- &--&--  \\
+\hline
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
+
+
 \subsection{Spatially-Correlated biases}
 
 We are also interested in the spatial correlation of any biases, since this will propagate into the measured shear correlation functions. ...
@@ -649,170 +586,6 @@ This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supe
 \appendix
 
 \begin{widetext}
-
-\section{Data vector and covariance model}
-\label{sec:datamodel}
-
-\chris{I think the tools used here are basically obsolete, there are several that are better. but they were what was available in $\sim$2014/5 when much of this work was done. I will shorten the section accordingly.}
-
-We use for our data vector the $N_\ell N_z(N_z+1)/2$ power spectra and
-cross-spectra. Each $\ell$ is treated separately, so there are
-$N_\ell=\ell_{\rm max,tot}-\ell_{\rm min,tot}$ angular bins; we use
-$\ell_{\rm min,tot}=10$ and $\ell_{\rm max,tot}=3161$, thereby
-covering 2.5 orders of magnitude in scale. WFIRST provides little
-cosmological constraining power at the larger scales due both to the
-finite size of its survey and due to the large cosmic variance of the
-lowest multipoles. The smallest scales are generally not used in
-cosmic shear analyses because the baryonic effects are severe (e.g.\
-\cite{2008PhRvD..77d3507Z, 2013PhRvD..87d3509Z}). We use $N_z=15$
-redshift slices, as shown in Table~\ref{tab:dNdz}. In order to ensure
-that WFIRST would not become systematics-limited in an extended
-mission, we set the top-level requirement on systematics to $Z=1$ for
-a survey of area $\Omega =10^4$ deg$^2$ (3.05 sr).
-
-The power spectra were obtained from {\sc Class}
-\cite{2011JCAP...07..034B} using the fiducial cosmology from the
-{\slshape Planck} 2015 ``TT,TE,EE+lowP+lensing+ext'' results
-\citep{2016A&A...594A..13P}. The shape noise contribution was added to
-construct ${\bf C}^{\rm tot}$ according to
-\begin{equation}
-C^{{\rm tot},z_i,z_j}_\ell = C^{z_i,z_j}_\ell + \frac{\gamma_{\rm rms}^2}{\bar n_i}\delta_{ij},
-\end{equation}
-where $\bar n_i$ is the mean effective number density in galaxies per
-steradian in redshift slice $i$, and $\gamma_{\rm rms}$ is the shape
-noise expressed as an equivalent RMS shear per component; we take
-$\gamma_{\rm rms} = 0.22$.
-
-We approximate ${\boldsymbol\Sigma}$ using the usual Gaussian
-covariance matrix formula,
-\begin{equation}
-\Sigma[C^{z_i,z_j}_\ell, C^{z_k,z_m}_{\ell'}] = \frac{1}{(2\ell+1)f_{\rm sky}} \delta_{\ell\ell'} [ C^{{\rm tot},z_i,z_k}_\ell C^{{\rm tot},z_j,z_m}_\ell + C^{{\rm tot},z_i,z_m}_\ell C^{{\rm tot},z_j,z_k}_\ell],
-\label{eq:SGauss}
-\end{equation}
-where $f_{\rm sky} = \Omega/(4\pi)$.  The non-Gaussian contributions
-to the error covariance matrix are turned off, because since the
-FoMSWG \cite{2009arXiv0901.0721A} there has been an ongoing program of
-using nonlinear transformations on the data to remove them (e.g.\
-\cite{2009ApJ...698L..90N, 2011ApJ...729L..11S}) and
-we do not want applications of these novel statistics to WFIRST data
-to run into systematic error limits. We also turn off astrophysical
-systematic errors (e.g.\ intrinsic alignments and baryonic
-corrections): we do not want to define a weak requirement on WFIRST
-based on the expectation that astrophysical systematics will be large
-enough to swamp the observational contribution.
-
-The formal length of the data vector ${\bf C}$ is 378240. However, the
-inversion of Eq.~(\ref{eq:SGauss}) is accelerated by two realizations:
-first, that each $\ell$ is independent, so that ${\boldsymbol\Sigma}$
-is block-diagonal and the contributions of each $\ell$ to $Z^2$ can be
-linearly summed. Secondly, the particular form of
-Eq.~(\ref{eq:SGauss}) allows us to write\footnote{This equation is
-trivially verified by forming, for each $\ell$, linear combinations of
-the redshift slices that diagonalize ${\bf C}^{\rm tot}_\ell$.}
-\begin{equation}
-\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
- = \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
- \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
- \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
-\label{eq:sprodform}
-\end{equation}
-where the matrix inverses are $N_z\times N_z$.
-
-\begin{table}
-\caption{The effective number density in each redshift bin, in units of galaxies/arcmin$^{2}$, used for setting requirements. These are {\em per bin}, i.e.\ are $dn_{\rm eff}/dz\times\Delta z$. 
-\label{tab:dNdz}}
-\center{
-\begin{tabular}{cc|cc|cc}
-\hline\hline
-$z$ & $n_{\rm eff}$ & $z$ & $n_{\rm eff}$ & $z$ & $n_{\rm eff}$ \\
-\hline
-$0.10\pm0.10$ & 3.73 & $1.10\pm0.10$ & 3.95 & $2.10\pm0.10$ & 1.41 \\
-$0.30\pm0.10$ & 2.26 & $1.30\pm0.10$ & 3.37 & $2.30\pm0.10$ & 1.04 \\
-$0.50\pm0.10$ & 3.23 & $1.50\pm0.10$ & 2.75 & $2.50\pm0.10$ & 0.90 \\
-$0.70\pm0.10$ & 6.26 & $1.70\pm0.10$ & 1.55 & $2.70\pm0.10$ & 0.76 \\
-$0.90\pm0.10$ & 2.99 & $1.90\pm0.10$ & 1.83 & $2.90\pm0.10$ & 0.24 \\
-\hline\hline
-\end{tabular}
-}
-\end{table}
-
-
-\chris{--- END OF CURRENT TEXT --- \\ --- EVERYTHING BELOW HERE IS SCRATCH MATERIAL THAT I INTEND TO PULL UP INTO APPENDICES OR THE MAIN TEXT, OR REMOVE FROM THE FINAL PAPER ---}
-
-
-\section{Implementation for additive and multiplicative systematics}
-\label{app:implementation}
-
-\subsubsection{Implementation: additive systematics}
-\label{ss:implement-add}
-
-
-Each additive systematic error is taken to have an angular dependence
-given by some template $T_\ell$, and a redshift dependence given by a
-set of weights $w_i=w(z_i)$. That is, there is a reference additive
-shear $c_{\rm ref}$, with the additive shear in redshift bin $i$ given
-by $c(z_i) = w_ic_{\rm ref}$. For example, a systematic error
-independent of redshift bin would be specified with $w_i=1$ for all
-$i$. The reference signal is taken to have a power spectrum
-proportional to the template: $C_\ell^{c_{\rm ref}} = A_0^2T_\ell$,
-and the template is normalized so that $c_{\rm ref}$ has variance 1
-per component (from in-band fluctuations):
-\begin{equation}
-\sum_{\ell=\ell_{\rm min,tot}}^{\ell_{\rm max,tot}} \frac{2\ell+1}{4\pi} T_\ell = 1.
-\label{eq:Tlsum}
-\end{equation}
-The additive cross-power spectrum is then
-\begin{equation}
-C_\ell^{c_i,c_j} = A_0^2 w_iw_jT_\ell,
-\end{equation}
-and the total RMS per component of the spurious shear in bin $i$ is $A_0|w_i|$.
-
-The additive systematic errors can have various scale dependences. We
-therefore consider a suite of $N_{\rm band}$ disjoint angular
-templates that cover the shape measurement band. Each template
-satisfies the normalization rule, Eq.~(\ref{eq:Tlsum}), and has
-$\ell(\ell+1)T_\ell/(2\pi)=$constant:
-\begin{equation}
-T_\ell^{(\alpha)} = \left[ \sum_{\ell'=\ell_{\rm min}(\alpha)}^{\ell_{\rm max}(\alpha)} \frac{2\ell'+1}{\ell'(\ell'+1)} \right]^{-1} \frac{4\pi}{\ell(\ell+1)}
-\times\left\{ \begin{array}{cc} 1 & \ell_{\rm min}(\alpha)\le\ell\le\ell_{\rm max}(\alpha) \\ 0 & {\rm otherwise} \end{array} \right.\!,~\alpha=0,1,...N_{\rm band}-1.
-\end{equation}
-The current bands are displayed in Table~\ref{tab:addbands}. Each band
-$\alpha$ is allowed a contribution to the total error
-$Z(\alpha)$. Since there are no statistical correlations between
-different $\ell$s in the covariance matrix ${\bf\Sigma}$, the
-$Z(\alpha)$ can be quadrature-summed (see
-Eq.~\ref{eq:alpha}). However, additive systematic error is positive in
-the sense that it adds rather than subtracts power; thus the power
-spectrum error vectors $\Delta{\bf C}$ from two sources of additive
-systematic error contributing to the same angular bin are not
-orthogonal and the $Z$'s should be added linearly. Another way to
-think of this is that since $Z$ is proportional to the square of the
-RMS shear, $Z\propto A_0^2$, quadrature-summation of the additive
-shear is equivalent to linear summation of the $Z$-values.
-
-\chris{removed $S$-factor description}
-
-In most cases, we will take the ``reference'' additive shear to be the
-additive shear in the most contaminated redshift slice; in this case,
-$w_i=1$ for that slice, and $|w_i|\le 1$ for the others. Under such
-circumstances, we can determine a {\em worst-case scaling factor}
-$S_{\rm max,\pm}(\alpha)$, which is the largest value of $S[{\bf
-w},\alpha]$ for any weights satisfying the above inequality. We may
-also determine a worst-case scaling factor $S_{\rm max,+}(\alpha)$
-conditioned on $0\le w_i\le 1$, i.e.\ for sources of additive shear
-that have the same sign in all redshift bins. The search within these
-spaces is simplified by the fact that -- according to
-Eq.~(\ref{eq:sprodform}) -- the contribution to $S[{\bf w},\alpha]$
-considering only a single value of $\ell$ reduces to a
-semi-positive-definite quadratic function of $w$. Therefore the
-worst-case weights $\{w_i\}_{i=1}^{N_z}$ always occur at the corners
-of the allowed cube in $N_z$-dimensional ${\bf w}$-space, and we can
-simply search the $2^{N_z}$ corners by brute force.
-
-\subsubsection{Implementation: multiplicative systematics}
-\label{ss:implement-mult}
-
-\chris{write this}
 
 \chris{assorted material on analytic flowdown here. this is material from the appendices the WFI Calibration Plan (the relevant parts were written by me, with some commentary from people I should add to the acknowledgements), with data from the wlrequirements github. this was a Phase A snapshot. We can talk about whether numbers should be updated, but my inclination is *not* to do so and just identify the version, since requirements don't update when we revise, e.g., the galaxy population or instrument model (if they do need updating, we should tell the project). I will also clean up some of the references and broken links in here. many can be made shorter in this document than the calibration plan as they refer to standard WL stuff we can just cite. I plan to do some cleanup of this in the next few days, if you want to wait until that is done to read go ahead.}
 
@@ -840,6 +613,41 @@ into the ``additive'' or ``multiplicative'' forms (see
 \S\ref{ss:add_mult}) and will be treated according to the formalism
 therein. Other sources of systematic error will be treated in their
 own dedicated sections.
+
+\subsection{Additive and multiplicative biases}
+\label{ss:add_mult}
+
+The cosmic shear measurement is sensitive to two major types of
+measurement errors. {\em Additive bias} or ``spurious shear'' is a
+shear signal that is detected even when none is present. {\em
+Multiplicative bias} or ``calibration bias'' is an incorrect response
+to a real shear, e.g.\ a shear $\gamma$ is present in the sky but the
+measurement yields 1.01$\gamma$. Normally, we think of additive biases
+as resulting from mis-estimation of the PSF ellipticity (or its
+variation across the sky), whereas multiplicative biases result from
+mis-estimation of the size of the PSF. However, detector
+nonlinearities, approximations used in the data processing/analysis
+pipelines, and uncertainties about the distribution of galaxy
+morphologies in the sky can also contribute to both types of
+biases. These biases produce an effect on the observed shear:
+\begin{equation}
+\gamma({\boldsymbol\theta},z;{\rm obs}) = [1+m(z)] \gamma({\boldsymbol\theta},z;{\rm true}) + c({\boldsymbol\theta},z),
+\label{eq:gmod}
+\end{equation}
+where $m$ is the multiplicative bias parameter (possibly
+redshift-dependent) and $c$ is the additive bias field. The $E$-mode
+shear cross-power spectrum between two redshift bins $z_i$ and $z_j$
+is modified in the presence of these biases:
+\begin{equation}
+C_\ell^{z_i,z_j}({\rm obs}) = (1+m_i)(1+m_j)C_\ell^{z_i,z_j}({\rm true}) + C_\ell^{c_i,c_j},
+\label{eq:mod}
+\end{equation}
+where we write $m_i\equiv m(z_i)$ as a shorthand. To linear order in
+the biases, the correction to the power spectrum can be written as
+\begin{equation}
+\Delta C_\ell^{z_i,z_j} = C_\ell^{z_i,z_j}({\rm obs}) - C_\ell^{z_i,z_j}({\rm true}) = (m_i+m_j)C_\ell^{z_i,z_j}+C_\ell^{c_i,c_j}.
+\label{eq:Delta C}
+\end{equation}
 
 \subsection{Setting requirements}
 
@@ -935,6 +743,201 @@ systematic error. Finally, some portions of the systematic error
 budget sum in quadrature (``root-sum-square'' or RSS addition) and
 others linearly; in this document, we carefully account for which is
 which.
+
+\subsubsection{Data vector and covariance model}
+
+\chris{I think the tools used here are basically obsolete, there are several that are better. but they were what was available in $\sim$2014/5 when much of this work was done. I will shorten the section accordingly.}
+
+We use for our data vector the $N_\ell N_z(N_z+1)/2$ power spectra and
+cross-spectra. Each $\ell$ is treated separately, so there are
+$N_\ell=\ell_{\rm max,tot}-\ell_{\rm min,tot}$ angular bins; we use
+$\ell_{\rm min,tot}=10$ and $\ell_{\rm max,tot}=3161$, thereby
+covering 2.5 orders of magnitude in scale. WFIRST provides little
+cosmological constraining power at the larger scales due both to the
+finite size of its survey and due to the large cosmic variance of the
+lowest multipoles. The smallest scales are generally not used in
+cosmic shear analyses because the baryonic effects are severe (e.g.\
+\cite{2008PhRvD..77d3507Z, 2013PhRvD..87d3509Z}). We use $N_z=15$
+redshift slices, as shown in Table~\ref{tab:dNdz}. In order to ensure
+that WFIRST would not become systematics-limited in an extended
+mission, we set the top-level requirement on systematics to $Z=1$ for
+a survey of area $\Omega =10^4$ deg$^2$ (3.05 sr).
+
+The power spectra were obtained from {\sc Class}
+\cite{2011JCAP...07..034B} using the fiducial cosmology from the
+{\slshape Planck} 2015 ``TT,TE,EE+lowP+lensing+ext'' results
+\citep{2016A&A...594A..13P}. The shape noise contribution was added to
+construct ${\bf C}^{\rm tot}$ according to
+\begin{equation}
+C^{{\rm tot},z_i,z_j}_\ell = C^{z_i,z_j}_\ell + \frac{\gamma_{\rm rms}^2}{\bar n_i}\delta_{ij},
+\end{equation}
+where $\bar n_i$ is the mean effective number density in galaxies per
+steradian in redshift slice $i$, and $\gamma_{\rm rms}$ is the shape
+noise expressed as an equivalent RMS shear per component; we take
+$\gamma_{\rm rms} = 0.22$.
+
+We approximate ${\boldsymbol\Sigma}$ using the usual Gaussian
+covariance matrix formula,
+\begin{equation}
+\Sigma[C^{z_i,z_j}_\ell, C^{z_k,z_m}_{\ell'}] = \frac{1}{(2\ell+1)f_{\rm sky}} \delta_{\ell\ell'} [ C^{{\rm tot},z_i,z_k}_\ell C^{{\rm tot},z_j,z_m}_\ell + C^{{\rm tot},z_i,z_m}_\ell C^{{\rm tot},z_j,z_k}_\ell],
+\label{eq:SGauss}
+\end{equation}
+where $f_{\rm sky} = \Omega/(4\pi)$.  The non-Gaussian contributions
+to the error covariance matrix are turned off, because since the
+FoMSWG \cite{2009arXiv0901.0721A} there has been an ongoing program of
+using nonlinear transformations on the data to remove them (e.g.\
+\cite{2009ApJ...698L..90N, 2011ApJ...729L..11S}) and
+we do not want applications of these novel statistics to WFIRST data
+to run into systematic error limits. We also turn off astrophysical
+systematic errors (e.g.\ intrinsic alignments and baryonic
+corrections): we do not want to define a weak requirement on WFIRST
+based on the expectation that astrophysical systematics will be large
+enough to swamp the observational contribution.
+
+The formal length of the data vector ${\bf C}$ is 378240. However, the
+inversion of Eq.~(\ref{eq:SGauss}) is accelerated by two realizations:
+first, that each $\ell$ is independent, so that ${\boldsymbol\Sigma}$
+is block-diagonal and the contributions of each $\ell$ to $Z^2$ can be
+linearly summed. Secondly, the particular form of
+Eq.~(\ref{eq:SGauss}) allows us to write\footnote{This equation is
+trivially verified by forming, for each $\ell$, linear combinations of
+the redshift slices that diagonalize ${\bf C}^{\rm tot}_\ell$.}
+\begin{equation}
+\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
+ = \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
+ \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
+ \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
+\label{eq:sprodform}
+\end{equation}
+where the matrix inverses are $N_z\times N_z$.
+
+\begin{table}
+\caption{The effective number density in each redshift bin, in units of galaxies/arcmin$^{2}$, used for setting requirements. These are {\em per bin}, i.e.\ are $dn_{\rm eff}/dz\times\Delta z$. 
+\label{tab:dNdz}}
+\center{
+\begin{tabular}{cc|cc|cc}
+\hline\hline
+$z$ & $n_{\rm eff}$ & $z$ & $n_{\rm eff}$ & $z$ & $n_{\rm eff}$ \\
+\hline
+$0.10\pm0.10$ & 3.73 & $1.10\pm0.10$ & 3.95 & $2.10\pm0.10$ & 1.41 \\
+$0.30\pm0.10$ & 2.26 & $1.30\pm0.10$ & 3.37 & $2.30\pm0.10$ & 1.04 \\
+$0.50\pm0.10$ & 3.23 & $1.50\pm0.10$ & 2.75 & $2.50\pm0.10$ & 0.90 \\
+$0.70\pm0.10$ & 6.26 & $1.70\pm0.10$ & 1.55 & $2.70\pm0.10$ & 0.76 \\
+$0.90\pm0.10$ & 2.99 & $1.90\pm0.10$ & 1.83 & $2.90\pm0.10$ & 0.24 \\
+\hline\hline
+\end{tabular}
+}
+\end{table}
+
+\subsubsection{Implementation: additive systematics}
+\label{ss:implement-add}
+
+\begin{table}
+\caption{The bands used for the additive systematic errors. There are $N_{\rm band}=5$ bands ranging over a total signal band from $\ell_{\rm min,tot}=10$ to $\ell_{\rm max,tot}=3161$. The fraction of the error budget allocated to each band is also indicated, as are the maximum allowed redshift-independent spurious shear ($A_0^{\rm flat}(\alpha)$, RMS per component), and the maximum scaling factors for redshift dependence, $S_{\rm max,\pm}(\alpha)$ and $S_{\rm max,+}(\alpha)$.
+\label{tab:addbands}}
+\center{
+\begin{tabular}{r|rrc|c|rr}
+\hline\hline
+Band $\alpha$ & $\ell_{\rm min}(\alpha)$ & $\ell_{\rm max}(\alpha)$ & Allocation $Z(\alpha)$ & $A_0^{\rm flat}(\alpha)$ & $S_{\rm max,\pm}(\alpha)$ & $S_{\rm max,+}(\alpha)$ \\ \hline
+0 & 31 & 99 & 0.2500 & $6.791\times 10^{-5}$ &  8.876 &  2.878 \\
+1 & 100 & 315 & 0.2500 & $9.697\times 10^{-5}$ &  5.862 &  2.100 \\
+2 & 316 & 999 & 0.2500 & $1.360\times 10^{-4}$ &  3.712 &  1.544 \\
+3 & 1000 & 3161 & 0.2500 & $1.855\times 10^{-4}$ &  2.193 &  1.166 \\
+\hline\hline
+\end{tabular}
+}
+\end{table}
+
+Each additive systematic error is taken to have an angular dependence
+given by some template $T_\ell$, and a redshift dependence given by a
+set of weights $w_i=w(z_i)$. That is, there is a reference additive
+shear $c_{\rm ref}$, with the additive shear in redshift bin $i$ given
+by $c(z_i) = w_ic_{\rm ref}$. For example, a systematic error
+independent of redshift bin would be specified with $w_i=1$ for all
+$i$. The reference signal is taken to have a power spectrum
+proportional to the template: $C_\ell^{c_{\rm ref}} = A_0^2T_\ell$,
+and the template is normalized so that $c_{\rm ref}$ has variance 1
+per component (from in-band fluctuations):
+\begin{equation}
+\sum_{\ell=\ell_{\rm min,tot}}^{\ell_{\rm max,tot}} \frac{2\ell+1}{4\pi} T_\ell = 1.
+\label{eq:Tlsum}
+\end{equation}
+The additive cross-power spectrum is then
+\begin{equation}
+C_\ell^{c_i,c_j} = A_0^2 w_iw_jT_\ell,
+\end{equation}
+and the total RMS per component of the spurious shear in bin $i$ is $A_0|w_i|$.
+
+The additive systematic errors can have various scale dependences. We
+therefore consider a suite of $N_{\rm band}$ disjoint angular
+templates that cover the shape measurement band. Each template
+satisfies the normalization rule, Eq.~(\ref{eq:Tlsum}), and has
+$\ell(\ell+1)T_\ell/(2\pi)=$constant:
+\begin{equation}
+T_\ell^{(\alpha)} = \left[ \sum_{\ell'=\ell_{\rm min}(\alpha)}^{\ell_{\rm max}(\alpha)} \frac{2\ell'+1}{\ell'(\ell'+1)} \right]^{-1} \frac{4\pi}{\ell(\ell+1)}
+\times\left\{ \begin{array}{cc} 1 & \ell_{\rm min}(\alpha)\le\ell\le\ell_{\rm max}(\alpha) \\ 0 & {\rm otherwise} \end{array} \right.\!,~\alpha=0,1,...N_{\rm band}-1.
+\end{equation}
+The current bands are displayed in Table~\ref{tab:addbands}. Each band
+$\alpha$ is allowed a contribution to the total error
+$Z(\alpha)$. Since there are no statistical correlations between
+different $\ell$s in the covariance matrix ${\bf\Sigma}$, the
+$Z(\alpha)$ can be quadrature-summed (see
+Eq.~\ref{eq:alpha}). However, additive systematic error is positive in
+the sense that it adds rather than subtracts power; thus the power
+spectrum error vectors $\Delta{\bf C}$ from two sources of additive
+systematic error contributing to the same angular bin are not
+orthogonal and the $Z$'s should be added linearly. Another way to
+think of this is that since $Z$ is proportional to the square of the
+RMS shear, $Z\propto A_0^2$, quadrature-summation of the additive
+shear is equivalent to linear summation of the $Z$-values.
+
+The allocations for each bin $Z(\alpha)$ have been set to
+$\sqrt{0.25/N_{\rm band}}$, so that in an RSS sense 25\%\ of the
+systematic error budget is allocated to additive shear.
+
+The construction of $Z$-values for each angular band and each additive
+systematic is mathematically sufficient to build the error
+budget. However, they can be difficult to conceptualize. Therefore, we
+introduce some equivalent notation to describe the WL error
+budget. For each angular template, we introduce a limiting amplitude
+$A_0^{\rm flat}(\alpha)$, defined to be the amplitude $A_0$ at which
+we would saturate the requirement on $Z(\alpha)$ for bin $\alpha$ in
+the case of a redshift-independent systematic $w_i=1\,\forall i$. That
+is, if the additive systematics did not depend on redshift, we could
+tolerate a total additive systematic shear of $A_0^{\rm flat}$ (RMS
+per component) in band $\alpha$. We also introduce a scaling factor
+$S[{\bf w},\alpha]$ for a systematic error
+\begin{equation}
+S[{\bf w},\alpha] = \frac{Z(\alpha) \,{\rm for\,this\,}w_i}{Z(\alpha)\,{\rm for\,all\,}w_i=1}
+\end{equation}
+that depends on the redshift dependence $w_i$. An additive systematic error that is independent of redshift will have $S=1$. A systematic that is ``made worse'' by its redshift dependence will have $S>1$, and a systematic that is ``made less serious'' by its redshift dependence will have $S<1$. The requirement that the (linear) sum of $Z$s not exceed $Z(\alpha)$ thus translates into
+\begin{equation}
+\sum_{\rm systematics} [A(\alpha)]^2\times S[{\bf w},\alpha] \le [A_0^{\rm flat}(\alpha)]^2,
+\label{eq:A-S-sum}
+\end{equation}
+where $A(\alpha)$ is the RMS additive shear per component due to that systematic.
+
+In most cases, we will take the ``reference'' additive shear to be the
+additive shear in the most contaminated redshift slice; in this case,
+$w_i=1$ for that slice, and $|w_i|\le 1$ for the others. Under such
+circumstances, we can determine a {\em worst-case scaling factor}
+$S_{\rm max,\pm}(\alpha)$, which is the largest value of $S[{\bf
+w},\alpha]$ for any weights satisfying the above inequality. We may
+also determine a worst-case scaling factor $S_{\rm max,+}(\alpha)$
+conditioned on $0\le w_i\le 1$, i.e.\ for sources of additive shear
+that have the same sign in all redshift bins. The search within these
+spaces is simplified by the fact that -- according to
+Eq.~(\ref{eq:sprodform}) -- the contribution to $S[{\bf w},\alpha]$
+considering only a single value of $\ell$ reduces to a
+semi-positive-definite quadratic function of $w$. Therefore the
+worst-case weights $\{w_i\}_{i=1}^{N_z}$ always occur at the corners
+of the allowed cube in $N_z$-dimensional ${\bf w}$-space, and we can
+simply search the $2^{N_z}$ corners by brute force.
+
+\subsubsection{Implementation: multiplicative systematics}
+\label{ss:implement-mult}
+
+\chris{write this}
 
 \subsection{Flow-down to PSF requirements}
 
@@ -1511,89 +1514,5 @@ budget is taken up for $\sigma_{\rm wfe-jitter}=3.63$ nm rms.
 \bibliography{short}
 
 \label{lastpage}
-
-\cmnt{
-In order to translate a requirement on spurious shear $c$ into
-requirements on lower-level quantities, we need to know how a given
-effect -- e.g.\ an error in the PSF model -- affects the shear
-measurement. In principle this depends on the shape measurement
-algorithm, which presents a difficulty because the final shape
-measurement algorithm used for WFIRST has not yet been selected (and
-the true ``final'' version may not be set until the analysis
-stage). However, most methods of measuring shear have some basic
-properties in common -- if e.g.\ the true PSF has greater $e_1$ than
-the model (i.e.\ is elongated in the $x$-direction), then the inferred
-shear in that region of the sky will also have greater $c$; the
-coefficient depends on the exact distribution of galaxy morphologies
-and sizes, the weighting of galaxy isophotes, the way in which the PSF
-ellipticity varies with radius, etc. Therefore we will consider a
-range of methods when we determine the quantity $\partial\gamma_{\rm
-obs}(z_i)/\partial X$, where $\gamma_{\rm obs}$ is the measured shear
-in a region (and in redshift slice $i$) and $X$ is any quantity on
-which we want to set a knowledge requirement. The spurious shear in
-bin $i$ is taken to be
-\begin{equation}
-c_i = c(z_i) = \frac{\partial\gamma_{\rm obs}(z_i)}{\partial X} \Delta X,
-\label{eq:X-shape}
-\end{equation}
-where $\Delta X = X_{\rm true} - X_{\rm model}$ is the error in
-knowledge of $X$. In the context of the additive systematic errors,
-the ratios of the partial derivatives $\partial\gamma_{\rm
-obs}(z_i)/\partial X$ set the redshift slice dependence: if $i({\rm
-max})$ is the redshift bin with the largest derivative (in absolute
-value) then
-\begin{equation}
-w_i = \frac{\partial\gamma_{\rm obs}(z_i)/\partial X}{\partial\gamma_{\rm obs}(z_{i({\rm max})})/\partial X}
-\end{equation}
-and the reference additive shear is $c_{\rm ref} = c_{i({\rm max})}$.
-
-\chris{Finish! Also describe implementation for multiplicative systematics.}
-
-In both the additive and multiplicative cases, to compute the
-derivatives relating shear systematics quantities (with requirements
-set in \S\ref{ss:add_mult}) to lower-level quantities (knowledge of
-$X$) we need a simulation package that generates galaxies, measures
-their photometric properties, generates a shear estimate, and repeats
-this varying the quantity $X$. For the purpose of Phase A requirements
-budgeting, we used a very simple model that enables rapid exploration
-of the parameter space.
-
-The ``galaxy'' used is based on a galaxy with an exponential profile,
-$f_{\rm circ}({\bf x}) \propto e^{-1.67834|{\bf x}|/r_{\rm eff}}$,
-where $r_{\rm reff}$ is the half-light radius. It can optionally be
-sheared by applying a {\em finite} shear $\gamma$ to arrive at the
-galaxy $f({\bf x})$. This is convolved with the PSF (see the
-description of models: \S\ref{ss:PSF}) to arrive at a simulated image
-$I({\bf x})$. The ellipticity of this image is then measured as in
-Appendix~\ref{app:ellipticity}.
-
-The observed 2-component ellipticity $e_I$ of the galaxy is related to
-the shear by a $2\times 2$ responsivity matrix
-\begin{equation}
-R_{ij} = \frac{\partial e_{I,i}}{\partial\gamma_j} = {\cal R}\delta_{ij} + R^{\rm aniso}_{ij},
-\end{equation}
-which we have decomposed into an isotropic part ${\cal R}$ and a
-traceless matrix $R^{\rm aniso}$ characterizing the anisotropic part
-of the responsivity. The inverse of the responsivity matrix relates a
-bias in the galaxy ellipticities to a bias in the shear:
-\begin{equation}
-c_i = \sum_{j=1}^2 [{\bf R}^{-1}]_{ij} \frac{\partial e_{I,j}}{\partial X} \Delta X.
-\end{equation}
-Since the isotropic part of the responsivity dominates except for
-extreme PSF ellipticity, anisotropic noise correlations, etc., we take
-the isotropic part and write
-\begin{equation}
-\frac{\partial\gamma_{{\rm obs},i}(z_k)}{\partial X} = \left\langle {\cal R}^{-1} \frac{\partial e_{I,i}}{\partial X} \right\rangle,
-\end{equation}
-where the average is taken over the source galaxies in that redshift
-bin. The various partial derivatives are easily computed as finite
-differences of the galaxy simulation and ellipticity measurement
-process.
-
-As this model is intended to be simple, the average is taken only over
-the distribution of source sizes $r_{\rm eff}$ -- we do not include
-the intrinsic source ellipticity or a distribution of Sersi\'c
-indices.
-}
 
 \end{document}
