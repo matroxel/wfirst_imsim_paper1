@@ -95,7 +95,7 @@ We use a blending-free version of this simulation to test the impact on weak len
 %\item transition to empirical validation (next section)
 %\end{itemize}
 
-We now proceed to describe requirements and the role of this suite of image simulations in verifying that the requirements flowdown is correct. We begin with a description of weak lensing on WFIRST that emphasizes the issues most closely tied to the image simulations (\S\ref{ss:wlprog}), and a high-level review of the requirements process in a cosmology project (\S\ref{ss:req}). There we describe where in this process we need the mapping between the wavefront error and galaxy ellipticities, $\partial e_i/\partial \psi_j$ (where $\psi_j$ denotes a Zernike mode of the wavefront error). This mapping was obtained using a simplified analytic model, calibrated by toy simulations, in the Phase A requirements flowdown; this approach is described at a high level in \S\ref{ss:dedZ}, with technical details placed in the appendices. In the rest of this paper, we will use much more advanced image simulations, based on the {\sc GalSim} package, to estimate $\partial e_i/\partial \psi_j$.
+We now proceed to describe requirements and the role of this suite of image simulations in verifying that the requirements flowdown is correct. We begin with a description of weak lensing on WFIRST that emphasizes the issues most closely tied to the image simulations (\S\ref{ss:wlprog}), and a high-level review of the requirements process in a cosmology project (\S\ref{ss:req}). There we describe where in this process we need the mapping between the wavefront error and galaxy ellipticities, $\partial e_i/\partial \psi_j$ (where $\psi_j$ denotes a Zernike mode of the wavefront error). This mapping was obtained using a simplified analytic model, calibrated by toy simulations, in the Phase A requirements flowdown; this approach is described at a high level in \S\ref{ss:dedZ}, with technical details placed in the appendices. In the rest of this paper, we will use much more advanced image simulations, based on the \galsim\ package, to estimate $\partial e_i/\partial \psi_j$.
 
 \subsection{WFIRST weak lensing}
 \label{ss:wlprog}
@@ -254,7 +254,7 @@ The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each
 \end{itemize}
 
 To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a sufficiently complex synthetic survey that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects as to enable informative tests and preliminary algorithm development. 
-This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the GalSim framework and its WFIRST module. 
+This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the \galsim\ framework and its WFIRST module. 
 The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications. 
 The code is publicly available at \url{https://github.com/matroxel/wfirst_imsim}, where configuration files are provided for the fiducial simulation used in this work.
 Figure \ref{fig:fov} shows an example pointing produced in the fiducial simulation, and Fig. \ref{fig:sca} shows a larger view of one of the SCAs. 
@@ -283,7 +283,7 @@ For stars, we apply the SED of Alpha Lyra to a chromatic delta function model.
 Stars are also converted to be achromatic before drawing.
 Both stars and galaxies are then convolved with the appropriate PSF for the SCA (constant across the SCA in the fiducial simulation). An example of the PSF model for an object is shown in Fig. \ref{fig:psf}. We save images of the true PSF model both at native pixel scale and oversampled by a factor of 8, in stamps of native pixel size $8\times 8$ at the position of each galaxy.
 
-The models are drawn in dynamically-sized squares stamps, the sizes of which are chosen automatically by GalSim to include at least 99.5\% of the flux.
+The models are drawn in dynamically-sized squares stamps, the sizes of which are chosen automatically by \galsim\ to include at least 99.5\% of the flux.
 These stamps are then added to the SCA image and saved separately (if drawing a galaxy) to provide an isolated image of each simulated galaxy to allow for tests of the impact of blending.
 Objects that would have a postage stamp that overlaps the SCA image are drawn, such that light from objects in chip gaps are appropriately drawn onto the SCA, but we only save postage stamps for objects that have a centroid that falls on the SCA. 
 We do not save isolated postage stamps of objects that have a stamp size of greater than 288$\times$288 pixels, but they are drawn into the images.
@@ -422,7 +422,7 @@ In general, the input distribution and properties of galaxies can be easily modi
 
 We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. 
 Galaxia uses an analytic model \cite{galaxia2}  to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. 
-Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with GalSim. 
+Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with \galsim. 
 
 \subsection{Survey strategy}
 \assign{Hirata}
