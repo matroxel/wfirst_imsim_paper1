@@ -19,6 +19,9 @@
 \newcommand\assign[1]{\todo[color=RoyalPurple!40, inline, size=\small]{Contributing: #1}}
 \newcommand\troxel[1]{\todo[color=cyan!40, inline, size=\small]{Troxel: #1}}
 \newcommand\chris[1]{\todo[color=magenta!40, inline, size=\small]{Chris: #1}}
+\newcommand\mj[1]{\todo[color=LimeGreen, inline, size=\small]{MJ: #1}}
+
+\newcommand{\galsim}{\textsc{GalSim}}
  
 \newcommand\green[1]{\textcolor{green}{#1}}
 
@@ -301,11 +304,106 @@ The fits are done using the \textsc{ngmix}\footnote{https://github.com/esheldon/
 We also measure the PSF size and shape using an adaptive moments method \cite{2003MNRAS.343..459H}. 
 This stage writes a set of FITS files containing the galaxy and PSF measurement results and relevant truth catalog information.
 
-\subsection{GalSim}
+\subsection{\galsim}
 
+As mentioned above, the image rendering uses the \galsim\ software package \cite{Rowe15}.  
+This package has been extensively tested and has been shown to yield very accurate rendered images of galaxies and stars.
+Notably, the image rendering process has been shown to impart biases in the shapes of galaxies at a level much less than $10^{-3}$ for the kinds of objects we are simulating here.  
 
+The \galsim\ package is mostly generic with respect to the telescope and observational strategy, allowing for a wide variety of options in performing the simulation.
+However, it does have a sub-module (\texttt{galsim.wfirst}) that has a number of WFIRST-specific implementation details.
+Some of the code in this module pre-dates this work, but some of it was developed specifically for this project, especially updating some of the details to match Cycle 7 information, and to reflect new information from laboratory tests of persistence in WFIRST sensors.  
+The values used for this project correspond to the \texttt{galsim.wfirst} module in \galsim\ release version 2.2.0.
+\mj{Note: We should reference a real version number for all this.  The code used was technically master branch when Troxel ran it, but we should tag it as an official release soon, which will match all the important aspects of what Troxel used.}
+
+\subsubsection{World coordinate system}\label{wcs}
+
+The \texttt{galsim.wfirst} module has code to provide an estimate of the WFIRST WCS (world coordinate system) for each SCA given a rotation angle, date, and pointing direction.  
+The WCS gives the two-dimensional mapping from $(x,y)$ coordinates on the image to right ascension (RA) and declination (Dec) on the sky.
+The specific orientations and gaps between the sensors was updated to match the Cycle 7 data as part of the development work for this project.
+\mj{ref?}
+
+We create our scene of objects in sky coordinates (RA, Dec).
+All surface brightness profiles in \galsim\ are defined in sky coordinates as well, so units for things like the half-light radius are typically arcseconds.
+We then use a series of pointings and rotation angles designed to match a plausible WFIRST observational schedule. 
+\mj{Probably say more about this?  Chri's observing sequence of pointings and such. Or maybe you already did elsewhere.}
+\galsim\ is then able to turn these observational parameters into full WCS functions for all 18 SCAs and determine which objects in the scene would be observed by each sensor.
+
+\galsim\ automatically accounts for the Jacobian of the WCS transformation when rendering the surface brightness profiles on each sensor's pixels.  
+Details such as the telescope distortion and variable pixel area are correctly accounted for in this process.
+
+\subsubsection{Point-spread function}\label{psf}
+
+For the point-spread function (PSF) we use a model of the WFIRST PSF from the \texttt{galsim.wfirst} module.
+While this module includes a high-resolution Cycle 7 estimate of the WFIRST spider pattern (i.e. the obscuration of the struts and camera in the pupil plane), we use a faster, low-resolution approximation, which gets the qualitative features correct, but has a slightly different detailed diffraction pattern.  
+For the purposes of this study, we are insensitive to the differences between the two spider patterns, so we did not enable the slower, more accurate option.
+%%%MJ: The below text is right if you aren't using approximate_struts.  But I think you are.
+%The spider pattern image for band F184 is slightly different from that in the other two bands (J129 and H158).  
+%Technically, the effective spider pattern varies continuously with wavelength, but the difference between the %two shorter wavelength bands is small, and we approximate them as having the same pattern.
+
+The PSF uses positition-dependent (Zernike) aberrations, based on an investigation of the field-dependent wavefront errors for Cycle 5.0.6\footnote{\url{https://wfirst.gsfc.nasa.gov/science/sdt_public/wps/references/instrument/README_AFTA_C5_WFC_Zernike_and_Field_Data.pdf}}.
+We are not aware of a more recent update to these numbers.  
+Aberrations between the tabulated positions are estimated using bilinear interpolation of the tabulated values.
+
+The wavelength-dependent features of the PSF, such as the width of the Airy diffraction pattern, and the wavelength-dependence of the aberrations, are taken at the effective wavelength of the observation bandpass.
+This is an approximation, which leads to an enormous speed up in the rendering time.
+However, it does omit some interesting and subtle chromatic effects as different parts of a galaxy, with different effective SEDs, would be convolved by slightly different effective PSFs.
+There are plans to improve the implementation of this aspect of \galsim, but it cannot currently simulate such effects efficiently enough for our needs.
+
+There are also plans to enable the use of WebbPSF\footnote{\url{https://webbpsf.readthedocs.io/en/stable/}} in \texttt{galsim.wfirst} to leverage the work being done on that project to simulate the WFIRST PSF.
+That PSF is qualitatively similar to what we are using from \texttt{galsim.wfirst}, but there are slight differences.
+We expect that the WebbPSF model is probably more accurate, so we look forward to being able to use that in future simulations.
+
+\mj{Both of the above planned improvements will be done by us.  (Probably me in fact.)  Not sure if we should allude to that fact or not...}
 
 \subsubsection{Implemented detector effects}\label{effects}
+
+Most of the development of \galsim\ has been to render simulations of CCD images.
+The HgCdTe detectors used by WFIRST are qualitatively similar, but there are significant differences in the physics, which lead to differences in some of the simulation steps.
+
+Reciprocity failure is a non-linear relationship between the voltage response in the detector to the incident flux of photons at low light levels.
+The exact mechanism of this effect is unknown and hence we lack a good theoretical model. 
+\galsim\ uses a power law
+\begin{equation}
+\frac{p}{p_\mathrm{nominal}} =
+ \left(\frac{p_\mathrm{nominal}}{f_0 t_\mathrm{exp}}\right)^{\frac{\alpha}{\log(10)}}
+\end{equation}
+where $p_\mathrm{nominal}$ is the pixel response (in electrons) that would have occurred in the absence of reciprocity failure,
+$p$ is the actual observed response due to reciprocity failure,
+$f_0$ is the base flux rate (in electrons/sec) at which the nominal gain was calibrated, 
+$t_\mathrm{exp}$ is the exposure time,
+and $\alpha$ is taken to be $6.5 \times 10^{-3}$ for the WFIRST sensors.
+
+A particularly pernicious effect present in the HgCdTe detectors is known as ``persistence''.  
+In a series of images taken sequentially, some small fraction of the charge accumulated in earlier exposures apparently remains in the sensor and appears in later exposures.  
+The effect lasts for many minutes across multiple reset cycles.  
+Therefore, for simulating the effect, we need to keep track of the precise order of the observations, the time of each, and the electron-level (i.e. pre-read-out) images of multiple prior exposures.
+
+The exact functional form of this effect is not very well understood, although some progress is being made in laboratory tests.  
+The functional form for this effect was updated during the Cycle 7 updates to account for recently improved understanding from laboratory measurements.
+\galsim\ now uses a fermi profile when the deposited flux is above the half-well level, and linear below.
+Above the half-well, the functional form is
+\begin{equation}
+n_\mathrm{persist} = \frac{A \left(n/n_0\right)^a  \left(\frac{t}{1000 \mathrm{sec}}\right)^{-r}}
+{ \exp(- \frac{n-n0}{dn})+ 1}
+\end{equation}
+where $A$, $n_0$, $a$, $r$, and $dn$ are constants estimated from laboratory measurements (and stored in the \texttt{galsim.wfirst} module).
+
+In addition to the non-linear pixel response, known as reciprocity failure, there is also a non-linearity in the conversion of accumulated charge to the measured voltage.
+This is a different effect, which occurs at a different point in the simulation -- namely, after the application of dark current and persistence. 
+\galsim\ treats this as a modification in the effective number of electrons:
+\begin{equation}
+n_e^\prime = n_e - 6 \times 10^{-7} n_e^2
+\end{equation}
+where $n_e$ is the actual number of electrons accumulated and $n_e^\prime$ is the effective number to account for the voltage response nonlinearity.
+
+Inter-pixel capacitance (IPC) essentially amounts to a convolution of the image by a $3 \times 3$ kernel in pixel coordinates.
+However, the timing of the convolution is during the readout process, which means that some (but not all) of the noise has already occurred.  
+Thus it cannot be treated as part of the PSF for the purpose of the simulation.  
+It needs to be applied separately after the dark current and Poisson shot noise have been applied, but before the read noise.  
+The IPC coefficients have been measured in the lab for WFIRST detectors; the values used in the \texttt{galsim.wfirst} module come from the Cycle 5 estimates.
+
+\mj{It looks like there were Cycle 7 updates to these coefficients.  But we don't seem to be using them.  Slightly awkward....}
 
 
 \subsection{Galaxy catalogs}\label{galcats}
