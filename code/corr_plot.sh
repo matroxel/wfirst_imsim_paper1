@@ -11,6 +11,5 @@ cd $PBS_O_WORKDIR
 export OMP_NUM_THREADS=1
 #psrecord --log memory_log.txt --interval 1.0 --include-children "python mcaltest.py"
 source loadLSST.bash
-source activate galsim
 
-mpiexec -n 20 python corr_plot.py anismear
+mpiexec -n 20 python corr_plot.py
