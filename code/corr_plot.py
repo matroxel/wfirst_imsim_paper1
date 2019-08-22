@@ -8,6 +8,7 @@ import pickle
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import healpy as hp
+import gc
 
 class field_methods:
 
@@ -186,7 +187,7 @@ class corr_func:
 		varxim=[]
 		if type=='plane':
 			for i in range(self.xy_ind.shape[0]):
-				if obj_num<(len(self.xy_hpind)/1050.):
+				if obj_num<(len(self.xy_hpind)/150.):
 					obj_num+=self.xy_count[i]
 					continue
 				# bool=~np.in1d(self.xy_hpind,self.xy_ind[min_ind:i])
@@ -207,15 +208,22 @@ class corr_func:
 				if obj_num<(len(self.hpind)/150.):
 					obj_num+=self.count[i]
 					continue
-				# print(i)
 				# bool=~np.in1d(self.hpind,self.ind[min_ind:i])
 				# print('min_ind='+str(min_ind)+',i='+str(i))
-				cat = treecorr.Catalog(ra=self.ra[min_ind:min_ind+obj_num-1], dec=self.dec[min_ind:min_ind+obj_num-1], g1=self.delta_e1[min_ind:min_ind+obj_num-1], g2=self.delta_e2[min_ind:min_ind+obj_num-1],ra_units='deg',dec_units='deg')
+				min_ind+=obj_num
+				print(i,min_ind,obj_num)
+				ra=np.roll(self.ra,-min_ind)[:-min_ind]
+				dec=np.roll(self.dec,-min_ind)[:-min_ind]
+				g1=np.roll(self.delta_e1,-min_ind)[:-min_ind]
+				g2=np.roll(self.delta_e2,-min_ind)[:-min_ind]
+				cat = treecorr.Catalog(ra=ra, dec=dec, g1=g1,g2=g2,ra_units='deg',dec_units='deg')
 				gg = treecorr.GGCorrelation(min_sep=1, max_sep=400, nbins=20, sep_units='arcmin')
 				gg.process(cat)
 				varxip.append(gg.xip)
 				varxim.append(gg.xim)
-				min_ind=min_ind+obj_num
+
+				del ra,dec,g1,g2,gg
+				gc.collect() # release memory munually
 				obj_num=0
 				subsmp_num+=1
 
@@ -227,7 +235,7 @@ class corr_func:
 			gg.process(cat)
 		elif type=='sky':
 			# bool=~np.in1d(self.hpind,self.ind[min_ind:])
-			cat = treecorr.Catalog(ra=self.ra[min_ind:], dec=self.dec[min_ind:], g1=self.delta_e1[min_ind:], g2=self.delta_e2[min_ind:],ra_units='deg',dec_units='deg')
+			cat = treecorr.Catalog(ra=np.roll(self.ra,-min_ind)[:-min_ind], dec=np.roll(self.dec,-min_ind)[:-min_ind], g1=np.roll(self.delta_e1,-min_ind)[:-min_ind], g2=np.roll(self.delta_e2,-min_ind)[:-min_ind],ra_units='deg',dec_units='deg')
 			gg = treecorr.GGCorrelation(min_sep=1, max_sep=400, nbins=20, sep_units='arcmin')
 			gg.process(cat)
 		# boolist.append(bool)
@@ -266,41 +274,49 @@ class corr_func:
 		xip = gg.xip
 		xim = gg.xim
 
+		print(xip[0])
 		sig_p = np.sqrt(gg.varxip+self.varxip)
 		sig_m = np.sqrt(gg.varxim+self.varxim)
 		# plt.plot(r, xip, color='blue','o')
 		# plt.plot(r, -xip, color='blue', 'x')
-		plt.errorbar(r[xip>0], xip[xip>0], yerr=sig_p[xip>0], linewidth=2,color='blue', fmt='o')
-		plt.errorbar(r[xip<0], -xip[xip<0], yerr=sig_p[xip<0], linewidth=2, color='blue', fmt='x')
-		lp = plt.errorbar(-r, xip, yerr=sig_p, color='blue')
+
+		with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_plotdata_'+self.psf_name+'.cPickle','wb') as f2:
+			pickle.dump((xip,xim,r,sig_p,sig_m),f2,protocol=2)
+
+		lp1 = plt.errorbar(-r, xip, yerr=sig_p, color='blue',fmt='o')
+		lp2 = plt.errorbar(-r, xip, yerr=sig_p, color='blue',fmt='x')
+		lm1 = plt.errorbar(-r, xim, yerr=sig_m, color='red',fmt='o')
+		lm2 = plt.errorbar(-r, xim, yerr=sig_m, color='red',fmt='x')
+
+		plt.errorbar(r[xip>0], xip[xip>0], yerr=sig_p[xip>0], linewidth=2,color='blue', fmt='o',label=r'$\xi_+$')
+		plt.errorbar(r[xip<0], -xip[xip<0], yerr=sig_p[xip<0], linewidth=2, color='blue', fmt='x',label=r'$-\xi_+$')
 		# plt.plot(r, xim, color='green','o')
 		# plt.plot(r, -xim, color='green', 'x')
-		plt.errorbar(r[xim>0], xim[xim>0], yerr=sig_m[xim>0], linewidth=1, color='red', fmt='o')
-		plt.errorbar(r[xim<0], -xim[xim<0], yerr=sig_m[xim<0], linewidth=1, color='red', fmt='x')
-		lm = plt.errorbar(-r, xim, yerr=sig_m, color='red')
+		plt.errorbar(r[xim>0], xim[xim>0], yerr=sig_m[xim>0], linewidth=1, color='red', fmt='o',label=r'$\xi_-$')
+		plt.errorbar(r[xim<0], -xim[xim<0], yerr=sig_m[xim<0], linewidth=1, color='red', fmt='x',label=r'$-\xi_-$')
 		plt.xscale('log')
 		plt.yscale('log', nonposy='clip')
 		if type=='sky':
 			plt.xlabel(r'$\theta$(arcmin)')
-			plt.title(self.psf_name+'sky delta_e')
-			plt.legend([lp, lm], [r'$\xi_+(\theta)$', r'$\xi_-(\theta)$'])
+			plt.title(plot_dict[self.psf_name])
+			plt.legend()
 		elif type=='plane':
 			plt.xlabel(r'$d$(mm)')
-			plt.title(self.psf_name+' focal plane delta_e')
-			plt.legend([lp, lm], [r'$\xi_+(d)$', r'$\xi_-(d)$'])
+			plt.title(plot_dict[self.psf_name])
+			plt.legend([lp1,lp2,lm1,lm2],[r'$\xi_+$',r'$-\xi_+$',r'$\xi_-$',r'$-\xi_-$'],ncol=2)
 		plt.xlim( [1,200] )
 		plt.ylabel(r'$\xi_{+,-}$')
 		plt.savefig('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/'+self.psf_name+'_corr_'+type)
 
 	def save_data(self):
-		# with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_sky_'+self.psf_name+'.cPickle','wb') as f:
-		# 	pickle.dump((self.ra,self.dec,self.delta_e1,self.delta_e2),f)
+		with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_sky_'+self.psf_name+'.cPickle','wb') as f:
+			pickle.dump((self.ra,self.dec,self.delta_e1,self.delta_e2),f)
 
 		# with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_field_'+self.psf_name+'.cPickle','wb') as f2:
 		# 	pickle.dump((self.x,self.y,self.delta_field_e1,self.delta_field_e2),f2)
 
-		with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_jackknife_'+self.psf_name+'.cPickle','wb') as f:
-			pickle.dump((self.hpind,self.ind,self.count,self.xy_hpind,self.xy_ind,self.xy_count),f)
+		# with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_jackknife_'+self.psf_name+'.cPickle','wb') as f:
+		# 	pickle.dump((self.hpind,self.ind,self.count,self.xy_hpind,self.xy_ind,self.xy_count),f)
 
 	def load_data(self):
 		with open('/users/PCON0003/osu10670/wfirst_imsim/corr_figures/corr_sky_'+self.psf_name+'.cPickle','rb') as f:
@@ -315,33 +331,49 @@ class corr_func:
 		# 	ind=pickle.load(f2)
 		# self.hpind,self.ind,self.count,self.xy_hpind,self.xy_ind,self.xy_count=ind[0],ind[1],ind[2],ind[3],ind[4],ind[5]
 
-# dict=['anismear','tilt','coma','astigmatism','focus','gradz4','gradz6','isosmear','piston','ransmear']
+dict=['anismear','tilt','coma','astigmatism','focus','gradz4','gradz6','isosmear','piston','ransmear']
+plot_dict= {'anismear':'AniJitter','tilt':'Tilt','coma':'Coma','astigmatism':'Astigmatism','focus':'Focus','gradz4':'GradZ4','gradz6':'GradZ6','isosmear':'IsoJitter','piston':'Piston','ransmear':'RanJitter'}
 
-psf=sys.argv[1]
-f=corr_func(psf)
-f.psf_shape()
-f.sky_corr()
-print('Done '+psf+' 2pt_corr plot')
 
-# psf=sys.argv[2]
-# if sys.argv[1]=='ind':
-# 	f=corr_func(psf)
-# 	f.psf_shape()
-# 	f.save_data()
-# elif sys.argv[1]=='corr':
-# 	f=corr_func(psf)
-# 	f.load_data()
-# 	f.sky_corr()
-# 	# f.xy_corr()
-# 	print('Done '+psf+' 2pt_corr plot')
+# psf=sys.argv[1]
+# f=corr_func(psf)
+# f.psf_shape()
+# f.sky_corr()
+# print('Done '+psf+' 2pt_corr plot')
 
-# for psf in dict:
-# 	f.psf_shape(psf)
-# 	f.save_data()
-# 	f.sky_corr()
-# 	f.xy_corr()
-# 	print('Done '+psf+' 2pt_corr plot')
 
+for psf in dict:
+	f=corr_func(psf)
+	f.psf_shape()
+	f.save_data()
+	f.sky_corr()
+	# f.xy_corr()
+	print('Done '+psf+' 2pt_corr plot')
+
+# import matplotlib.pyplot as plt
+# import pickle
+# with open('corr_plotdata_anismear.cPickle','rb') as f:
+#      d=pickle.load(f) 
+
+
+# xip=d[0]
+# xim=d[1]
+# r=d[2]
+# sig_p=d[3]
+# sig_m=d[3]
+# lp1 = plt.errorbar(-r, xip, yerr=sig_p, color='blue',fmt='o')
+# lp2 = plt.errorbar(-r, xip, yerr=sig_p, color='blue',fmt='x')
+# lm1 = plt.errorbar(-r, xim, yerr=sig_m, color='red',fmt='o')
+# lm2 = plt.errorbar(-r, xim, yerr=sig_m, color='red',fmt='x')
+# plt.errorbar(r[xip>0], xip[xip>0], yerr=sig_p[xip>0], linewidth=2, color='blue', fmt='o',label=r'$\xi_+$')
+# plt.errorbar(r[xip<0], -xip[xip<0], yerr=sig_p[xip<0], linewidth=2, color='blue', fmt='x',label=r'$-\xi_+$')
+# plt.errorbar(r[xim>0], xim[xim>0], yerr=sig_m[xim>0], linewidth=1, color='red', fmt='o',label=r'$\xi_-$')
+# plt.errorbar(r[xim<0], -xim[xim<0], yerr=sig_m[xim<0], linewidth=1, color='red', fmt='x',label=r'$-\xi_-$')
+# plt.xscale('log')
+# plt.yscale('log')
+# plt.xlim([1,200])
+# plt.legend([lp1,lp2,lm1,lm2],[r'$\xi_+$',r'$-\xi_+$',r'$\xi_-$',r'$-\xi_-$'],ncol=2)
+# plt.show()
 
 
 
