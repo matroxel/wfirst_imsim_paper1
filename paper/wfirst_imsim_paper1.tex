@@ -1037,37 +1037,13 @@ simply search the $2^{N_z}$ corners by brute force.
 
 \subsection{Flow-down to PSF requirements}
 
-We need a model to associate high-level requirements for each source
-of systematic error (e.g.\ a limit on $Z$, $A_0$, etc.) to low-level
-requirements on its source (e.g.\ wavefront drift rate in nm/hr). This
-section collects the models used for this flow-down for PSF-related
-systematics. Note that none of the models described here anywhere near
-a complete description of the WFIRST telescope, instrument, and
-pipeline. Rather the intention is to understand the sensitivity of
-WFIRST weak lensing to specific types of errors.
+%We need a model to associate high-level requirements for each source of systematic error (e.g.\ a limit on $Z$, $A_0$, etc.) to low-level requirements on its source (e.g.\ wavefront drift rate in nm/hr). This section collects the models used for this flow-down for PSF-related systematics. Note that none of the models described here anywhere near a complete description of the WFIRST telescope, instrument, and pipeline. Rather the intention is to understand the sensitivity of WFIRST weak lensing to specific types of errors.
 
-\subsubsection{Shape model}
-\label{ss:shape}
+In order to translate a requirement on additive bias $c$ or multiplicative bias $m$ into requirements on lower-level quantities, we need to know how a given effect -- e.g.\ an error in the PSF model -- affects the shear measurement. 
 
-In order to translate a requirement on spurious shear $c$ into
-requirements on lower-level quantities, we need to know how a given
-effect -- e.g.\ an error in the PSF model -- affects the shear
-measurement. In principle this depends on the shape measurement
-algorithm, which presents a difficulty because the final shape
-measurement algorithm used for WFIRST has not yet been selected (and
-the true ``final'' version may not be set until the analysis
-stage). However, most methods of measuring shear have some basic
-properties in common -- if e.g.\ the true PSF has greater $e_1$ than
-the model (i.e.\ is elongated in the $x$-direction), then the inferred
-shear in that region of the sky will also have greater $c$; the
-coefficient depends on the exact distribution of galaxy morphologies
-and sizes, the weighting of galaxy isophotes, the way in which the PSF
-ellipticity varies with radius, etc. Therefore we will consider a
-range of methods when we determine the quantity $\partial\gamma_{\rm
-obs}(z_i)/\partial X$, where $\gamma_{\rm obs}$ is the measured shear
-in a region (and in redshift slice $i$) and $X$ is any quantity on
-which we want to set a knowledge requirement. The spurious shear in
-bin $i$ is taken to be
+\subsubsection{Flow-down for additive systematics}
+
+We need to compute compute $\partial\gamma_{\rm obs}(z_i)/\partial X$, where $\gamma_{\rm obs}$ is the measured shear in a region (and in redshift slice $i$) and $X$ is any quantity on which we want to set a knowledge requirement. The spurious shear in bin $i$ is taken to be
 \begin{equation}
 c_i = c(z_i) = \frac{\partial\gamma_{\rm obs}(z_i)}{\partial X} \Delta X,
 \label{eq:X-shape}
@@ -1083,25 +1059,24 @@ w_i = \frac{\partial\gamma_{\rm obs}(z_i)/\partial X}{\partial\gamma_{\rm obs}(z
 \end{equation}
 and the reference additive shear is $c_{\rm ref} = c_{i({\rm max})}$.
 
-\chris{Finish! Also describe implementation for multiplicative systematics.}
-
-In both the additive and multiplicative cases, to compute the
-derivatives relating shear systematics quantities (with requirements
-set in \S\ref{ss:add_mult}) to lower-level quantities (knowledge of
-$X$) we need a simulation package that generates galaxies, measures
-their photometric properties, generates a shear estimate, and repeats
-this varying the quantity $X$. For the purpose of Phase A requirements
-budgeting, we used a very simple model that enables rapid exploration
-of the parameter space.
-
-The ``galaxy'' used is based on a galaxy with an exponential profile,
-$f_{\rm circ}({\bf x}) \propto e^{-1.67834|{\bf x}|/r_{\rm eff}}$,
-where $r_{\rm reff}$ is the half-light radius. It can optionally be
-sheared by applying a {\em finite} shear $\gamma$ to arrive at the
-galaxy $f({\bf x})$. This is convolved with the PSF (see the
-description of models: \S\ref{ss:PSF}) to arrive at a simulated image
-$I({\bf x})$. The ellipticity of this image is then measured as in
-Appendix~\ref{app:ellipticity}.
+In principle the coefficients $\partial\gamma_{\rm obs}(z_i)/\partial X$ depend on the base model for the PSF, the population of galaxies, and the shape measurement algorithm. Multiple algorithms should be used for WFIRST, but a final selection has not been made (given how rapidly the field is maturing, such a choice now would be premature). However, all practical methods of measuring shear have some basic properties in common -- if e.g.\ the true PSF has greater $e_1$ than the model (i.e.\ is elongated in the $x$-direction), then the inferred shear in that region of the sky will also have greater $c_1$, and this effect will be greater for larger PSFs or smaller galaxies. In setting requirements, we therefore chose a simple, easily understood model. This model is not, and does not need to be, an accurate description of WFIRST shape measurement at the few$\times 10^{-4}$ accuracy. Rather, it needs to give us estimates of $\partial\gamma_{\rm obs}(z_i)/\partial X$ early in the development of WFIRST, with the understanding that we will not update the optical stability requirements every time we have a better model for the distribution of galaxy morphologies. The very simplest choice would be to work with Gaussian PSFs and galaxies; however, our previous experience has been that the non-Gaussian tails of both PSFs and galaxies matter, and furthermore when we discuss the Zernike description of wavefront errors we have predictions for how various combinations of modes affect the ellipticities of different isophotes of the PSF. Therefore, we go one step beyond the Gaussian approximation and include in our analytic flow-down model:
+\begin{list}{$\bullet$}{}
+\item Our galaxies are taken to have an exponential profile, $f_{\rm circ}({\bf x}) \propto e^{-1.67834|{\bf x}|/r_{\rm eff}}$, where $r_{\rm reff}$ is the half-light radius. It can optionally be sheared by applying a {\em finite} shear $\gamma$ to arrive at the galaxy $f({\bf x})$.
+\item The PSF is the Fourier transform of an
+annular pupil with aberrations appearing as contributions to the
+phase. The resulting ``optical'' PSF is then convolved with a detector
+response that includes a tophat and charge diffusion. For HgCdTe
+detectors, we take the charge diffusion length to be 2.94 $\mu$m rms
+per axis \cite{2007PASP..119..466B}.\footnote{This was measured on an H2RG. At the time we had to fix this for Phase A requirements
+flow-down, we did not have a measurement on the H4RG. We now know the charge diffusion for WFIRST detectors is smaller than this number, but it makes a small enough difference that we have not re-done the requirements flowdown.} Other effects that are likely significant for WFIRST analyses, such as inter-pixel capacitance, the brighter-fatter effect, or polarization, are not included. We turned the spider off. The main effect of the spider is the production of 12 diffraction spikes, but it is the core of the PSF that matters most for shape measurement and has the greatest change as one adjusts the Zernike coefficients. The spider further leads to an asymmetric pupil, i.e.\ with odd-order modes in the decomposition of the amplitude, but this has no appreciable effects on the relation of ellipticity to low-order Zernike modes.\footnote{It is known that an odd-order mode in the phase can
+mix with other asymmetric phase modes to produce PSF ellipticity,
+e.g. if one introduces a large trefoil $t$ then the ellipticity
+develops a linear term in coma, proportional to $tc^\ast$
+\cite{2010SPIE.7731E..1EN}. However, an amplitude feature with 3-fold
+or other odd symmetry, such as the spider, does not lead to such an
+effect.}
+\item We use as our measure of ellipticity the 2-component ellipticity $e_I$ of the observed image $I = f \star P$ (where $f$ is the galaxy, $P$ is the PSF, and $\star$ denotes convolution). The ellipticity is determined according to the adaptive moment algorithm of Bernstein \& Jarvis \cite{2002AJ....123..583B}, \S3.1.
+\end{list}
 
 The observed 2-component ellipticity $e_I$ of the galaxy is related to
 the shear by a $2\times 2$ responsivity matrix
@@ -1131,58 +1106,12 @@ the distribution of source sizes $r_{\rm eff}$ -- we do not include
 the intrinsic source ellipticity or a distribution of Sersi\'c
 indices.
 
-\subsubsection{PSF models}
-\label{ss:PSF}
-
-The PSF models used to assess most requirements are highly
-simplified. In most cases, the intention of these models is {\em not}
-to be accurate to the level of a few parts in $10^4$ (which would
-require a great deal more sophistication, and has not been achieved by
-pure first principles modeling in any telescope used for weak lensing
--- some empirical tuning of the final PSF model, e.g. by principal
-components analysis, has always been required). Rather the intention
-is to address sensitivities: e.g. how far the focus would need to move
-during an exposure before we care; whether wavefront error jitter is
-important. As the mission develops, PSF modeling will include many
-more effects, and we aim in this document to develop requirements that
-can be flowed to individual sub-groups in the mission (e.g. a STOP
-analysis should tell us how much of the total PSF error budget is
-consumed, without having to put in a new model for interpixel
-capacitance).
-
-Just as for shape measurement (\S\ref{ss:shape}), we take a simplified
-model here. This model used here takes the Fourier transform of an
-annular pupil with aberrations appearing as contributions to the
-phase. The resulting ``optical'' PSF is then convolved with a detector
-response that includes a tophat and charge diffusion. For HgCdTe
-detectors, we take the charge diffusion length to be 2.94 $\mu$m rms
-per axis \cite{2007PASP..119..466B}.\footnote{This was measured on an H2RG. At the time we had to fix this for Phase A requirements
-flow-down, we did not have a measurement on the H4RG. We now know the charge diffusion for WFIRST detectors is smaller than this number, but it makes a small enough difference that we have not re-done the requirements flowdown.} Other effects that are either known
-to be significant at the level needed for WFIRST weak lensing or are
-likely to be significant, such as polarized transfer through the
-telescope, angle of incidence variations in mirror reflectivity,
-interpixel capacitance in the detectors, etc. are not included. Cases
-where they may influence stability requirements in a way not captured
-by the simple pupil model are considered separately.
-
-The default model had the spider turned off. The spider has a major
-effect on the morphology of the wings of the PSF, producing 12 spikes;
-studies of the AFTA pupil in the past have found effects of the spider
-on the coefficients herein at the few percent level. The spider
-further leads to an asymmetric pupil, i.e.\ with odd-order modes in
-the decomposition of the amplitude, but this has no appreciable
-effects on the relation of ellipticity to low-order Zernike
-modes.\footnote{It is known that an odd-order mode in the phase can
-mix with other asymmetric phase modes to produce PSF ellipticity,
-e.g. if one introduces a large trefoil $t$ then the ellipticity
-develops a linear term in coma, proportional to $tc^\ast$
-\cite{2010SPIE.7731E..1EN}. However, an amplitude feature with 3-fold
-or other odd symmetry, such as the spider, does not lead to such an
-effect.} Therefore the spider is {\em not} expected to have a
-significant effect on the PSF determination procedures or the
-stability requirements. \chris{maybe not necessary to go into detail here, we will probably never update the analytic model to treat the spider}
 
 %\cmnt{Put this where? Furthermore, additive and multiplicative biases can also be introduced by imperfect shape measurement algorithms even in the presence of perfect knowledge of the PSF. The early shape measurement algorithms suffered severe difficulties in both additive and multiplicative biases \citep[e.g.][]{2001MNRAS.325.1065B, 2001A&A...366..717E, 2003MNRAS.343..459H}, but much progress has been made recently in both mock data challenges \citep{2006MNRAS.368.1323H, 2007MNRAS.376...13M, 2010MNRAS.405.2044B} and in the development of Fourier-space shape measurement techniques that are ``exact'' for isolated galaxies in the presence of perfect PSF knowledge, even given complicated morphology \citep{2010MNRAS.406.2793B}.}
+
+\subsubsection{Flow-down for multiplicative systematics}
+
+\chris{write this}
 
 \section{Requirements on wavefront stability for the PSF calibration}
 \label{app:psf-stability}
