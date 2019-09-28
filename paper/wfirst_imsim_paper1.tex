@@ -714,13 +714,12 @@ WFIRST-IDRM studies, were for Gaussians).
 We set most systematics requirements for this mission on the basis of
 having systematic errors sub-dominant to statistical errors in the WL
 shear power spectra or cross-power spectra (or any linear combinations
-thereof). Exceptions to this policy should be considered in cases
+thereof). Exceptions to this policy are considered in cases
 where meeting the original systematic budget becomes a cost or
-complexity driver, or is not possible. Most measurement biases fall
+complexity driver, or is not possible. Most measurement biases -- including those considered in this paper -- fall
 into the ``additive'' or ``multiplicative'' forms (see
 \S\ref{ss:add_mult}) and will be treated according to the formalism
-therein. Other sources of systematic error will be treated in their
-own dedicated sections.
+therein.
 
 \subsection{Additive and multiplicative biases}
 \label{ss:add_mult}
@@ -854,7 +853,7 @@ which.
 
 \subsubsection{Data vector and covariance model}
 
-\chris{I think the tools used here are basically obsolete, there are several that are better. but they were what was available in $\sim$2014/5 when much of this work was done. I will shorten the section accordingly.}
+We build our data vector for the shear power spectra and cross-spectra. We recognize that weak lensing analyses have shifted to ``$3\times 2$-point'' data vectors containing shear-shear, galaxy-shear, and galaxy-galaxy correlations, and by the time WFIRST the list of standard observables may be even longer. However, for setting requirements on shape measurement, shear-shear provides the most demanding use case, and so for simplicity here we only consider shear-shear.
 
 We use for our data vector the $N_\ell N_z(N_z+1)/2$ power spectra and
 cross-spectra. Each $\ell$ is treated separately, so there are
@@ -896,28 +895,17 @@ FoMSWG \cite{2009arXiv0901.0721A} there has been an ongoing program of
 using nonlinear transformations on the data to remove them (e.g.\
 \cite{2009ApJ...698L..90N, 2011ApJ...729L..11S}) and
 we do not want applications of these novel statistics to WFIRST data
-to run into systematic error limits. We also turn off astrophysical
-systematic errors (e.g.\ intrinsic alignments and baryonic
-corrections): we do not want to define a weak requirement on WFIRST
-based on the expectation that astrophysical systematics will be large
-enough to swamp the observational contribution.
+to run into systematic error limits. We also do not include astrophysical systematic errors in ${\boldsymbol\Sigma}$; we envision instead that they will be treated with nuisance parameters in the analysis. Another advantage of this is that the covariance matrix ${\boldsymbol\Sigma}$ is block diagonal in $\ell$-space (it is formally $378240\times378240$ without $\ell$-binning), which makes computations possible on a machine with limited memory.
 
-The formal length of the data vector ${\bf C}$ is 378240. However, the
-inversion of Eq.~(\ref{eq:SGauss}) is accelerated by two realizations:
-first, that each $\ell$ is independent, so that ${\boldsymbol\Sigma}$
-is block-diagonal and the contributions of each $\ell$ to $Z^2$ can be
-linearly summed. Secondly, the particular form of
-Eq.~(\ref{eq:SGauss}) allows us to write\footnote{This equation is
-trivially verified by forming, for each $\ell$, linear combinations of
-the redshift slices that diagonalize ${\bf C}^{\rm tot}_\ell$.}
-\begin{equation}
-\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
- = \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
- \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
- \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
-\label{eq:sprodform}
-\end{equation}
-where the matrix inverses are $N_z\times N_z$.
+%The formal length of the data vector ${\bf C}$ is 378240. However, the inversion of Eq.~(\ref{eq:SGauss}) is accelerated by two realizations: first, that each $\ell$ is independent, so that ${\boldsymbol\Sigma}$ is block-diagonal and the contributions of each $\ell$ to $Z^2$ can be linearly summed. Secondly, the particular form of Eq.~(\ref{eq:SGauss}) allows us to write\footnote{This equation is trivially verified by forming, for each $\ell$, linear combinations of the redshift slices that diagonalize ${\bf C}^{\rm tot}_\ell$.}
+%\begin{equation}
+%\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
+%= \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
+% \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
+% \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
+%\label{eq:sprodform}
+%\end{equation}
+%where the matrix inverses are $N_z\times N_z$.
 
 \begin{table}
 \caption{The effective number density in each redshift bin, in units of galaxies/arcmin$^{2}$, used for setting requirements. These are {\em per bin}, i.e.\ are $dn_{\rm eff}/dz\times\Delta z$. 
@@ -1168,9 +1156,8 @@ annular pupil with aberrations appearing as contributions to the
 phase. The resulting ``optical'' PSF is then convolved with a detector
 response that includes a tophat and charge diffusion. For HgCdTe
 detectors, we take the charge diffusion length to be 2.94 $\mu$m rms
-per axis \cite{2007PASP..119..466B}.\footnote{This was measured on an
-H2RG. At the time we had to fix this for Phase A requirements
-flow-down, we did not have a measurement on the H4RG.} \chris{The data on the H4RGs show that this was too large, but we are still working on the measurement, will need to figure out what to say here.} Other effects that are either known
+per axis \cite{2007PASP..119..466B}.\footnote{This was measured on an H2RG. At the time we had to fix this for Phase A requirements
+flow-down, we did not have a measurement on the H4RG. We now know the charge diffusion for WFIRST detectors is smaller than this number, but it makes a small enough difference that we have not re-done the requirements flowdown.} Other effects that are either known
 to be significant at the level needed for WFIRST weak lensing or are
 likely to be significant, such as polarized transfer through the
 telescope, angle of incidence variations in mirror reflectivity,
@@ -1194,26 +1181,6 @@ or other odd symmetry, such as the spider, does not lead to such an
 effect.} Therefore the spider is {\em not} expected to have a
 significant effect on the PSF determination procedures or the
 stability requirements. \chris{maybe not necessary to go into detail here, we will probably never update the analytic model to treat the spider}
-
-Studies were carried out with both monochromatic and polychromatic
-PSFs. From the perspective of stability requirements, the most
-important issue is that while the ellipticity of a {\em monochromatic}
-PSF is {\em quadratic} in the wavefront error
-\cite{2010SPIE.7731E..1EN}, the ellipticity of a {\em polychromatic}
-PSF can contain linear terms in the wavefront error if there is
-lateral color, as occurs in WFIRST since the beam intersects the
-filter at a nonzero angle of incidence.\footnote{In CCD systems
-lateral color can be produced in the detector due to the large mean
-free path of red photons in silicon. For WFIRST, using thin
-direct-bandgap detectors, this effect is much smaller than the lateral
-color induced by the optics.} Thus for small wavefront errors it is
-possible that a wavefront stability budget based on the quadratic
-dependences of PSF ellipticity (e.g. defocus$\times$astigmatism) and
-monochromatic PSFs may be too optimistic. The lateral color mixes with
-odd aberrations to produce PSF ellipticity, so a special
-``coma$\times$lateral color'' contribution is included.
-
-\chris{Need to re-visit the lateral color issue. We didn't specify a separate requirement on this. but not for this paper, maybe}
 
 %\cmnt{Put this where? Furthermore, additive and multiplicative biases can also be introduced by imperfect shape measurement algorithms even in the presence of perfect knowledge of the PSF. The early shape measurement algorithms suffered severe difficulties in both additive and multiplicative biases \citep[e.g.][]{2001MNRAS.325.1065B, 2001A&A...366..717E, 2003MNRAS.343..459H}, but much progress has been made recently in both mock data challenges \citep{2006MNRAS.368.1323H, 2007MNRAS.376...13M, 2010MNRAS.405.2044B} and in the development of Fourier-space shape measurement techniques that are ``exact'' for isolated galaxies in the presence of perfect PSF knowledge, even given complicated morphology \citep{2010MNRAS.406.2793B}.}
 
