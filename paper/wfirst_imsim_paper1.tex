@@ -865,7 +865,7 @@ finite size of its survey and due to the large cosmic variance of the
 lowest multipoles. The smallest scales are generally not used in
 cosmic shear analyses because the baryonic effects are severe (e.g.\
 \cite{2008PhRvD..77d3507Z, 2013PhRvD..87d3509Z}). We use $N_z=15$
-redshift slices, as shown in Table~\ref{tab:dNdz}. In order to ensure
+redshift slices, as shown in Table~\ref{tab:dNdz}, which are chosen by the Exposure Time Calculator \cite{2012arXiv1204.5151H} v17, with the Phase B exposure times ($5\times 140.25$ s in $H$-band). In order to ensure
 that WFIRST would not become systematics-limited in an extended
 mission, we set the top-level requirement on systematics to $Z=1$ for
 a survey of area $\Omega =10^4$ deg$^2$ (3.05 sr).
@@ -895,17 +895,16 @@ FoMSWG \cite{2009arXiv0901.0721A} there has been an ongoing program of
 using nonlinear transformations on the data to remove them (e.g.\
 \cite{2009ApJ...698L..90N, 2011ApJ...729L..11S}) and
 we do not want applications of these novel statistics to WFIRST data
-to run into systematic error limits. We also do not include astrophysical systematic errors in ${\boldsymbol\Sigma}$; we envision instead that they will be treated with nuisance parameters in the analysis. Another advantage of this is that the covariance matrix ${\boldsymbol\Sigma}$ is block diagonal in $\ell$-space (it is formally $378240\times378240$ without $\ell$-binning), which makes computations possible on a machine with limited memory.
-
+to run into systematic error limits. We also do not include astrophysical systematic errors in ${\boldsymbol\Sigma}$; we envision instead that they will be treated with nuisance parameters in the analysis. Another advantage of this is that the covariance matrix ${\boldsymbol\Sigma}$ is block diagonal in $\ell$-space (it is formally $375720\times375720$ without $\ell$-binning), which makes computations possible on a machine with limited memory. Indeed, in the Gaussian case one may write
 %The formal length of the data vector ${\bf C}$ is 378240. However, the inversion of Eq.~(\ref{eq:SGauss}) is accelerated by two realizations: first, that each $\ell$ is independent, so that ${\boldsymbol\Sigma}$ is block-diagonal and the contributions of each $\ell$ to $Z^2$ can be linearly summed. Secondly, the particular form of Eq.~(\ref{eq:SGauss}) allows us to write\footnote{This equation is trivially verified by forming, for each $\ell$, linear combinations of the redshift slices that diagonalize ${\bf C}^{\rm tot}_\ell$.}
-%\begin{equation}
-%\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
-%= \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
-% \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
-% \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
-%\label{eq:sprodform}
-%\end{equation}
-%where the matrix inverses are $N_z\times N_z$.
+\begin{equation}
+\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
+= \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
+ \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
+ \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
+\label{eq:sprodform}
+\end{equation}
+where the matrix inverses are $N_z\times N_z$.
 
 \begin{table}
 \caption{The effective number density in each redshift bin, in units of galaxies/arcmin$^{2}$, used for setting requirements. These are {\em per bin}, i.e.\ are $dn_{\rm eff}/dz\times\Delta z$. 
@@ -915,11 +914,11 @@ to run into systematic error limits. We also do not include astrophysical system
 \hline\hline
 $z$ & $n_{\rm eff}$ & $z$ & $n_{\rm eff}$ & $z$ & $n_{\rm eff}$ \\
 \hline
-$0.10\pm0.10$ & 3.73 & $1.10\pm0.10$ & 3.95 & $2.10\pm0.10$ & 1.41 \\
-$0.30\pm0.10$ & 2.26 & $1.30\pm0.10$ & 3.37 & $2.30\pm0.10$ & 1.04 \\
-$0.50\pm0.10$ & 3.23 & $1.50\pm0.10$ & 2.75 & $2.50\pm0.10$ & 0.90 \\
-$0.70\pm0.10$ & 6.26 & $1.70\pm0.10$ & 1.55 & $2.70\pm0.10$ & 0.76 \\
-$0.90\pm0.10$ & 2.99 & $1.90\pm0.10$ & 1.83 & $2.90\pm0.10$ & 0.24 \\
+$0.10\pm0.10$ & 3.62 & $1.10\pm0.10$ & 3.75 & $2.10\pm0.10$ & 1.21 \\
+$0.30\pm0.10$ & 2.12 & $1.30\pm0.10$ & 3.17 & $2.30\pm0.10$ & 0.95 \\
+$0.50\pm0.10$ & 3.05 & $1.50\pm0.10$ & 2.52 & $2.50\pm0.10$ & 0.82 \\
+$0.70\pm0.10$ & 5.90 & $1.70\pm0.10$ & 1.45 & $2.70\pm0.10$ & 0.68 \\
+$0.90\pm0.10$ & 2.79 & $1.90\pm0.10$ & 1.68 & $2.90\pm0.10$ & 0.19 \\
 \hline\hline
 \end{tabular}
 }
@@ -929,17 +928,26 @@ $0.90\pm0.10$ & 2.99 & $1.90\pm0.10$ & 1.83 & $2.90\pm0.10$ & 0.24 \\
 \label{ss:implement-add}
 
 \begin{table}
-\caption{The bands used for the additive systematic errors. There are $N_{\rm band}=5$ bands ranging over a total signal band from $\ell_{\rm min,tot}=10$ to $\ell_{\rm max,tot}=3161$. The fraction of the error budget allocated to each band is also indicated, as are the maximum allowed redshift-independent spurious shear ($A_0^{\rm flat}(\alpha)$, RMS per component), and the maximum scaling factors for redshift dependence, $S_{\rm max,\pm}(\alpha)$ and $S_{\rm max,+}(\alpha)$.
+\caption{The requirements for additive and multiplicative systematic errors. There are $N_{\rm band}=4$ additive error bands ranging over a total signal band from $\ell_{\rm min,tot}=10$ to $\ell_{\rm max,tot}=3161$. The fraction of the error budget allocated to each band is also indicated, as are the maximum allowed redshift-independent spurious shear ($A_0^{\rm flat}(\alpha)$, RMS per component), and the maximum scaling factors for redshift dependence, $S_{\rm max,\pm}(\alpha)$ and $S_{\rm max,+}(\alpha)$. There is only one row for the multiplicative errors, since the implementation does not contain an $\ell$ dependence; we quote a requirement on the post-calibration shear multiplicative uncertainty $\sigma_{m,\rm req't}^{\rm flat}$.
 \label{tab:addbands}}
 \center{
 \begin{tabular}{r|rrc|c|rr}
 \hline\hline
-Band $\alpha$ & $\ell_{\rm min}(\alpha)$ & $\ell_{\rm max}(\alpha)$ & Allocation $Z(\alpha)$ & $A_0^{\rm flat}(\alpha)$ & $S_{\rm max,\pm}(\alpha)$ & $S_{\rm max,+}(\alpha)$ \\ \hline
-0 & 31 & 99 & 0.2500 & $6.791\times 10^{-5}$ &  8.876 &  2.878 \\
-1 & 100 & 315 & 0.2500 & $9.697\times 10^{-5}$ &  5.862 &  2.100 \\
-2 & 316 & 999 & 0.2500 & $1.360\times 10^{-4}$ &  3.712 &  1.544 \\
-3 & 1000 & 3161 & 0.2500 & $1.855\times 10^{-4}$ &  2.193 &  1.166 \\
-\hline\hline
+Band $\alpha$ & $\ell_{\rm min}(\alpha)$ & $\ell_{\rm max}(\alpha)$ & Allocation $Z(\alpha)$ & Sys. err. req't. & $S_{\rm max,\pm}(\alpha)$ & $S_{\rm max,+}(\alpha)$ \\ 
+ & & & & $A_0^{\rm flat}(\alpha)$ or $\sigma_{m,\rm req't}^{\rm flat}$ & & \\
+\hline
+\multicolumn7c{Additive errors} \\
+0 & 31 & 99 & 0.2596 & $7.000\times 10^{-5}$ &  8.489 &  2.782 \\
+1 & 100 & 315 & 0.2539 & $9.900\times 10^{-5}$ &  5.628 &  2.041 \\
+2 & 316 & 999 & 0.2575 & $1.400\times 10^{-4}$ &  3.569 &  1.509 \\
+3 & 1000 & 3161 & 0.2538 & $1.900\times 10^{-4}$ &  2.119 &  1.149 \\
+% Previous table:
+%0 & 31 & 99 & 0.2500 & $6.791\times 10^{-5}$ &  8.876 &  2.878 \\
+%1 & 100 & 315 & 0.2500 & $9.697\times 10^{-5}$ &  5.862 &  2.100 \\
+%2 & 316 & 999 & 0.2500 & $1.360\times 10^{-4}$ &  3.712 &  1.544 \\
+%3 & 1000 & 3161 & 0.2500 & $1.855\times 10^{-4}$ &  2.193 &  1.166 \\
+\hline \multicolumn7c{Multiplicative errors} \\
+mult &  & & 0.4600 & $3.200\times 10^{-4}$ & 2.186 & 1.140 \\ \hline\hline
 \end{tabular}
 }
 \end{table}
@@ -987,9 +995,7 @@ think of this is that since $Z$ is proportional to the square of the
 RMS shear, $Z\propto A_0^2$, quadrature-summation of the additive
 shear is equivalent to linear summation of the $Z$-values.
 
-The allocations for each bin $Z(\alpha)$ have been set to
-$\sqrt{0.25/N_{\rm band}}$, so that in an RSS sense 25\%\ of the
-systematic error budget is allocated to additive shear.
+The allocations for each bin $Z(\alpha)$ were initially set to $\sqrt{0.25/N_{\rm band}}$, so that in an RSS sense 25\%\ of the systematic error budget is allocated to additive shear; with 4 bands this implies $Z(\alpha)=0.25$ (i.e., 6.25\% of the error budget in an RSS sense) for each band. There have been some updates of the exposure times, throughputs, and number densities since the SRD requirements were set (December 2016); we have kept the requirements the same, and updated the $Z$-values, so the latter do not exactly equal 0.25.
 
 The construction of $Z$-values for each angular band and each additive
 systematic is mathematically sufficient to build the error
@@ -1005,6 +1011,7 @@ per component) in band $\alpha$. We also introduce a scaling factor
 $S[{\bf w},\alpha]$ for a systematic error
 \begin{equation}
 S[{\bf w},\alpha] = \frac{Z(\alpha) \,{\rm for\,this\,}w_i}{Z(\alpha)\,{\rm for\,all\,}w_i=1}
+\label{eq:Swa}
 \end{equation}
 that depends on the redshift dependence $w_i$. An additive systematic error that is independent of redshift will have $S=1$. A systematic that is ``made worse'' by its redshift dependence will have $S>1$, and a systematic that is ``made less serious'' by its redshift dependence will have $S<1$. The requirement that the (linear) sum of $Z$s not exceed $Z(\alpha)$ thus translates into
 \begin{equation}
@@ -1025,7 +1032,7 @@ that have the same sign in all redshift bins. The search within these
 spaces is simplified by the fact that -- according to
 Eq.~(\ref{eq:sprodform}) -- the contribution to $S[{\bf w},\alpha]$
 considering only a single value of $\ell$ reduces to a
-semi-positive-definite quadratic function of $w$. Therefore the
+semi-positive-definite quadratic function of ${\bf w}$ (it is proportional to ${\bf w}^{\rm T}{\bf C}_\ell^{{\rm tot}-1}{\bf w}$, where ${\bf C}_\ell^{\rm tot}$ is $N_z\times N_z$). Therefore the
 worst-case weights $\{w_i\}_{i=1}^{N_z}$ always occur at the corners
 of the allowed cube in $N_z$-dimensional ${\bf w}$-space, and we can
 simply search the $2^{N_z}$ corners by brute force.
@@ -1033,15 +1040,25 @@ simply search the $2^{N_z}$ corners by brute force.
 \subsubsection{Implementation: multiplicative systematics}
 \label{ss:implement-mult}
 
-\chris{write this}
+The implementation for multiplicative systematic errors is simpler, since one can work directly with the $m_i$. Once again, we may write $m_i=mw_i$, where $m$ is the multiplicative error in the worst bin (largest absolute value) and $w_i=1$ for that bin, and $|w_i|\le 1$ for all bins; the $w_i$ thus represents the redshift dependence of the multiplicative error. Once again, we may define a scaling factor $S[{\bf w},{\rm mult}]$ for multiplicative biases analogous to Eq.~(\ref{eq:Swa}):
+\begin{equation}
+S[{\bf w},{\rm mult}] = \frac{Z^2({\rm mult}) \,{\rm for\,this\,}w_i}{Z^2({\rm mult})\,{\rm for\,all\,}w_i=1};
+\end{equation}
+this time, we define this with the $Z^2$ rather than $Z$ so that RSS addition will apply to independent multiplicative errors:
+\begin{equation}
+\sum_{\rm systematics} \sigma_m^2 \times S[{\bf w},{\rm mult}] \le [\sigma_{m,\rm req't}^{\rm flat}]^2,
+\end{equation}
+where $\sigma_{m,\rm req't}^{\rm flat}$ is the requirement on knowledge of $m$. Fundamentally, the square present here but not in Eq.~(\ref{eq:Swa}) arises because multiplicative biases in the power spectrum are proportional to $m$ but additive biases in the power spectrum are proportional to $c^2$.
+
+The worst-case scaling factors $S_{\rm max,+}({\rm mult})$ (conditioned on $0\le w_i\le 1$) and $S_{\rm max,\pm}({\rm mult})$ (allowing either sign) can be defined analogously. In this case, since $\Delta{\bf C}$ is linear in the $m_i$ and hence $w_i$, it is actually $S^2[{\bf w},{\rm mult}]$ that is a semi-positive-definite quadratic function of ${\bf w}$ instead of $S$, but the technique of searching the corners by brute force still applies.
+
+Once again, we initially set $Z({\rm mult})=0.5$, allocating 25\% of the systematic error in an RSS sense to multiplicative systematics; due to changes in the model since the SRD was first written, the allocation is no longer exactly 25\%. The resulting limits are quoted in Table~\ref{tab:addbands}.
 
 \subsection{Flow-down to PSF requirements}
 
 %We need a model to associate high-level requirements for each source of systematic error (e.g.\ a limit on $Z$, $A_0$, etc.) to low-level requirements on its source (e.g.\ wavefront drift rate in nm/hr). This section collects the models used for this flow-down for PSF-related systematics. Note that none of the models described here anywhere near a complete description of the WFIRST telescope, instrument, and pipeline. Rather the intention is to understand the sensitivity of WFIRST weak lensing to specific types of errors.
 
-In order to translate a requirement on additive bias $c$ or multiplicative bias $m$ into requirements on lower-level quantities, we need to know how a given effect -- e.g.\ an error in the PSF model -- affects the shear measurement. 
-
-\subsubsection{Flow-down for additive systematics}
+In order to translate a requirement on additive bias $c$ or multiplicative bias $m$ into requirements on lower-level quantities, we need to know how a given effect -- e.g.\ an error in the PSF model -- affects the shear measurement. We focus here on the additive biases, which are of interest for this paper; the multiplicative biases can be treated in the same formalism and we comment on how to do this at the end.
 
 We need to compute compute $\partial\gamma_{\rm obs}(z_i)/\partial X$, where $\gamma_{\rm obs}$ is the measured shear in a region (and in redshift slice $i$) and $X$ is any quantity on which we want to set a knowledge requirement. The spurious shear in bin $i$ is taken to be
 \begin{equation}
@@ -1106,35 +1123,18 @@ the distribution of source sizes $r_{\rm eff}$ -- we do not include
 the intrinsic source ellipticity or a distribution of Sersi\'c
 indices.
 
+The main difference that occurs with the multiplicative systematic errors is that when one changes the PSF size, one must look at the change in responsivity, i.e., $m = \partial \ln {\cal R}/\partial X$.
 
 %\cmnt{Put this where? Furthermore, additive and multiplicative biases can also be introduced by imperfect shape measurement algorithms even in the presence of perfect knowledge of the PSF. The early shape measurement algorithms suffered severe difficulties in both additive and multiplicative biases \citep[e.g.][]{2001MNRAS.325.1065B, 2001A&A...366..717E, 2003MNRAS.343..459H}, but much progress has been made recently in both mock data challenges \citep{2006MNRAS.368.1323H, 2007MNRAS.376...13M, 2010MNRAS.405.2044B} and in the development of Fourier-space shape measurement techniques that are ``exact'' for isolated galaxies in the presence of perfect PSF knowledge, even given complicated morphology \citep{2010MNRAS.406.2793B}.}
-
-\subsubsection{Flow-down for multiplicative systematics}
-
-\chris{write this}
 
 \section{Requirements on wavefront stability for the PSF calibration}
 \label{app:psf-stability}
 
-The determination of the PSF in imaging mode (\S\ref{ss:psf-imaging})
-will be based on an empirical (principal components or more advanced
-version thereof) approach. Central to this approach is that we must
-limit the number of possible principal components in the data by
-limiting the number of properties of the PSF that vary from one image
-to another. The WFIRST approach is to keep the PSF stable during an
-exposure so that no parameters are needed to describe time dependence
-of the PSF during an exposure. We make one exception to this policy
-for image motion, since at the WFIRST WL level of precision this is
-unavoidable. Thus the requirement is for the optics + image motion PSF
-to be the convolution of the optics PSF with a kernel coming from the
-image motion, with small residuals. Here ``small'' means that the
-residual error must fit within the overall error budget for PSF (or
-shear) errors.
+The determination of the PSF in imaging mode will be based on an empirical (principal components or more advanced version thereof) approach \verify{++refs}. Central to this approach is that we must limit the number of possible principal components in the data by limiting the number of properties of the PSF that vary from one image to another. The WFIRST approach is to keep the PSF stable during an exposure so that no parameters are needed to describe time dependence of the PSF during an exposure. We make one exception to this policy for image motion, since at the WFIRST WL level of precision this is unavoidable. Thus the requirement is for the optics + image motion PSF to be the convolution of the optics PSF with a kernel coming from the image motion, with small residuals. Here ``small'' means that the residual error must fit within the overall error budget for PSF (or shear) errors.
 
-Requirements are derived for the two major sources of wavefront
-change: thermally induced drifts (\S\ref{as:a-drift}) and jitter
-induced by vibrations from e.g.\ the reaction wheels
-(\S\ref{as:a-wfjitter}).
+We note that since WFIRST detectors can be read non-destructively, and 6 sub-exposures will be sent to the ground, that one could imagine building a time-dependent PSF from these sub-exposures. We have chosen {\em not} to set a looser requirement based on this expectation, since we plan to calibrate detector non-linearity using the consistency of the sub-exposures; this approach does not work if the PSF is varying in an uncontrolled way.
+
+Requirements are derived for the two major sources of wavefront change: slow drifts induced by, e.g. thermal variations (\S\ref{as:a-drift}), and jitter induced by e.g.\ vibrations from the reaction wheels (\S\ref{as:a-wfjitter}).
 
 \subsection{Wavefront drift}
 \label{as:a-drift}
@@ -1233,7 +1233,7 @@ suppressed at zero wavefront error (${\boldsymbol\psi}=0$) and be much
 larger in the realistic case where ${\boldsymbol\psi}\neq 0$
 \citep[e.g.][]{2010SPIE.7731E..1EN}. Therefore we must search the
 entire space of possible wavefront errors ${\boldsymbol\psi}$ --
-bounded by the top-level requirement that $|{\boldsymbol\psi}|<90\,$nm
+bounded by the top-level requirement that $|{\boldsymbol\psi}|<92\,$nm
 -- to find the place where the operator norm is maximized.
 
 The requirement that the PSF inverts (i.e.\ preserves ellipticity and
@@ -1325,24 +1325,21 @@ the $C$-coefficients are largest. However, the weights $w(z_i)$
 obtained from $C_{ct}$ (the next largest coefficient) are only
 slightly different.
 
-Using model P1 for the PSF and G1 for the shear determination, the
-greatest contamination is in the $J$-band, where
-$\lVert{\boldsymbol\Lambda}\rVert = 1.25\times
-10^{-5}\,$nm$^{-2}$. With a limit on the total wavefront error of
+We find that in $J$, $H$, and F184 bands, the operator norms are $\lVert{\boldsymbol\Lambda}\rVert = 1.14\times 10^{-5}$, $9.76\times 10^{-6}$, and $8.46\times 10^{-6}$ nm$^{-2}$, respectively. Using the $J$-band limit, which has the worst total contamination, we find a limit on the total wavefront error of
 $|{\boldsymbol\psi}({\boldsymbol\theta})|<92\,$nm, we find
 \begin{equation}
 A \le \frac1{\sqrt{24}}\lVert{\boldsymbol\Lambda} \rVert |{\boldsymbol\psi}| |\dot{\boldsymbol\psi}({\boldsymbol\theta})| \Delta t
-= 2.35\times 10^{-4}\, {\rm nm}^{-1}\times |\dot{\boldsymbol\psi}({\boldsymbol\theta})| \Delta t.
+= 2.14\times 10^{-4}\, {\rm nm}^{-1}\times |\dot{\boldsymbol\psi}({\boldsymbol\theta})| \Delta t.
 \end{equation}
 
 The current wavefront drift allocation is that $\Delta t$ = 1 exposure
 (140 s) and $|\dot{\boldsymbol\psi}({\boldsymbol\theta})| \Delta
-t<0.37\,$nm, which produces a spurious shear of $8.7\times 10^{-5}$,
+t<0.37\,$nm, which produces a spurious shear of $7.91\times 10^{-5}$,
 RMS per component. However the $S$-factor for the
-focus$\times$astigmatism mode is 0.49 in the worst angular bin, so the
-implied spurious shear is $AS^{1/2} = 6.1\times 10^{-5}$. The
+focus$\times$astigmatism mode is 0.5488 in the worst angular bin, so the
+implied spurious shear is $AS^{1/2} = 5.86\times 10^{-5}$. The
 requirements in Table~\ref{tab:addbands} give a top-level error of
-$2.6\times 10^{-4}$; 5.5\%\ of the additive shear systematic error, in
+$2.65\times 10^{-4}$; 4.9\%\ of the additive shear systematic error, in
 an RSS sense, is currently being taken up by wavefront drift.
 
 \subsection{Wavefront jitter}
@@ -1484,33 +1481,27 @@ the worst angular bin, which is always the smallest scales
 \hline
 Band: & J129 & H158 & F184 & Units & Worst $z$-bin & Worst $S$-factor \\
 \hline
-$K_{\theta c}$ & 8.11 & 6.43 & 4.91 & $10^{-6}$ mas$^{-1}$ nm$^{-1}$ & 2.8--3.0 & 0.536 \\
-$K_{\theta t}$ & 3.59 & 4.14 & 4.46 & $10^{-6}$ mas$^{-1}$ nm$^{-1}$ & 2.8--3.0 & 0.368 \\
+$K_{\theta c}$ & 7.69 & 6.16 & 4.83 & $10^{-6}$ mas$^{-1}$ nm$^{-1}$ & 2.8--3.0 & 0.592 \\
+$K_{\theta t}$ & 3.29 & 3.78 & 4.08 & $10^{-6}$ mas$^{-1}$ nm$^{-1}$ & 1.8--2.0 & 0.438 \\
 \hline
-$K_{fa}$ & 11.30 & 9.78 & 8.52 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.487 \\
-$K_{cc}$ & 3.68 & 2.87 & 2.31 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.598 \\
-$K_{ct}$ & 5.86 & 5.02 & 4.31 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.507 \\
-$K_{sa}$ & 4.31 & 3.32 & 2.67 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.624 \\
+$K_{fa}$ & 10.60 & 9.22 & 8.06 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.549 \\
+$K_{cc}$ & 3.52 & 2.76 & 2.23 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.648 \\
+$K_{ct}$ & 5.52 & 4.74 & 4.10 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.568 \\
+$K_{sa}$ & 4.14 & 3.21 & 2.59 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.672 \\
 \hline
 \end{tabular}
 }
 \end{table}
 
-The RMS spurious shear per component in J-band, weighted by the
-$S$-factor (which accounts for redshift dependence), is then
+The RMS spurious shear per component in J-band, weighted by the worst scaling factor $S = 0.672$ (which accounts for redshift dependence), is then
 \begin{equation}
-\gamma_{\rm rms}S^{1/2} \le \frac{7.01\times 10^{-6}\,{\rm
+\gamma_{\rm rms}S^{1/2} \le \frac{6.85\times 10^{-6}\,{\rm
 nm}^{-1}\,{\rm mas}^{-1}\,\sigma_{\rm los-jitter}\sigma_{\rm
-wfe-jitter} + 4.78\times 10^{-6} \,{\rm nm}^{-2}\,\sigma_{\rm
+wfe-jitter} + 4.67\times 10^{-6} \,{\rm nm}^{-2}\,\sigma_{\rm
 wfe-jitter}^2}{N_{\rm ind}^{1/2}}.
 \label{eq:wfej-grms}
 \end{equation}
-This should be compared to the requirement of $2.60\times
-10^{-4}$. The line-of-sight jitter is required to be $\sigma_{\rm
-los-jitter}=12$ mas rms per axis, and the observing strategy has two
-passes at epochs separated by many months so we take $N_{\rm
-ind}=2$. From Eq.~(\ref{eq:wfej-grms}), we find that the entire error
-budget is taken up for $\sigma_{\rm wfe-jitter}=3.63$ nm rms.
+This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-sight jitter is required to be $\sigma_{\rm los-jitter}=12$ mas rms per axis, and the observing strategy has two passes at epochs separated by many months so we take $N_{\rm ind}=2$. From Eq.~(\ref{eq:wfej-grms}), we find that the entire error budget is taken up for $\sigma_{\rm wfe-jitter}=3.76$ nm rms.
 
 \end{widetext}
 
