@@ -1492,6 +1492,26 @@ wfe-jitter}^2}{N_{\rm ind}^{1/2}}.
 \end{equation}
 This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-sight jitter is required to be $\sigma_{\rm los-jitter}=12$ mas rms per axis, and the observing strategy has two passes at epochs separated by many months so we take $N_{\rm ind}=2$. From Eq.~(\ref{eq:wfej-grms}), we find that the entire error budget is taken up for $\sigma_{\rm wfe-jitter}=3.76$ nm rms.
 
+\section{Performance statistics}
+\label{app:performance}
+
+Each stage of the image simulation suite can be trivially parallelized. Disk I/O is not a practical issue in the image generation when running at scale across 4-5k jobs. Within each image generation job (simulation of a complete SCA), the drawing of each object is currently also be trivially parallelized across available threads. This will likely change as the simulation of the detectors becomes more realistic, though. In both modes, the image generation stage achieves about 95\% CPU utilization. Stages that process the image output into different data formats are less efficient, and the generation of the MEDS files is generally limited by disk I/O and remote data transfer. Typical timing (per thread), memory usage, and resulting data sizes are provided in Table \ref{table:performance}. 
+
+\begin{table}
+\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is in generating the images. The total data volume is 58GB of FITS images, 364GB of MEDS files, and $<$1GB of catalog data, for a total of about 423GB. These values will scale approximately linearly with the area of sky simulated and the density of objects.
+}
+\begin{tabular}{cccc}
+\hline
+Benchmark & Image generation (per SCA image) & MEDS creation (per tile ) & Shape measurement \\
+\hline
+CPU time & 180 min. & 10-15 min. & 5 sec. (per object) \\
+Memory (per core) & 2-4GB & 1-2GB & $<$1GB (per tile) \\
+Data size (gzipped) & 25MB & 1GB & $<$1MB (per tile) \\
+\hline
+\end{tabular}
+}
+\end{table}
+
 \end{widetext}
 
 \bibliographystyle{apsrev4-1}
