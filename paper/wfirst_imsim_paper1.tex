@@ -538,7 +538,7 @@ We will also represent the changes in $m$ and $b$ as a response to the wavefront
 
 \begin{table}
 \label{table:partials}
-\caption{Table} Ellipticities changes with respect to Zernike coefficients for different modes. The units of high-frequency modes, i.e. IsoJitter, AniJitter and Ranjitter are ${milliarcsec}^{-2}$. For all other modes the units are ${nm}^{-1}$.
+\caption{Table} Ellipticities changes with respect to Zernike coefficients for different modes. The units of high-frequency modes, i.e. IsoJitter, AniJitter and Ranjitter are ${\rm milliarcsec}^{-2}$. For all other modes the units are ${\rm nm}^{-1}$.
 \begin{center}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{ lcc }
@@ -685,8 +685,6 @@ This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supe
 \appendix
 
 \begin{widetext}
-
-\chris{assorted material on analytic flowdown here. this is material from the appendices the WFI Calibration Plan (the relevant parts were written by me, with some commentary from people I should add to the acknowledgements), with data from the wlrequirements github. this was a Phase A snapshot. We can talk about whether numbers should be updated, but my inclination is *not* to do so and just identify the version, since requirements don't update when we revise, e.g., the galaxy population or instrument model (if they do need updating, we should tell the project). I will also clean up some of the references and broken links in here. many can be made shorter in this document than the calibration plan as they refer to standard WL stuff we can just cite. I plan to do some cleanup of this in the next few days, if you want to wait until that is done to read go ahead.}
 
 \section{Overview of weak lensing systematics budgeting}
 \label{app:wl-budget}
@@ -1366,6 +1364,7 @@ high-frequency vibrations of the wavefront impact the shear, has a
 dependence on redshift bin $z_k$, shear component $i$, and the Zernike
 modes $j$ and $j'$. The matrix ${\bf K}^{\rm LOS,WFE}$ describes the
 effects of correlations between LOS motion and wavefront jitter.
+Although not strictly necessary for an analysis of wavefront jitter, we do also compute the sensitivity to line-of-sight motion, which implies a term $K^{\rm LOS,LOS}_{iab}(z_k) {\rm Cov}({\theta}_a,{\theta}_b)$ in Eq.~(\ref{eq:gamma-S-Sens}).
 
 The matrix ${\bf K}$ in principle varies with the wavefront error, but
 since it is a second derivative it is nonzero even for zero
@@ -1420,6 +1419,12 @@ K_{fa} & 0 & 0 & 0 & 0 & 0 & 0 & K_{sa} \\
 0 & 0 & 0 & K_{ct} & 0 & 0 & 0 & 0 \\
 0 & 0 & K_{sa} & 0 & 0 & 0 & 0 & 0 \\
 \end{array} \right).
+\end{equation}
+Finally, for the line-of-sight-motion only, we have
+\begin{equation}
+K_{1ab}^{\rm LOS,LOS} = \left( \begin{array}{cc} K_{\theta\theta} & 0 \\ 0 & -K_{\theta\theta} \end{array} \right)
+~~~~~~~~{\rm and}~~~~~~~~
+K_{2ab}^{\rm LOS,LOS} = \left( \begin{array}{cc} 0 & K_{\theta\theta} \\ K_{\theta\theta} & 0 \end{array} \right).
 \end{equation}
 Image simulations are required to determine the specific values of
 $K_{\theta c}$, $K_{\theta t}$, $K_{fa}$, $K_{sa}$, $K_{cc}$, and
@@ -1479,6 +1484,8 @@ $K_{fa}$ & 10.60 & 9.22 & 8.06 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.549 \\
 $K_{cc}$ & 3.52 & 2.76 & 2.23 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.648 \\
 $K_{ct}$ & 5.52 & 4.74 & 4.10 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.568 \\
 $K_{sa}$ & 4.14 & 3.21 & 2.59 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.672 \\
+\hline
+$K_{\theta\theta}$ & 14.32 & 13.77 & 13.34 & $10^{-6}$ mas$^{-2}$ & 2.8--3.0 & 0.504 \\
 \hline
 \end{tabular}
 }
