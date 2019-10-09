@@ -42,6 +42,9 @@
 \label{firstpage}
 
 \begin{abstract}
+Need to include link to data.
+
+Need to clean up referring to different runs.
 \end{abstract}
 
 \keywords{}
@@ -108,122 +111,34 @@ equal to the allocation for $Z$ from that contribution. An important aspect of t
 
 \subsection{Limitations of the analytical approach}
 
-\begin{figure*}
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fov.pdf}
-\end{center}
-\caption[]{
-A simulated field-of-view (FOV) from the fiducial simulation matching Cycle 7 specifications. The WFIRST FOV is 0.282 deg$^2$, composed of 18 near-IR Sensor Chip Arrays (H4RGs). This FOV is 200 times the area of the Hubble Space Telescope Wide Field Camera 3 FOV and 90 times that of its Advanced Camera for Surveys. (check chip orientation)
-\label{fig:fov}}
-\end{figure*}
+%\begin{figure*}
+%\begin{center}
+%\includegraphics[width=\textwidth]{figures/fov.pdf}
+%\end{center}
+%\caption[]{
+%A simulated field-of-view (FOV) from the fiducial simulation matching Cycle 7 specifications. The WFIRST FOV is 0.282 deg$^2$, composed of 18 near-IR Sensor Chip Arrays (H4RGs). This FOV is 200 times the area of the Hubble Space Telescope Wide Field Camera 3 FOV and 90 times that of its Advanced Camera for Surveys. (check chip orientation)
+%\label{fig:fov}}
+%\end{figure*}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/sca1.png}
 \end{center}
 \caption[]{
-A simulated WFIRST Sensor Chip Array (SCA). Each SCA (HgCdTe H4RG) has a useable pixel grid of 4088$\times$4088, with a pixel scale of 0.11''. One interesting feature can be seen in the relatively bright galaxy in the lower middle part of the SCA, for which six faint diffraction spikes due to the WFIRST secondary mirror support struts are visible.
+A simulated WFIRST Sensor Chip Array (SCA). Each SCA (HgCdTe H4RG) has a useable pixel grid of 4088$\times$4088, with a pixel scale of 0.11''. An interesting feature can be seen in the relatively bright galaxy in the lower middle part of the SCA, for which six faint diffraction spikes due to the WFIRST secondary mirror support struts are visible. For comparison, the size of the Hubble Space Telescope Wide Field Camera 3 is shown as the blue outline.
 \label{fig:sca}}
 \end{figure}
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/galaxies.pdf}
-\end{center}
-\caption[]{
-The distribution of simulated galaxies. The mean galaxy density is 40 arcmin$^{-2}$. 
-\label{fig:galaxies}}
-\end{figure}
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/stars.pdf}
-\end{center}
-\caption[]{
-The distribution of simulated stars. The mean stellar density is 2.5 arcmin$^{-2}$. 
-\label{fig:stars}}
-\end{figure}
+%\begin{figure*}
+%\begin{center}
+%\includegraphics[width=\textwidth]{figures/dates.pdf}
+%\end{center}
+%\caption[]{
+%Dates of observations (is this useful? hard to make it readable)
+%\label{fig:dates}}
+%\end{figure*}
 
-\begin{figure*}
-\begin{center}
-\includegraphics[width=\textwidth]{figures/hist.pdf}
-\end{center}
-\caption[]{
-The input distributions of half-light radius, redshift, and H158 magnitude for galaxies (blue) and stars (orange). 
-\label{fig:hist}}
-\end{figure*}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/hist2.pdf}
-\end{center}
-\caption[]{
-The number of exposures per object simulated (total) compared to the number used in the shape measurement.
-\label{fig:hist2}}
-\end{figure}
-
-\begin{figure*}
-\begin{center}
-\includegraphics[width=\textwidth]{figures/hist3.pdf}
-\end{center}
-\caption[]{
-The measured PSF ellipticity and size, and the signal-to-noise of the galaxy measurements.
-\label{fig:hist3}}
-\end{figure*}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/pointings.pdf}
-\end{center}
-\caption[]{
-Pointings that overlap the simulated region (non-shaded). The color of each marker shows the position angle of the focal plane.
-\label{fig:pointings}}
-\end{figure}
-
-\begin{figure*}
-\begin{center}
-\includegraphics[width=\textwidth]{figures/dates.pdf}
-\end{center}
-\caption[]{
-Dates of observations (is this useful? hard to make it readable)
-\label{fig:dates}}
-\end{figure*}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/psf.pdf}
-\end{center}
-\caption[]{
-PSF model for SCA 1. The top row shows the model in native pixel scale, while the bottom row is oversampled by a factor of 8. From left to right: a comparison of the high-resolution ('true') model, the low-resolution model used in the simulation, and the difference of the two models. The color bars are defined by the range of the high-resolution model.
-\label{fig:psf}}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/shape_hist.pdf}
-\end{center}
-\caption[]{
-A histogram of the difference in the measured shape from the true shape in the Fiducial simulation.
-\label{fig:shape_hist}}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/focal_mean_e1.pdf}
-\end{center}
-\caption[]{
-The binned mean difference in measured $e_1$ compared to the Fiducial run. Each color bar is in units of $1\times 10^-4$.
-\label{fig:focal_mean_e1}}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/focal_mean_e2.pdf}
-\end{center}
-\caption[]{
-The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each color bar is in units of $1\times 10^-4$.
-\label{fig:focal_mean_e2}}
-\end{figure}
 
 
 \section{Simulation suite}\label{sec:sim}
@@ -231,7 +146,7 @@ The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each
 To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a synthetic survey suite that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects so as to enable informative tests and preliminary algorithm development. 
 This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the \galsim\ framework and its WFIRST module. 
 The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper.}. 
-The code is publicly available \cite{wfirst_imsim}.
+The code is publicly available \cite{wfirst_imsim}. An example SCA image is shown in Fig. \ref{fig:sca}.
 
 \subsection{Simulation stages}\label{stages}
 
@@ -295,6 +210,15 @@ We create our scene of objects, including their surface brightness profiles, in 
 \galsim\ automatically accounts for the Jacobian of the WCS transformation when rendering the surface brightness profiles on each sensor's pixels.  
 Details such as the telescope distortion and variable pixel area are correctly accounted for in this process.
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/psf.pdf}
+\end{center}
+\caption[]{
+PSF model for SCA 1. The top row shows the model in native pixel scale, while the bottom row is oversampled by a factor of 8. From left to right: a comparison of the high-resolution ('true') model, the low-resolution model used in the simulation, and the difference of the two models. The color bars are defined by the range of the high-resolution model.
+\label{fig:psf}}
+\end{figure}
+
 \subsubsection{Point-spread function}\label{psf}
 
 For the PSF we use a model of the WFIRST PSF from the \texttt{galsim.wfirst} module.
@@ -304,7 +228,7 @@ For the purposes of this study, we are insensitive to the differences between th
 %The spider pattern image for band F184 is slightly different from that in the other two bands (J129 and H158).  
 %Technically, the effective spider pattern varies continuously with wavelength, but the difference between the %two shorter wavelength bands is small, and we approximate them as having the same pattern.
 
-The PSF uses positition-dependent (Zernike) aberrations, based on an investigation of the field-dependent wavefront errors for Cycle 5.0.6\footnote{\url{https://wfirst.gsfc.nasa.gov/science/sdt_public/wps/references/instrument/README_AFTA_C5_WFC_Zernike_and_Field_Data.pdf}}.
+The PSF uses position-dependent (Zernike) aberrations, based on an investigation of the field-dependent wavefront errors for Cycle 5.0.6\footnote{\url{https://wfirst.gsfc.nasa.gov/science/sdt_public/wps/references/instrument/README_AFTA_C5_WFC_Zernike_and_Field_Data.pdf}}.
 We are not aware of a more recent update to these numbers. 
 Aberrations between the tabulated positions are estimated using bilinear interpolation of the tabulated values.
 
@@ -366,48 +290,102 @@ Thus it cannot be treated as part of the PSF for the purpose of the simulation.
 It needs to be applied separately after the dark current and Poisson shot noise have been applied, but before the read noise.  
 The IPC coefficients have been measured in the lab for WFIRST detectors; the values used in the \texttt{galsim.wfirst} module come from the Cycle 5 estimates. \verify{need to comment on differences with cycle 7 values?}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/galaxies.pdf}
+\end{center}
+\caption[]{
+The distribution of simulated galaxies. The mean galaxy density is 40 arcmin$^{-2}$. 
+\label{fig:galaxies}}
+\end{figure}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=\textwidth]{figures/hist.pdf}
+\end{center}
+\caption[]{
+The input distributions of half-light radius, redshift, and H158 magnitude for galaxies (blue) and stars (orange). 
+\label{fig:hist}}
+\end{figure*}
+
 \subsection{Galaxy catalogs}\label{galcats}
 
 The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. 
-Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing sample selection \cite{2019ApJ...877..117H}. 
-We show the galaxy distribution in Fig. \ref{fig:galaxies}. 
-We use a galaxy density that is approx. 40 arcmin$^{-2}$. 
+Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing selection \cite{2019ApJ...877..117H}. 
+The galaxy distribution in shown in Fig. \ref{fig:galaxies}, which has a mean galaxy density of approx. 40 arcmin$^{-2}$. 
 In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. 
 We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. 
 In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog).
-
-\verify{Need lensing selection cuts and maybe short description of candels sample.}
+\verify{Chris: Need lensing selection cuts.}
 
 \subsection{Star catalog}\label{starcat}
 
-We simulate the positions and magnitudes in WFIRST bandpasses of input stars using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. 
-Galaxia uses an analytic model \cite{galaxia2}  to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. 
-Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC and packaged with \galsim. 
+We simulate the positions and magnitudes of input stars in WFIRST passbands using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. 
+Galaxia uses an analytic model \cite{galaxia2} to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. 
+Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC as packaged with \galsim.  The star distribution in shown in Fig. \ref{fig:stars}, which has a mean stellar density of approx. 2.5 arcmin$^{-2}$. 
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/stars.pdf}
+\end{center}
+\caption[]{
+The distribution of simulated stars. The mean stellar density is 2.5 arcmin$^{-2}$. 
+\label{fig:stars}}
+\end{figure}
 
 \subsection{Survey strategy}
 \assign{Hirata}
 
+\verify{Reference Figs. \ref{fig:hist2} \& \ref{fig:pointings}.}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/hist2.pdf}
+\end{center}
+\caption[]{
+The number of exposures per object simulated (total) compared to the number used in the shape measurement.
+\label{fig:hist2}}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/pointings.pdf}
+\end{center}
+\caption[]{
+Pointings that overlap the simulated region (non-shaded). The color of each marker shows the position angle of the focal plane.
+\label{fig:pointings}}
+\end{figure}
+
 \subsection{Simulation implementation for this study}
 
-In this work, we are interested in the impact of how a variety of biases in the PSF model propagate to shape measurement and the weak lensing signal. 
+In this work, we study the impact of how a variety of biases in the PSF model propagate to shape measurement and the weak lensing signal. 
 To study this, we produce a set of 13 image simulations that are identical, including noise, modulo a single PSF model change relative to the fiducial simulation in each case. 
 The details of these changes and their impacts are described in more detail in Sec. \ref{results}. 
-Shape measurement is then performed on the images with some PSF model bias, but using the fiducial, unbiased PSF model for deconvolution, to simulate an unknown wavefront error.
+Shape measurement is then performed on the images with some PSF model bias, but using the fiducial PSF model for deconvolution, to simulate an unknown wavefront error.
 
 Several simplifications are employed relative to the generic synthetic survey generation described in Sec. \ref{stages} to accommodate the computational load of the many realizations of the survey we are producing. 
 \begin{itemize}
 \item We simulate objects in a 2.5$\times$2.5 deg$^2$ patch of the sky.
 \item We only simulate pointings targeted for the H158 filter. 
-Since we are not simulating chromatic effects, the specific filter choice does not make a large difference in our results. 
-\verify{This will have an impact on the 'averaging' of PSF errors, however, ...need justification or explanation} 
+Since we are not simulating chromatic effects, the specific filter choice does not make a large difference in our results.
 \item We use a lower-resolution version of the PSF, which significantly speeds up the convolution.
 The impact of this approximation on the PSF model, in both native and oversampled pixels, can be seen in Fig. \ref{fig:psf}. 
 \item To better isolate the effects of PSF changes, we only utilize the isolated object postage stamps in shape measurement.
-\item We do not simulate objects with photometry that would fall below the fiducial weak lensing selection criteria.
-\item We do not implement a shear calibration scheme like metacalibration, since we only care about changes to the recovered shape between simulation runs.
+\item We do not simulate objects with photometry that would fall outside the fiducial weak lensing selection criteria.
+\item We do not implement a shear calibration scheme like metacalibration \cite{SheldonHuff2017}, since we only care about changes to the recovered shape between simulation runs.
 \end{itemize}
 
-We simulate a total of 907,170 unique galaxies and 56,128 unique stars across 189 pointings in each of the runs. The distribution of PSF properties and exposures per galaxy are shown in Fig. \ref{}.
+We simulate a total of 907,170 unique galaxies and 56,128 unique stars across 189 pointings in each of the runs. The distribution of PSF properties and exposures per galaxy are shown in Figs. \ref{fig:hist2} \& \ref{fig:hist3}.
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=\textwidth]{figures/hist3.pdf}
+\end{center}
+\caption[]{
+The measured PSF ellipticity and size, and the signal-to-noise of the galaxy measurements.
+\label{fig:hist3}}
+\end{figure*}
 
 \def\arraystretch{1.4}
 \setlength{\tabcolsep}{4pt}
@@ -442,51 +420,63 @@ OscZ7 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
 
 \section{Wavefront model errors}\label{sec:results}
 
-\begin{itemize}
-\item background on psf and wavefront errors
-\item details of wfirst psf in cycle 7 (\verify{6?}) baseline
-\item summary of approach 
-\end{itemize}
-
 In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. \verify{Chris: insert text connecting to early motivation section when written}. 
 
-We simulate 13 identical 2.5$\times$2.5 deg$^2$ HLS survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate failure modes in the PSF reconstruction. 
-These are split into three types of failure modes: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over lifetime of the mission, but can be considered static over the timescale of a single exposure. 
-In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm. 
-\verify{Chris: connect value back to requirement discussion when written.} These runs are summarized in Table \ref{table:runs}.
+We simulate 13 identical 2.5$\times$2.5 deg$^2$ HLS survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate various failure modes in the PSF reconstruction. 
+%Shape measurement is performed using the fiducial PSF model in each case to simulate the effect of unknown errors in the PSF model.
+These are split into three types of failure modes: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over the lifetime of the mission, but can be considered static over the timescale of a single exposure. 
+In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm.  These PSF changes are summarized in Table \ref{table:runs}.
 
 \subsection{Static biases}\label{sec:static}
 
 We simulate seven static sources of bias in the PSF model. 
 Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus ($Z_4$) -- \emph{Focus}, oblique astigmatism ($Z_5$) -- \emph{Astig}, and vertical coma ($Z_7$) -- \emph{Coma}. 
 Two simulations include a coherent gradient in the defocus ($Z_4$) -- \emph{GradZ4} -- and vertical astigmatism ($Z_6$) -- \emph{GradZ6} -- across the focal plane with equivalent rms of 0.005 wavelengths. 
-For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA  -- \emph{Piston}, and 2) a random tilt in the x or y direction is assigned to each SCA  -- \emph{Tilt}, with equivalent rms of up to 0.005 wavelengths. 
-These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object assigned a different PSF consistent with this random tilt of the SCA). 
+For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA  -- \emph{Piston}, and 2) a random tilt in the $x$ or $y$ direction is assigned to each SCA  -- \emph{Tilt}, with equivalent rms of up to 0.005 wavelengths. 
+These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object is assigned a different PSF consistent with this random tilt of the SCA). 
 Potential correlated biases in the WCS model due to these changes are ignored in this work, but should be considered in future studies of the WCS model recovery.
 
 \subsection{High-frequency biases}\label{sec:low}
 
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
-These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_2=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
+These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
 
 \subsection{Low-frequency biases}\label{sec:high}
 
-Two low-frequency biases are simulated to represent the Zernike coefficients changes caused by thermal drift through exposures. Thermal perturbation propagates to the 4th and 7th Zernike terms ,which we simulate respectively as \emph{OscZ4} and \emph{OscZ7}.
-Here we generate a random time-dependent function $f(t)$ following a power spectrum to quantify  the perturbation of Zernike terms. The power spectrum of thermal drift noise is in the form of a Lorenzian function $P(\nu)=\frac{A}{1+(\nu/\nu_0)^2}$. Here, $A$ is a normalization factor. As the rms amplitude of bias is 0.005 wavelength, which is approximately $\sigma=$6 nm, so $Var f(t) = \sigma^2 $. Also, $Var f(t)=\int_{-\infty}^{+\infty}P(\nu)d\nu=\pi A\nu_0$. Thus, $A=\frac{\sigma^2}{\pi\nu_0}$, with $\nu_0=\frac{1}{2\pi\tau}=3.14\times10^{-4}Hz$ as the time constant $\tau=1hr$. 
-\section{Results}\label{sec:results}
+Two low-frequency biases are simulated to represent thermal drift through the lifetime of the mission. Thermal perturbations propagate into $Z_4$ -- \emph{OscZ4} -- and $Z_7$  -- \emph{OscZ7} --  modes.
+We generate a random time-dependent function $f(t)$ with rms amplitude 0.005 wavelengths following a given power spectrum to quantify the perturbation of the Zernike coefficients over time. 
+The power spectrum of thermal drift noise is taken to be a Lorenzian function 
+\begin{equation}
+P(\nu)=\frac{A}{1+(\nu/\nu_0)^2},
+\end{equation}
+with normalization factor $A$. The rms variance of of $f(t)$ ($\sigma^2$) can be expressed as
+\begin{equation}
+\sigma^2 = \int_{-\infty}^{+\infty}P(\nu)d\nu=\pi A\nu_0,
+\end{equation}
+which leads to $A=\frac{\sigma^2}{\pi\nu_0}$. $\nu_0=\frac{1}{2\pi\tau}\approx 3.14\times10^{-4}$ Hz, with a time constant $\tau=1$ hr.
 
-Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which introduces varying levels of bias. 
-All estimates of the multiplicative and additive bias will be explored relative to the Fiducial simulation run, since we have not employed a calibration scheme. 
+\section{Results}\label{sec:results2}
+
+Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which simulates the impact of misestimating the PSF model and introduces varying levels of bias. 
+All estimates of the multiplicative and additive bias will be explored relative to the Fiducial simulation run, since we have not employed an absolute calibration scheme. 
 This is justified to first order, since we are only interested in the relative impacts of the PSF model biases.
 We find that 3\% of objects are not included in the shape measurement stage in the Fiducial simulation, due to being too large/bright or because too large a fraction of all cutouts are masked (fall off the edge of an SCA) -- see Sec. \ref{stages} for more details on these selections. 
 
 Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects -- a total of 871,841 galaxies. 
 We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on measured properties, since we expect all objects to be within this selection if we were to simulate all remaining pointings in other bandpasses. 
-The recovered multiplicative shear bias is only approx. 2\% smaller and the mean shear is unchanged if we make this selection, which removes an additional 35\% of objects, almost exclusively due to the signal-to-noise cut. 
+The recovered multiplicative shear bias is only approx. 2\% smaller and the mean shear is unchanged if we make this selection, which removes an additional 35\% of objects, almost exclusively due to the signal-to-noise cut.
 
 We present results for the non-Fiducial simulations only for objects that lie in the intersection of successful shape measurement between each simulation and the Fiducial simulation, to allow for 1-1 comparison of the shapes and cancellation of shape noise and sources of photon noise, which are identical in each simulation. 
-We neglect the impact of selection biases here, since implementing a calibration scheme to correct them for objects with an undersampled PSF is beyond the scope of this investigation. 
-We anticipate this additional bias will be small, however, since the intersection criteria excludes on average only 0.3\% of objects.
+We neglect the impact of selection biases here, since the intersection criteria excludes on average only 0.3\% of objects.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/shape_hist.pdf}
+\end{center}
+\caption[]{
+A histogram of the difference in the measured shape from the true shape in the Fiducial simulation.
+\label{fig:shape_hist}}
+\end{figure}
 
 \subsection{Summary statistics}
 
@@ -625,6 +615,24 @@ OscZ7 		& $-12.067\pm  6.832$ & $-0.083\pm 0.308$ & $-11.351\pm6.315$ & $-0.173\
 %\end{tabular}}
 %\end{center}
 %\end{table}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/focal_mean_e1.pdf}
+\end{center}
+\caption[]{
+The binned mean difference in measured $e_1$ compared to the Fiducial run. Each color bar is in units of $1\times 10^-4$.
+\label{fig:focal_mean_e1}}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/focal_mean_e2.pdf}
+\end{center}
+\caption[]{
+The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each color bar is in units of $1\times 10^-4$.
+\label{fig:focal_mean_e2}}
+\end{figure}
 
 
 \subsection{Spatially-Correlated biases}
