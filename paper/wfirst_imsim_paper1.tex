@@ -54,23 +54,23 @@
 
 The nature of dark energy, which drives cosmic acceleration in the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \cite{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
 A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift space distortions, Type Ia supernovae, and weak gravitational lensing. 
-Current generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM) that will require more and better data to resolve. 
-The Wide-Field InfraRed Space Telescope (WFIRST) has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \cite{2019BAAS...51c.341D,2019arXiv190205569A}.
+Current generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM) that will require more and better data in all of these probes to resolve. 
+The Wide-Field InfraRed Space Telescope (WFIRST) \cite{wfirst} has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \cite{2019BAAS...51c.341D,2019arXiv190205569A}.
 
-In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES), Hyper-Suprime Cam (HSC), and Kilo-Degree Survey (KiDS) have reached levels of precision that rival the previously best possible cosmological constraints including dark energy \cite{}. 
-These surveys have spurred the development of revolutionary algorithms and methods for galaxy shape measurement and weak lensing analysis \cite{}, highlighting the immense power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
+Weak gravitational lensing is a particularly powerful cosmological probe that is sensitive to both the expansion of the Universe and the growth of large-scale structure \cite{2001PhR...340..291B,2017arXiv171003235M}. 
+In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES) \cite{des}, Hyper-Suprime Cam (HSC) \cite{hsc}, and Kilo-Degree Survey (KiDS) \cite{kids} have reached levels of precision that rival the previously best possible cosmological constraints when including a free dark energy equation of state \cite{2018PhRvD..98d3528T,2019PASJ...71...43H,2018arXiv181206076H}. 
+These surveys have spurred the development of revolutionary algorithms and methods for galaxy shape measurement and weak lensing analysis \cite{HuffMandelbaum2017,SheldonHuff2017,shearcat}, highlighting the immense power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
 
-By the planned launch of WFIRST in 2025, we will have final results from the ongoing generation of weak lensing experiments (DES, HSC, and KiDS) and preliminary results from the Dark Energy Spectroscopic Instrument (DESI), the Large Synoptic Survey Telescope (LSST), and the Euclid mission. 
+By the planned launch of WFIRST in 2025, we will have final results from the ongoing generation of weak lensing experiments (DES, HSC, and KiDS) and preliminary results from the Dark Energy Spectroscopic Instrument (DESI) \cite{desi}, the Large Synoptic Survey Telescope (LSST) \cite{lsst}, and the Euclid mission \cite{euclid}. 
 Faced with the unknown discovery potential of these experiments in the early 2020s, it is vital to maintain the agility and flexibility of the WFIRST mission to respond with the best possible science, particularly in what is likely to be a systematics dominated weak lensing field.
-The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing now in Phase B of the mission development is a critical task that this paper will attempt to address. 
-Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts will enable WFIRST to play the likely role of arbiter in the study of new discoveries made in the early years of LSST and Euclid.
+The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing in the current phase of mission development is a critical task that this paper will attempt to address. 
+Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts \cite{} \verify{need forecast papers} will enable WFIRST to play the likely role of arbiter in the study of new discoveries made in the early years of LSST and Euclid.
 
-We present in this paper a set of synthetic WFIRST imaging surveys covering approx. 6 sq. deg. in one filter: a fiducial set of images and 11 variations in ways the PSF could be mis-estimated. 
-It incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq. deg. observation strategy for the survey; and realistic detector effects, PSF models, and WCS solutions that match current (Cycle 7) design specifications. 
-We use a blending-free version of this simulation to test the impact on weak lensing science of a variety of PSF or wave-front errors, including static, low-, and high-frequency biases. 
+Toward this goal, we describe in this paper a simulation pipeline designed to enable the empirical study of requirements flowing down from the WFIRST wide-field imaging survey, in particular for weak lensing. This simulation pipeline can incorporate a realistic simulated survey strategy, galaxy properties, and instrument effects to create a synthetic WFIRST wide-field imaging survey. We present in this paper a set of synthetic WFIRST imaging surveys covering approx. 6 sq. deg. to full 5-year depth in one filter: a fiducial survey and 11 variations incorporating ways in which the PSF could be mis-estimated. 
+The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq. deg. observation strategy for the survey; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
+We use a blending-free version of this simulation to test the impact on weak lensing science of a variety of simulated wave-front modelling errors, including static, low-, and high-frequency biases. 
 
-(insert standard toc para) 
-
+(insert standard toc para?) 
 
 \section{WFIRST weak lensing, the requirements process, and the need for simulations}
 \label{sec:wfirst}
@@ -235,19 +235,12 @@ The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each
 
 \section{Simulation suite}\label{sec:sim}
 
-\begin{itemize}
-\item We have developed a realistic synthetic survey 
-\item into to a synthetic survey and necessary components
-\item galsim framework and cycle 7 (\verify{6?}) baseline
-\item Detailed description of simulation suite components
-\end{itemize}
-
 To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a sufficiently complex synthetic survey that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects as to enable informative tests and preliminary algorithm development. 
 This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the \galsim\ framework and its WFIRST module. 
 The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications. 
 The code is publicly available at \url{https://github.com/matroxel/wfirst_imsim}, where configuration files are provided for the fiducial simulation used in this work.
 Figure \ref{fig:fov} shows an example pointing produced in the fiducial simulation, and Fig. \ref{fig:sca} shows a larger view of one of the SCAs. 
-Performance details are provided in Appendix \cite{app:performance}. 
+Performance details are provided in Appendix \ref{app:performance}. 
 
 \subsection{Simulation stages}\label{stages}
 
@@ -303,22 +296,15 @@ The \galsim\ package is mostly generic with respect to the telescope and observa
 However, it does have a sub-module (\texttt{galsim.wfirst}) that has a number of WFIRST-specific implementation details.
 Some of the code in this module pre-dates this work, but some of it was developed specifically for this project, especially updating some of the details to match Cycle 7 information, and to reflect new information from laboratory tests of persistence in WFIRST sensors.  
 The values used for this project correspond to the \texttt{galsim.wfirst} module in \galsim\ release version 2.2.0.
-\mj{Note: We should reference a real version number for all this.  The code used was technically master branch when Troxel ran it, but we should tag it as an official release soon, which will match all the important aspects of what Troxel used.}
 
 \subsubsection{World coordinate system}\label{wcs}
 
 The \texttt{galsim.wfirst} module has code to provide an estimate of the WFIRST WCS (world coordinate system) for each SCA given a rotation angle, date, and pointing direction.  
 The WCS gives the two-dimensional mapping from $(x,y)$ coordinates on the image to right ascension (RA) and declination (Dec) on the sky.
-The specific orientations and gaps between the sensors was updated to match the Cycle 7 data as part of the development work for this project.
-\mj{ref?}
-
+The specific orientations and gaps between the sensors was updated to match the Cycle 7 \verify{ref} data as part of the development work for this project.
 We create our scene of objects in sky coordinates (RA, Dec).
 All surface brightness profiles in \galsim\ are defined in sky coordinates as well, so units for things like the half-light radius are typically arcseconds.
-We then use a series of pointings and rotation angles designed to match a plausible WFIRST observational schedule. 
-\mj{Probably say more about this?  Chri's observing sequence of pointings and such. Or maybe you already did elsewhere.}
-\galsim\ is then able to turn these observational parameters into full WCS functions for all 18 SCAs and determine which objects in the scene would be observed by each sensor.
-
-\galsim\ automatically accounts for the Jacobian of the WCS transformation when rendering the surface brightness profiles on each sensor's pixels.  
+\galsim\ is then able to turn these observational parameters into full WCS functions for all 18 SCAs and determine which objects in the scene would be observed by each sensor. \galsim\ automatically accounts for the Jacobian of the WCS transformation when rendering the surface brightness profiles on each sensor's pixels.  
 Details such as the telescope distortion and variable pixel area are correctly accounted for in this process.
 
 \subsubsection{Point-spread function}\label{psf}
@@ -1504,10 +1490,10 @@ This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-
 \section{Performance statistics}
 \label{app:performance}
 
-Each stage of the image simulation suite can be trivially parallelized. Disk I/O is not a practical issue in the image generation when running at scale across 4-5k jobs. Within each image generation job (simulation of a complete SCA), the drawing of each object is currently also be trivially parallelized across available threads. This will likely change as the simulation of the detectors becomes more realistic, though. In both modes, the image generation stage achieves about 95\% CPU utilization. Stages that process the image output into different data formats are less efficient, and the generation of the MEDS files is generally limited by disk I/O and remote data transfer. Typical timing (per thread), memory usage, and resulting data sizes are provided in Table \ref{table:performance}. 
+Each stage of the image simulation suite can be trivially parallelized. Disk I/O is not a practical issue in the image generation when running at scale across 4-5k jobs. Within each image generation job (simulation of a complete SCA), the drawing of each object is currently also be trivially parallelized across available threads. This will likely change as the simulation of the detectors becomes more realistic, though. In both modes, the image generation stage achieves about 95\% CPU utilization. Stages that process the image output into different data formats are less efficient, and the generation of the MEDS files is generally limited by disk I/O and remote data transfer. Typical timing (per thread), memory usage, and resulting data sizes are provided in Table \ref{table:performance}. The total data volume is 58GB of FITS images, 364GB of MEDS files, and $<$1GB of catalog data, for a total of about 423GB. These values will scale approximately linearly with the area of sky simulated and the density of objects.
 
 \begin{table}
-\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is in generating the images. The total data volume is 58GB of FITS images, 364GB of MEDS files, and $<$1GB of catalog data, for a total of about 423GB. These values will scale approximately linearly with the area of sky simulated and the density of objects.
+\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is still in generating the images. 
 }
 \begin{tabular}{cccc}
 \hline
