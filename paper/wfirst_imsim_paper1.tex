@@ -45,6 +45,8 @@
 Need to include link to data.
 
 Need to clean up referring to different runs.
+
+Need to match significant digits to uncertainty in Table III
 \end{abstract}
 
 \keywords{}
@@ -390,8 +392,8 @@ The measured PSF ellipticity and size, and the signal-to-noise of the galaxy mea
 \def\arraystretch{1.4}
 \setlength{\tabcolsep}{4pt}
 \begin{table}
-\caption{Table} A summary of the 13 simulation runs. (+ means done)
-\label{table:values}
+\caption{Table} A summary of the 13 simulation runs.
+\label{table:runs}
 \begin{center}
 \begin{tabular}{lcccc }
 \hline
@@ -449,11 +451,29 @@ The power spectrum of thermal drift noise is taken to be a Lorenzian function
 \begin{equation}
 P(\nu)=\frac{A}{1+(\nu/\nu_0)^2},
 \end{equation}
-with normalization factor $A$. The rms variance of of $f(t)$ ($\sigma^2$) can be expressed as
+with normalization factor $A$. The rms variance of of $f(t)$ can be expressed as
 \begin{equation}
 \sigma^2 = \int_{-\infty}^{+\infty}P(\nu)d\nu=\pi A\nu_0,
 \end{equation}
 which leads to $A=\frac{\sigma^2}{\pi\nu_0}$. $\nu_0=\frac{1}{2\pi\tau}\approx 3.14\times10^{-4}$ Hz, with a time constant $\tau=1$ hr.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/focal_mean_e1.pdf}
+\end{center}
+\caption[]{
+The binned mean difference in measured $e_1$ compared to the Fiducial run. Each color bar is in units of $1\times 10^-4$.
+\label{fig:focal_mean_e1}}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/focal_mean_e2.pdf}
+\end{center}
+\caption[]{
+The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each color bar is in units of $1\times 10^-4$.
+\label{fig:focal_mean_e2}}
+\end{figure}
 
 \section{Results}\label{sec:results2}
 
@@ -493,38 +513,64 @@ b_2 &= -0.00157 \pm 0.00016.
 \end{align*}
 The difference in measured shape vs true input shape (intrinsic shape and shear) is shown in Fig. \ref{fig:shape_hist}.
 
-For each simulation, we compare the recovered shear to the Fiducial simulation in several ways. First, we compare the change to the recovered values of $m$ and $b$, along with the changes in the mean galaxy and PSF sizes and ellipticities, where we use the true model PSF images for each simulation and not the biased PSF model used in the shape measurement. 
+For each simulation, we compare the recovered shear to the Fiducial simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the Fiducial result, which is shown in Table \ref{deltamb}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{dpsi}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. We can study the difference in the measured ellipticity relative to the Fiducial simulation in both focal plane and sky coordinates. The mean ellipticity difference binned in the focal plane is shown in Figs. \ref{fig:focal_mean_e1}  \& \ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. Fig. \ref{fig:f2pt_corrs} shows the two-point correlation function of the ellipticity difference. 
+\verify{Should we have further discussion here of the results before going into the comparison to the appendix?}
 
-We will also represent the changes in $m$ and $b$ as a response to the wavefront error in units of nm. 
+
+\begin{table}
+\label{table:bias}
+\caption{Table} Additive and multiplicative bias parameter changes.\label{deltamb}
+\begin{center}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{ lcccc }
+\hline
+\hline
+%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
+Run name & $\triangle m_1\times 10^{3}$ & $\triangle m_2\times 10^{3}$ & $\triangle b_1\times 10^{4}$ & $\triangle b_2\times 10^{4}$   \\
+\hline
+Focus        & $4.65 \pm 0.24 $  &  $ 4.36\pm 0.23 $ &$ -5.57\pm 0.24$ & $-15.87 \pm 0.30$   \\
+Astig        & $-0.23 \pm 0.24 $ &  $ 0.90\pm 0.21 $ &$ -29.14 \pm 0.30$ & $-0.55 \pm 0.20$    \\
+Coma         & $-1.33 \pm 0.26 $ &  $ -1.47 \pm 0.21 $ &$ -6.66 \pm 0.26$ & $ 0.22 \pm 0.34$   \\
+GradZ4       & $-2.63 \pm 0.27 $ &  $ -2.52\pm 0.23 $ &$ -0.51\pm 0.21$ & $ 6.71 \pm 0.42$  \\
+GradZ6       & $0.22 \pm 0.23 $  &  $ -0.22\pm 0.23 $ &$ 14.72 \pm 0.62$ & $ 0.44\pm 0.23$ \\
+Piston 		 & $-13.6 \pm 5.0 $  &  $ -15.0\pm 5.3 $ &$ -3.70 \pm 0.31$ & $-7.51 \pm 0.34$   \\
+Tilt 		 & $-38.0 \pm 8.0 $  &  $ -36.6\pm 8.0 $ &$ -0.40 \pm 0.38$ & $ 0.73 \pm 0.38$   \\
+IsoJitter 	 & $-40.8 \pm 8.6 $  &  $ -39.5\pm 8.5 $ &$ 0.24\pm 0.84$ & $0.43 \pm 0.91$ \\
+AniJitter 	 & $-11.4 \pm 1.1 $  &  $ -11.5\pm 1.0 $ &$43.27 \pm 0.85$ & $ -0.13 \pm 0.86$ \\
+RanJitter 	 & $-12.8 \pm 4.4 $  &  $ -12.6\pm 4.1 $ &$ 7.50 \pm 0.64$ & $ 0.33 \pm 0.43$   \\
+OscZ4 		 & $-7.2\pm3.1 $     &  $-6.5\pm 3.1$   &$ 0.89\pm0.31$    & $2.15\pm0.49$  \\
+OscZ7 	     & $-12.1\pm  6.8$   &  $-11.4\pm6.3$ &$-0.08\pm 0.31$ & $-0.17\pm 0.44$  \\
+\hline
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
 
 \begin{table}
 \label{table:partials}
-\caption{Table} Ellipticities changes with respect to Zernike coefficients for different modes. The units of high-frequency modes, i.e. IsoJitter, AniJitter and Ranjitter are ${\rm milliarcsec}^{-2}$. For all other modes the units are ${\rm nm}^{-1}$.
+\caption{Table}\label{dpsi} Ellipticities changes with respect to Zernike coefficients for different modes. The units of high-frequency modes, i.e. IsoJitter, AniJitter and Ranjitter are ${\rm milliarcsec}^{-2}$. For all other modes the units are ${\rm nm}^{-1}$.
 \begin{center}
-\resizebox{\columnwidth}{!}{
 \begin{tabular}{ lcc }
 \hline
 \hline
 %Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & ilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
-
-Run name & $\partial e_1/\partial\psi$ & $\partial e_2/\partial\psi$ \\
+Run name & $\partial e_1/\partial\psi \times 10^{-4}$ & $\partial e_2/\partial\psi \times 10^{-4}$ \\
 \hline
-Fiducial              & -- & --  \\
-Focus                & $-8.7\times 10^{-5} \pm 3.2\times 10^{-6}$ & $-2.5\times 10^{-4} \pm 3.1\times 10^{-6}$  \\
-Astig                 & $-4.5\times 10^{-4} \pm 3.1\times 10^{-6}$ & $-1.0\times 10^{-5} \pm 3.0\times 10^{-6}$  \\
-Coma                & $-1.0\times 10^{-4} \pm 3.2\times 10^{-6}$ & $3.0\times 10^{-6} \pm 3.2\times 10^{-6}$  \\
-GradZ4             & $-8.9\times 10^{-6} \pm 3.0\times 10^{-6}$ & $1.0\times 10^{-4} \pm 2.9\times 10^{-6}$  \\
-GradZ6             & $2.2\times 10^{-4} \pm 2.9\times 10^{-6}$ & $4.4\times 10^{-6} \pm 2.8\times 10^{-6}$  \\
-Piston 		 & $-5.6\times 10^{-5} \pm 4.8\times 10^{-6}$ & $-1.2\times 10^{-4} \pm 4.8\times 10^{-6}$  \\
-Tilt 			& $-3.6\times 10^{-6} \pm 6.3\times 10^{-6}$ & $1.0\times 10^{-5} \pm 6.3\times 10^{-6}$  \\
-IsoJitter 		& $1.2\times 10^{-3} \pm 7.2\times 10^{-3}$ & $1.8\times 10^{-3} \pm 7.0\times 10^{-3}$  \\
-AniJitter 		& $0.29 \pm 6.9\times 10^{-3}$ & $-1.9\times 10^{-3} \pm 6.8\times 10^{-3}$  \\
-RanJitter 	        & $0.049 \pm 3.2\times 10^{-3}$ & $1.7\times 10^{-3} \pm 3.1\times 10^{-3}$  \\
-OscZ4 		 & $1.3\times 10^{-5}\pm 3.9\times 10^{-6}$ & $3.0\times 10^{-5}\pm 3.9\times 10^{-6}$  \\
-OscZ7 		& $-1.9\times 10^{-6}\pm 4.5\times 10^{-6}$ & $-4.4\times 10^{-6}\pm 4.4\times 10^{-6}$   \\
+Focus           & $-0.87  \pm 0.032$   & $-2.5  \pm 0.031$  \\
+Astig           & $-4.5   \pm 0.031$   & $-0.10 \pm 0.030$  \\
+Coma            & $-1.0   \pm 0.032$   & $0.030 \pm 0.032$  \\
+GradZ4          & $-0.089 \pm 0.030$   & $1.0   \pm 0.029$  \\
+GradZ6          & $2.2    \pm 0.029$   & $0.044 \pm 0.028$  \\
+Piston 		    & $-0.560  \pm 0.048$  & $-1.2  \pm 0.048$  \\
+Tilt 			& $-0.036 \pm 0.063$   & $0.10  \pm 0.063$  \\
+IsoJitter 		& $12.0   \pm 7.2$     & $18.0  \pm 70.0$  \\
+AniJitter 		& $0.29   \pm 0.0069$  & $-19.0 \pm 68.0$  \\
+RanJitter 	    & $0.049  \pm 0.0032$  & $17.0  \pm 31.0$  \\
+OscZ4 		    & $0.13   \pm 0.039$   & $0.30  \pm 0.039$  \\
+OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   \\
 \hline
 \hline
-\end{tabular}}
+\end{tabular}
 \end{center}
 \end{table}
 
@@ -557,35 +603,7 @@ OscZ7 		& $-1.9\times 10^{-6}\pm 4.5\times 10^{-6}$ & $-4.4\times 10^{-6}\pm 4.4
 %\end{center}
 %\end{table}
 
-\begin{table}
-\label{table:bias}
-\caption{Table} Additive and multiplicative bias parameter changes.
-\begin{center}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{ lcccc }
-\hline
-\hline
-%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
-Run name & $\triangle m_1\times 10^{3}$ & $\triangle b_1\times 10^{4}$ & $\triangle m_2\times 10^{3}$ & $\triangle b_2\times 10^{4}$   \\
-\hline
-Fiducial              & -- & -- &  -- & --  \\
-Focus                & $4.649 \pm 0.237 $ & $ -5.57\pm 0.238$ & $ 4.358\pm 0.228 $ & $-15.87 \pm 0.304$   \\
-Astig                & $-0.226 \pm 0.241 $ & $ -29.14 \pm 0.301$ & $ 0.901\pm 0.209 $ & $-0.549 \pm 0.189$    \\
-Coma                & $-1.328 \pm 0.259 $ & $ -6.66 \pm 0.262$ & $ -1.469 \pm 0.211 $ & $ 0.224 \pm 0.341$   \\
-GradZ4             & $-2.632 \pm 0.267 $ & $ -0.507\pm 0.210$ & $ -2.515\pm 0.228 $ & $ 6.71 \pm 0.423$  \\
-GradZ6             & $0.216 \pm 0.226 $ & $ 14.72 \pm 0.624$ & $ -0.216\pm 0.226 $ & $ 0.441\pm 0.227$ \\
-Piston 		 & $-13.596 \pm 4.986 $ & $ -3.70 \pm 0.313$ & $ -14.972\pm 5.256 $ & $-7.51 \pm 0.34$   \\
-Tilt 			& $-37.978 \pm 8.044 $ & $ -0.403 \pm 0.382$ & $ -36.629\pm 7.996 $ & $ 0.731 \pm 0.381$   \\
-IsoJitter 		& $-40.797 \pm 8.612 $ & $ 0.244\pm 0.835$ & $ -39.489\pm 8.549 $ & $0.425 \pm 0.905$ \\
-AniJitter 		& $-11.399 \pm 1.057 $ & $43.27 \pm 0.845$ & $ -11.473\pm 0.958 $ & $ -0.132 \pm 0.857$ \\
-RanJitter 	& $-12.820 \pm 4.413 $ & $ 7.50 \pm 0.637$ & $ -12.603\pm 4.099 $ & $ 0.326 \pm 0.431$   \\
-OscZ4 		 & $-7.172\pm3.070 $ & $ 0.891\pm0.307$ & $-6.513\pm 3.126$ & $2.148\pm0.491$  \\
-OscZ7 		& $-12.067\pm  6.832$ & $-0.083\pm 0.308$ & $-11.351\pm6.315$ & $-0.173\pm 0.437$  \\
-\hline
-\hline
-\end{tabular}}
-\end{center}
-\end{table}
+
 %
 %\begin{table}
 %\label{table:re_dm}
@@ -618,36 +636,11 @@ OscZ7 		& $-12.067\pm  6.832$ & $-0.083\pm 0.308$ & $-11.351\pm6.315$ & $-0.173\
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\columnwidth]{figures/focal_mean_e1.pdf}
-\end{center}
-\caption[]{
-The binned mean difference in measured $e_1$ compared to the Fiducial run. Each color bar is in units of $1\times 10^-4$.
-\label{fig:focal_mean_e1}}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/focal_mean_e2.pdf}
-\end{center}
-\caption[]{
-The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each color bar is in units of $1\times 10^-4$.
-\label{fig:focal_mean_e2}}
-\end{figure}
-
-
-\subsection{Spatially-Correlated biases}
-
-We are also interested in the spatial correlation of any biases, since this will propagate into the measured shear correlation functions. ...
-
-\begin{figure}
-\begin{center}
 \includegraphics[width=\columnwidth]{figures/2pt_corrs.pdf}
 \end{center}
 \caption[]{ The correlation function of ellipticity difference between PSF runs and fiducial run. Blue, red points show the two correlation functions measured in sky coordinates: $\xi_{\pm}(\theta)=<\Delta e_1\Delta e_1>\pm<\Delta e_2\Delta e_2>.$
 \label{fig:f2pt_corrs}}
 \end{figure}
-
-\subsection{Fiducial simulation results}\label{sec:results}
 
 \subsection{Comparison of analytic to numerical results}
 
