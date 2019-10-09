@@ -66,7 +66,7 @@ Faced with the unknown discovery potential of these experiments in the early 202
 The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing in the current phase of mission development is a critical task that this paper will attempt to address. 
 Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts \cite{} \verify{need forecast papers} will enable WFIRST to play the likely role of arbiter in the study of new discoveries made in the early years of LSST and Euclid.
 
-Toward this goal, we describe in this paper a simulation pipeline designed to enable the empirical study of requirements flowing down from the WFIRST wide-field imaging survey, in particular for weak lensing. This simulation pipeline can incorporate a realistic simulated survey strategy, galaxy properties, and instrument effects to create a synthetic WFIRST wide-field imaging survey. We present in this paper a set of synthetic WFIRST imaging surveys covering approx. 6 sq. deg. to full 5-year depth in one filter: a fiducial survey and 11 variations incorporating ways in which the PSF could be mis-estimated. 
+Toward this goal, we describe in this paper a simulation pipeline designed to enable the empirical study of requirements flowing down from the WFIRST wide-field imaging survey, in particular for weak lensing. This simulation pipeline can incorporate a realistic simulated survey strategy, galaxy properties, and instrument effects to create a synthetic WFIRST wide-field imaging survey. We present in this paper a set of synthetic WFIRST imaging surveys covering approx. 6 sq. deg. to full 5-year depth in one filter: a fiducial survey and 11 variations incorporating ways in which the point-spread function (PSF) could be mis-estimated. 
 The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq. deg. observation strategy for the survey; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
 We use a blending-free version of this simulation to test the impact on weak lensing science of a variety of simulated wave-front modelling errors, including static, low-, and high-frequency biases. 
 
@@ -76,13 +76,6 @@ We use a blending-free version of this simulation to test the impact on weak len
 \label{sec:wfirst}
 
 \chris{need to write this; will make extensive reference to the appendices for technical details that aren't really necessary to understand the simulations}
-
-%\begin{itemize}
-%\item What WFIRST is \& timeline
-%\item Previous requirements information
-%\item context in broader sit work
-%\item transition to empirical validation (next section)
-%\end{itemize}
 
 We now proceed to describe requirements and the role of this suite of image simulations in verifying that the requirements flowdown is correct. We begin with a description of weak lensing on WFIRST that emphasizes the issues most closely tied to the image simulations (\S\ref{ss:wlprog}), and a high-level review of the requirements process in a cosmology project (\S\ref{ss:req}). There we describe where in this process we need the mapping between the wavefront error and galaxy ellipticities, $\partial e_i/\partial \psi_j$ (where $\psi_j$ denotes a Zernike mode of the wavefront error). This mapping was obtained using a simplified analytic model, calibrated by toy simulations, in the Phase A requirements flowdown; this approach is described at a high level in \S\ref{ss:dedZ}, with technical details placed in the appendices. In the rest of this paper, we will use much more advanced image simulations, based on the \galsim\ package, to estimate $\partial e_i/\partial \psi_j$.
 
@@ -235,54 +228,50 @@ The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each
 
 \section{Simulation suite}\label{sec:sim}
 
-To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a sufficiently complex synthetic survey that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects as to enable informative tests and preliminary algorithm development. 
+To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a synthetic survey suite that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects so as to enable informative tests and preliminary algorithm development. 
 This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the \galsim\ framework and its WFIRST module. 
-The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications. 
-The code is publicly available at \url{https://github.com/matroxel/wfirst_imsim}, where configuration files are provided for the fiducial simulation used in this work.
-Figure \ref{fig:fov} shows an example pointing produced in the fiducial simulation, and Fig. \ref{fig:sca} shows a larger view of one of the SCAs. 
-Performance details are provided in Appendix \ref{app:performance}. 
+The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper.}. 
+The code is publicly available \cite{wfirst_imsim}.
 
 \subsection{Simulation stages}\label{stages}
 
 The simulation is broken into several stages:
 
-\textbf{\textit{Truth catalog generation}} -- A truth catalog is generated from the input galaxy distribution, photometric galaxy catalog, and Milky Way simulation. 
-The following true object properties are assigned to each galaxy in the input galaxy distribution (from which the unique galaxy id is generated): 
-1) The position in RA and Dec from the galaxy distribution; 
-2) Photometric properties drawn from a random object in the photometric galaxy catalog (consistent $YJHF$ magnitudes, size, and redshift); 
+\textbf{\textit{Truth catalog generation}} -- A truth catalog is generated from the simulated input galaxy distribution, photometric galaxy catalog, and Milky Way simulation. 
+The following true object properties are assigned to each simulated galaxy:
+1) The sky position in right ascension (RA) and declination (Dec) from the simulated galaxy distribution; 
+2) Photometric properties (consistent $YJHF$ magnitudes, size, and redshift) drawn from a random object in the photometric galaxy catalog; 
 3) Intrinsic ellipticity components drawn from a Gaussian distribution of width 0.27 (truncated at $\pm$0.7); 
 4) A random rotation angle; 
 5) The ratio of fluxes in each of the three galaxy components: a) de Vaucouleurs bulge, b) exponential disk, and c) random walk star-forming knots (a maximum of 25\% of flux can exist in the knots); 
-6) The gravitational shear applied to the object, drawn from a discrete list of $(e_1, e_2) \in \{\pm 0.1, \pm 0.1\}$, though including a coherent shear field instead is a simple modification. 
+6) The gravitational shear applied to the object, drawn from a discrete list of $(e_1, e_2) \in \{0,\pm 0.1\}$.
 Further details on the provenance of the galaxy catalogs and Milky Way simulation can be found in Secs. \ref{galcats} and \ref{starcat}, respectively. 
-These truth properties are saved in a light-weight FITS format that is accessed by the following stages.
+The true properties for all objects are saved in a single FITS table that is accessed by the following stages.
 
 \textbf{\textit{Image generation}} -- In this stage, an empty SCA image is initialized ($4088\times4088$ pixels), and a model is built for each galaxy and star is turn, then drawn into the image. 
 The galaxy models are built chromatically from the truth parameters for the object, with each component being assigned a different representative SED of types: S0 (bulge), SBa (disk), and Im (knots), respectively. 
-The assigned SED is the same for all objects, since after redshifting the spectrum and applying the appropriate flux in each component and size, the model is converted to be achromatic in each passband to speed up the drawing.\footnote{This simplification can be removed, however, at the cost of multiple factors of increased runtime.}
+The assigned SED is the same for all objects, since after redshifting the spectrum and applying the appropriate flux and size in each component, the model is converted to be achromatic in each passband to speed up the drawing (this is discussed further in Sec. \ref{psf}). 
 The intrinsic ellipticity, random rotation, and gravitational shear is then applied.
-For stars, we apply the SED of Alpha Lyra to a chromatic delta function model. 
+For stars, we apply the SED of Alpha Lyra to a delta function model. 
 Stars are also converted to be achromatic before drawing.
 Both stars and galaxies are then convolved with the appropriate PSF for the SCA (constant across the SCA in the fiducial simulation). An example of the PSF model for an object is shown in Fig. \ref{fig:psf}. We save images of the true PSF model both at native pixel scale and oversampled by a factor of 8, in stamps of native pixel size $8\times 8$ at the position of each galaxy.
 
-The models are drawn in dynamically-sized squares stamps, the sizes of which are chosen automatically by \galsim\ to include at least 99.5\% of the flux.
+The models are drawn in dynamically-sized squares stamps, the sizes of which are chosen to include at least 99.5\% of the flux.
 These stamps are then added to the SCA image and saved separately (if drawing a galaxy) to provide an isolated image of each simulated galaxy to allow for tests of the impact of blending.
 Objects that would have a postage stamp that overlaps the SCA image are drawn, such that light from objects in chip gaps are appropriately drawn onto the SCA, but we only save postage stamps for objects that have a centroid that falls on the SCA. 
 We do not save isolated postage stamps of objects that have a stamp size of greater than 288$\times$288 pixels, but they are drawn into the images.
 Finally, each isolated postage stamp is processed through the steps described in Sec. \ref{effects} to simulate the WFIRST observatory and detectors and written to disk. When all objects are added to the full SCA image, it is also processed through these steps and written to a FITS image file.
-The simulation is parallelized at the SCA level, such that each SCA in each pointing can be run independently. 
-(send sentence to appendix) The truth file is lightweight and completion time semi-random, such that even remote disk I/O has not been a limiting factor at the level of thousands of parallel jobs. 
 
-\textbf{\textit{MEDS creation}} -- We then compile the output across pointings of the isolated object stamps into MEDS (Multi-Epoch Data Structure) files\footnote{https://github.com/esheldon/meds}. 
+\textbf{\textit{MEDS creation}} -- We then compile the output across pointings of the isolated object stamps into MEDS (Multi-Epoch Data Structure) files.\footnote{https://github.com/esheldon/meds}
 These files concatenate all exposures of unique objects to allow for fast access for object-by-object data processing (like shape measurement). 
-Each MEDS file also stores for each object (and stamp) its original SCA, the object position and the stamp position within the SCA, the WCS for each stamp, the PSF model for each object, and other ancillary information. 
-Each MEDS file contains all objects within a $n_{\textrm{side}}=512$ Healpixel.
+Each MEDS file also stores for each object (and stamp) its original SCA, the object position and the stamp position within the SCA, the WCS for each stamp, the PSF model for each object, and other ancillary information and metadata.
+Each MEDS file contains all objects within a $n_{\textrm{side}}=512$ Healpixel\footnote{\url{https://healpix.jpl.nasa.gov}} \cite{2005ApJ...622..759G,Zonca2019}.
 
-\textbf{\textit{Shape measurement}} -- We utilize the MEDS files to measure the shapes of each galaxy and the PSF. 
+\textbf{\textit{Shape measurement}} -- 
 The galaxy shape is measured by jointly fitting a two-component model, de Vaucouleurs bulge and exponential disk, across all suitable exposures. 
 Exposures where more than 20\% of the pixels are masked (i.e., the centroid falls too close to the edge of the SCA) are rejected. 
-The model fit has x parameters: $e_{1,2}$, $p_{x,y}$, half-light radius, flux, and bulge flux fraction, where $e_{1,2}$ is the component of the ellipticity and $p_{x,y}$ is the pixel centroid offset. 
-The fits are done using the \textsc{ngmix}\footnote{https://github.com/esheldon/ngmix} and \textsc{MOF}\footnote{https://github.com/esheldon/mof} packages \cite{2014MNRAS.444L..25S}. 
+The model fit has 7 parameters: $e_{1,2}$, $p_{x,y}$, half-light radius, flux, and bulge flux fraction, where $e_{1,2}$ is the component of the ellipticity and $p_{x,y}$ is the pixel centroid offset. 
+The minimization is performed using the \textsc{MOF}\footnote{https://github.com/esheldon/mof} package \cite{2014MNRAS.444L..25S}. 
 We also measure the PSF size and shape using an adaptive moments method \cite{2003MNRAS.343..459H}. 
 This stage writes a set of FITS files containing the galaxy and PSF measurement results and relevant truth catalog information.
 
@@ -300,16 +289,15 @@ The values used for this project correspond to the \texttt{galsim.wfirst} module
 \subsubsection{World coordinate system}\label{wcs}
 
 The \texttt{galsim.wfirst} module has code to provide an estimate of the WFIRST WCS (world coordinate system) for each SCA given a rotation angle, date, and pointing direction.  
-The WCS gives the two-dimensional mapping from $(x,y)$ coordinates on the image to right ascension (RA) and declination (Dec) on the sky.
-The specific orientations and gaps between the sensors was updated to match the Cycle 7 \verify{ref} data as part of the development work for this project.
-We create our scene of objects in sky coordinates (RA, Dec).
-All surface brightness profiles in \galsim\ are defined in sky coordinates as well, so units for things like the half-light radius are typically arcseconds.
-\galsim\ is then able to turn these observational parameters into full WCS functions for all 18 SCAs and determine which objects in the scene would be observed by each sensor. \galsim\ automatically accounts for the Jacobian of the WCS transformation when rendering the surface brightness profiles on each sensor's pixels.  
+The WCS gives the two-dimensional mapping from $(x,y)$ coordinates on the image to RA and Dec on the sky.
+The specific orientations and gaps between the sensors was updated to match Cycle 7 specifications as part of the development work for this project.
+We create our scene of objects, including their surface brightness profiles, in sky coordinates (RA, Dec).
+\galsim\ automatically accounts for the Jacobian of the WCS transformation when rendering the surface brightness profiles on each sensor's pixels.  
 Details such as the telescope distortion and variable pixel area are correctly accounted for in this process.
 
 \subsubsection{Point-spread function}\label{psf}
 
-For the point-spread function (PSF) we use a model of the WFIRST PSF from the \texttt{galsim.wfirst} module.
+For the PSF we use a model of the WFIRST PSF from the \texttt{galsim.wfirst} module.
 While this module includes a high-resolution Cycle 7 estimate of the WFIRST spider pattern (i.e. the obscuration of the struts and camera in the pupil plane), we use a faster, low-resolution approximation, which gets the qualitative features correct, but has a slightly different detailed diffraction pattern.  
 For the purposes of this study, we are insensitive to the differences between the two spider patterns, so we did not enable the slower, more accurate option.
 %%%MJ: The below text is right if you aren't using approximate_struts.  But I think you are.
@@ -317,7 +305,7 @@ For the purposes of this study, we are insensitive to the differences between th
 %Technically, the effective spider pattern varies continuously with wavelength, but the difference between the %two shorter wavelength bands is small, and we approximate them as having the same pattern.
 
 The PSF uses positition-dependent (Zernike) aberrations, based on an investigation of the field-dependent wavefront errors for Cycle 5.0.6\footnote{\url{https://wfirst.gsfc.nasa.gov/science/sdt_public/wps/references/instrument/README_AFTA_C5_WFC_Zernike_and_Field_Data.pdf}}.
-We are not aware of a more recent update to these numbers.  
+We are not aware of a more recent update to these numbers. 
 Aberrations between the tabulated positions are estimated using bilinear interpolation of the tabulated values.
 
 The wavelength-dependent features of the PSF, such as the width of the Airy diffraction pattern, and the wavelength-dependence of the aberrations, are taken at the effective wavelength of the observation bandpass.
@@ -326,15 +314,15 @@ However, it does omit some interesting and subtle chromatic effects as different
 There are plans to improve the implementation of this aspect of \galsim, but it cannot currently simulate such effects efficiently enough for our needs.
 
 There are also plans to enable the use of WebbPSF\footnote{\url{https://webbpsf.readthedocs.io/en/stable/}} in \texttt{galsim.wfirst} to leverage the work being done on that project to simulate the WFIRST PSF.
-That PSF is qualitatively similar to what we are using from \texttt{galsim.wfirst}, but there are slight differences.
-We expect that the WebbPSF model is probably more accurate, so we look forward to being able to use that in future simulations.
-
-\mj{Both of the above planned improvements will be done by us.  (Probably me in fact.)  Not sure if we should allude to that fact or not...}
+That WebbPSF model is qualitatively similar to what we are using from \texttt{galsim.wfirst}, but there are slight differences.
+We expect that the WebbPSF model is probably more accurate, but this will be explored in future work.
 
 \subsubsection{Implemented detector effects}\label{effects}
 
 Most of the development of \galsim\ has been to render simulations of CCD images.
-The HgCdTe detectors used by WFIRST are qualitatively similar, but there are significant differences in the physics, which lead to differences in some of the simulation steps.
+The HgCdTe detectors used by WFIRST are qualitatively similar, but there are significant differences in the physics, which lead to differences in some of the simulation steps. We discuss the implementation of some of these effects in detail below. 
+
+For this work, each image is processed through the following stages, simulating what physically happens in the detector: 1) the poisson background of stray light and thermal emission from the telescope is generated and a 'sky' background image is created that also undergoes stages 2--9, 2) the impact of reciprocity failure is added, 3) the electron counts are quantized, 4) dark current is added to the image, 5) nonlinear response to flux is applied, 6) the effect of interpixel capacitance is applied, 7) instrument read noise is applied, 8) electron counts are converted to ADU, and 9) the ADU value is quantized. In this work, we subtract the final background image from image, simulating a perfect background subtraction algorithm.
 
 Reciprocity failure is a non-linear relationship between the voltage response in the detector to the incident flux of photons at low light levels.
 The exact mechanism of this effect is unknown and hence we lack a good theoretical model. 
@@ -352,12 +340,12 @@ and $\alpha$ is taken to be $6.5 \times 10^{-3}$ for the WFIRST sensors.
 A particularly pernicious effect present in the HgCdTe detectors is known as ``persistence''.  
 In a series of images taken sequentially, some small fraction of the charge accumulated in earlier exposures apparently remains in the sensor and appears in later exposures.  
 The effect lasts for many minutes across multiple reset cycles.  
-Therefore, for simulating the effect, we need to keep track of the precise order of the observations, the time of each, and the electron-level (i.e. pre-read-out) images of multiple prior exposures.
+Therefore, for simulating the effect, we need to keep track of the precise order and time of each observation, and the electron-level (i.e. pre-read-out) images of multiple prior exposures.
 
 The exact functional form of this effect is not very well understood, although some progress is being made in laboratory tests.  
-The functional form for this effect was updated during the Cycle 7 updates to account for recently improved understanding from laboratory measurements.
-\galsim\ now uses a fermi profile when the deposited flux is above the half-well level, and linear below.
-Above the half-well, the functional form is
+The functional form for this effect was updated during the Cycle 7 updates, and
+\galsim\ now uses a fermi profile when the deposited flux is above the half-well level, and linear when below.
+Above the half-well level, the functional form is
 \begin{equation}
 n_\mathrm{persist} = \frac{A \left(n/n_0\right)^a  \left(\frac{t}{1000 \mathrm{sec}}\right)^{-r}}
 { \exp(- \frac{n-n0}{dn})+ 1}
@@ -376,10 +364,7 @@ Inter-pixel capacitance (IPC) essentially amounts to a convolution of the image 
 However, the timing of the convolution is during the readout process, which means that some (but not all) of the noise has already occurred.  
 Thus it cannot be treated as part of the PSF for the purpose of the simulation.  
 It needs to be applied separately after the dark current and Poisson shot noise have been applied, but before the read noise.  
-The IPC coefficients have been measured in the lab for WFIRST detectors; the values used in the \texttt{galsim.wfirst} module come from the Cycle 5 estimates.
-
-\mj{It looks like there were Cycle 7 updates to these coefficients.  But we don't seem to be using them.  Slightly awkward....}
-
+The IPC coefficients have been measured in the lab for WFIRST detectors; the values used in the \texttt{galsim.wfirst} module come from the Cycle 5 estimates. \verify{need to comment on differences with cycle 7 values?}
 
 \subsection{Galaxy catalogs}\label{galcats}
 
