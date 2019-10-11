@@ -47,6 +47,8 @@ Need to include link to data.
 Need to clean up referring to different runs.
 
 Need to match significant digits to uncertainty in Table III
+
+Should we include appendix showing why oversampling factor of 8 is required for psf model? This is something I shared with the SIT a long time ago.
 \end{abstract}
 
 \keywords{}
@@ -306,7 +308,7 @@ The distribution of simulated galaxies. The mean galaxy density is 40 arcmin$^{-
 \includegraphics[width=\textwidth]{figures/hist.pdf}
 \end{center}
 \caption[]{
-The input distributions of half-light radius, redshift, and H158 magnitude for galaxies (blue) and stars (orange). 
+The true (blue) and recovered (orange) distributions of galaxy half-light radius, redshift, and H158 magnitude for galaxies, with a comparison of the magnitude distribution of stars (green). The recovered galaxy magnitude and half-light radius are the distribution inferred from the shape measurement process, while the distribution in redshift simply shows where in redshift objects do not have a valid shape fit -- mostly at low redshift, where some large objects are not used. In general, the measured size and magnitude agree well with the true value.
 \label{fig:hist}}
 \end{figure*}
 
@@ -346,7 +348,7 @@ The distribution of simulated stars. The mean stellar density is 2.5 arcmin$^{-2
 \includegraphics[width=\columnwidth]{figures/hist2.pdf}
 \end{center}
 \caption[]{
-The number of exposures per object simulated (total) compared to the number used in the shape measurement.
+The number of simulated exposures per object (blue) compared to the number eventually used in the shape measurement (orange). The median number of exposures per object both simulated and used is 6 over this part of the 5-year simulated High-Latitude Survey.
 \label{fig:hist2}}
 \end{figure}
 
@@ -355,7 +357,7 @@ The number of exposures per object simulated (total) compared to the number used
 \includegraphics[width=\columnwidth]{figures/pointings.pdf}
 \end{center}
 \caption[]{
-Pointings that overlap the simulated region (non-shaded). The color of each marker shows the position angle of the focal plane.
+A visualization of the individual pointings of the telescope using the H158 filter in the 5-year simulated High-Latitude Survey that overlap the region of the sky we are simulating images for (the non-shaded region). There are a total of 189 pointings in H158 that overlap this region. Each marker is an individual pointing, whose color represents the focal plane position angle. Each cluster of pointings typically contains 3-4 very small translational dithers to cover chip gaps. The dither pattern in other filters overlaps in other directions to produce a more homogeneous coverage than is indicated in this figure. 
 \label{fig:pointings}}
 \end{figure}
 
@@ -385,7 +387,7 @@ We simulate a total of 907,170 unique galaxies and 56,128 unique stars across 18
 \includegraphics[width=\textwidth]{figures/hist3.pdf}
 \end{center}
 \caption[]{
-The measured PSF ellipticity and size, and the signal-to-noise of the galaxy measurements.
+The measured PSF ellipticity and size, and the signal-to-noise of the galaxy measurements. The nominal signal-to-noise cut for the WFIRST weak lensing sample is 18, which agrees with the peak of the measured distribution. The PSF properties are measured using the oversampled version of the PSF model images (as in Fig. \ref{fig:psf}), which we determined to be the minimum required oversampling in the model to achieve unbiased size and ellipticity measurements. The typical WFIRST PSF tends to be more strongly elliptical in the $e_2$ direction, and the median (and mean) recovered FWHM is 0.178 arcsec.
 \label{fig:hist3}}
 \end{figure*}
 
@@ -419,6 +421,14 @@ OscZ7 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
 \end{center}
 \end{table}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/shape_hist.pdf}
+\end{center}
+\caption[]{
+The difference in the measured (obs) shape relative to the true sheared intrinsic shape of the galaxies. The inferred multiplicative and additive shear bias is discussed in Sec. \ref{sec:results2}. 
+\label{fig:shape_hist}}
+\end{figure}
 
 \section{Wavefront model errors}\label{sec:results}
 
@@ -443,20 +453,6 @@ Potential correlated biases in the WCS model due to these changes are ignored in
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
 These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
 
-\subsection{Low-frequency biases}\label{sec:high}
-
-Two low-frequency biases are simulated to represent thermal drift through the lifetime of the mission. Thermal perturbations propagate into $Z_4$ -- \emph{OscZ4} -- and $Z_7$  -- \emph{OscZ7} --  modes.
-We generate a random time-dependent function $f(t)$ with rms amplitude 0.005 wavelengths following a given power spectrum to quantify the perturbation of the Zernike coefficients over time. 
-The power spectrum of thermal drift noise is taken to be a Lorenzian function 
-\begin{equation}
-P(\nu)=\frac{A}{1+(\nu/\nu_0)^2},
-\end{equation}
-with normalization factor $A$. The rms variance of of $f(t)$ can be expressed as
-\begin{equation}
-\sigma^2 = \int_{-\infty}^{+\infty}P(\nu)d\nu=\pi A\nu_0,
-\end{equation}
-which leads to $A=\frac{\sigma^2}{\pi\nu_0}$. $\nu_0=\frac{1}{2\pi\tau}\approx 3.14\times10^{-4}$ Hz, with a time constant $\tau=1$ hr.
-
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/focal_mean_e1.pdf}
@@ -475,6 +471,20 @@ The binned mean difference in measured $e_2$ compared to the Fiducial run.  Each
 \label{fig:focal_mean_e2}}
 \end{figure}
 
+\subsection{Low-frequency biases}\label{sec:high}
+
+Two low-frequency biases are simulated to represent thermal drift through the lifetime of the mission. Thermal perturbations propagate into $Z_4$ -- \emph{OscZ4} -- and $Z_7$  -- \emph{OscZ7} --  modes.
+We generate a random time-dependent function $f(t)$ with rms amplitude 0.005 wavelengths following a given power spectrum to quantify the perturbation of the Zernike coefficients over time. 
+The power spectrum of thermal drift noise is taken to be a Lorenzian function 
+\begin{equation}
+P(\nu)=\frac{A}{1+(\nu/\nu_0)^2},
+\end{equation}
+with normalization factor $A$. The rms variance of of $f(t)$ can be expressed as
+\begin{equation}
+\sigma^2 = \int_{-\infty}^{+\infty}P(\nu)d\nu=\pi A\nu_0,
+\end{equation}
+which leads to $A=\frac{\sigma^2}{\pi\nu_0}$. $\nu_0=\frac{1}{2\pi\tau}\approx 3.14\times10^{-4}$ Hz, with a time constant $\tau=1$ hr.
+
 \section{Results}\label{sec:results2}
 
 Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which simulates the impact of misestimating the PSF model and introduces varying levels of bias. 
@@ -488,15 +498,6 @@ The recovered multiplicative shear bias is only approx. 2\% smaller and the mean
 
 We present results for the non-Fiducial simulations only for objects that lie in the intersection of successful shape measurement between each simulation and the Fiducial simulation, to allow for 1-1 comparison of the shapes and cancellation of shape noise and sources of photon noise, which are identical in each simulation. 
 We neglect the impact of selection biases here, since the intersection criteria excludes on average only 0.3\% of objects.
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/shape_hist.pdf}
-\end{center}
-\caption[]{
-A histogram of the difference in the measured shape from the true shape in the Fiducial simulation.
-\label{fig:shape_hist}}
-\end{figure}
 
 \subsection{Summary statistics}
 
