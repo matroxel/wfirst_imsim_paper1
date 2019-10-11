@@ -441,7 +441,7 @@ Potential correlated biases in the WCS model due to these changes are ignored in
 \subsection{High-frequency biases}\label{sec:low}
 
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
-These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}.
+These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}. \verify{can we state the high-frequency cases in milliarcsec$^2$, since that is the unit we used for the requirements?}
 
 \subsection{Low-frequency biases}\label{sec:high}
 
@@ -548,26 +548,26 @@ OscZ7 	     & $-12.1\pm  6.8$   &  $-11.4\pm6.3$ &$-0.08\pm 0.31$ & $-0.17\pm 0.
 
 \begin{table}
 \label{table:partials}
-\caption{Table}\label{dpsi} Ellipticities changes with respect to Zernike coefficients for different modes. The units of high-frequency modes, i.e. IsoJitter, AniJitter and Ranjitter are ${\rm milliarcsec}^{-2}$. For all other modes the units are ${\rm nm}^{-1}$.
+\caption{Ellipticities changes with respect to Zernike coefficients for different modes. \verify{let's talk about comparison to Table~\ref{table:bias} for the jitter cases}}\label{dpsi}
 \begin{center}
-\begin{tabular}{ lcc }
+\begin{tabular}{ lccc }
 \hline
 \hline
 %Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & ilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
-Run name & $\partial e_1/\partial\psi \times 10^{-4}$ & $\partial e_2/\partial\psi \times 10^{-4}$ \\
+Run name & $\partial e_1/\partial\psi \times 10^{-4}$ & $\partial e_2/\partial\psi \times 10^{-4}$ & Units \\
 \hline
-Focus           & $-0.87  \pm 0.032$   & $-2.5  \pm 0.031$  \\
-Astig           & $-4.5   \pm 0.031$   & $-0.10 \pm 0.030$  \\
-Coma            & $-1.0   \pm 0.032$   & $0.030 \pm 0.032$  \\
-GradZ4          & $-0.089 \pm 0.030$   & $1.0   \pm 0.029$  \\
-GradZ6          & $2.2    \pm 0.029$   & $0.044 \pm 0.028$  \\
-Piston 		    & $-0.560  \pm 0.048$  & $-1.2  \pm 0.048$  \\
-Tilt 			& $-0.036 \pm 0.063$   & $0.10  \pm 0.063$  \\
-IsoJitter 		& $12.0   \pm 7.2$     & $18.0  \pm 70.0$  \\
-AniJitter 		& $0.29   \pm 0.0069$  & $-19.0 \pm 68.0$  \\
-RanJitter 	    & $0.049  \pm 0.0032$  & $17.0  \pm 31.0$  \\
-OscZ4 		    & $0.13   \pm 0.039$   & $0.30  \pm 0.039$  \\
-OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   \\
+Focus           & $-0.87  \pm 0.032$   & $-2.5  \pm 0.031$ & nm$^{-1}$ \\
+Astig           & $-4.5   \pm 0.031$   & $-0.10 \pm 0.030$  & nm$^{-1}$ \\
+Coma            & $-1.0   \pm 0.032$   & $0.030 \pm 0.032$  & nm$^{-1}$ \\
+GradZ4          & $-0.089 \pm 0.030$   & $1.0   \pm 0.029$  & nm$^{-1}$ \\
+GradZ6          & $2.2    \pm 0.029$   & $0.044 \pm 0.028$  & nm$^{-1}$ \\
+Piston 		    & $-0.560  \pm 0.048$  & $-1.2  \pm 0.048$  & nm$^{-1}$ \\
+Tilt 			& $-0.036 \pm 0.063$   & $0.10  \pm 0.063$  & nm$^{-1}$ \\ \hline
+IsoJitter 		& $12.0   \pm 7.2$     & $18.0  \pm 70.0$ & mas$^{-2}$ \\
+AniJitter 		& $0.29   \pm 0.0069$  & $-19.0 \pm 68.0$ & mas$^{-2}$ \\
+RanJitter 	    & $0.049  \pm 0.0032$  & $17.0  \pm 31.0$ & mas$^{-2}$ \\ \hline
+OscZ4 		    & $0.13   \pm 0.039$   & $0.30  \pm 0.039$  & nm$^{-1}$ \\
+OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 \hline
 \hline
 \end{tabular}
@@ -643,6 +643,22 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   \\
 \end{figure}
 
 \subsection{Comparison of analytic to numerical results}
+
+The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the $H$-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the $H$-band. In the numerical results presented in Table~\ref{table:partials}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront) and \verify{???} (for jitter). This \verify{is/is not (decide after addressing jitter case)} consistent with the analytic expectations.
+
+A similar comparison is possible for the 2-point correlation functions $\xi_\pm(\theta)$ of the ellipticity changes $\Delta e$. Since we put in wavefront change of 6.5 nm rms, the analytic prediction is that these correlation functions should be
+\begin{equation}
+\xi_\pm(\theta) \le (8.98\times 10^{-4}\,{\rm nm}^{-1} \times 6.5\,{\rm nm})^2 = 3.4\times 10^{-5}.
+\end{equation}
+As seen in Fig.~\ref{fig:f2pt_corrs}, this inequality is indeed satisfied.
+A similar result can be written for the jitter cases. The most stressing case is the AniJitter case, which has $\langle\theta_x^2 - \theta_y^2\rangle = 297\,$mas$^2$ \verify{[check I read the input file right!]} and hence should satisfy
+\begin{equation}
+\xi_\pm(\theta) \le (1.38\times 10^{-5}\,{\rm mas}^{-2}\times 297\,{\rm mas}^2)^2
+= 1.68\times 10^{-5};
+\end{equation}
+The AniJitter panel in Fig.~\ref{fig:f2pt_corrs} shows a numerical result that is very close to this (the error bar contains $1.68\times 10^{-5}$).
+
+\chris{fill in numbers and put in summary statement here at the very end}
 
 \section{Conclusion}\label{sec:conclusion}
 
