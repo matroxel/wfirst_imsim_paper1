@@ -104,14 +104,25 @@ Third, we note that each category of observational systematic error contributes 
 \end{equation}
 equal to the allocation for $Z$ from that contribution. An important aspect of this budgeting is that, like a requirements flowdown, it is {\em hierarchical} -- a top-level requirement on observational systematics may contain an allocation for shear calibration (one of several contributions), which itself may contain a branch for PSF size (one of several contributions), which itself may contain a branch for detector non-linearity, etc. In the life cycle of a cosmology project, more detail will be filled in first on the branches that have hardware impacts, and then branches related to algorithms or simulations later on.
 
-\chris{Lots of references to the appendix; need to clean that up so it contains only the needed information}
-
-\chris{need to write something describing how we get from shear power spectrum down to caring about galaxy shapes and then Zernikes; also describe in very simple terms what the S-factor is}
+The details of our data vector, covariance, and systematics models are described in Appendix~\ref{app:wl-budget}. The systematic errors in the shear $\gamma$ are broken down into additive biases ($c$) and multiplicative biases ($m$) in accordance with
+\begin{equation}
+\gamma({\boldsymbol\theta},z;{\rm obs}) = [1+m(z)] \gamma({\boldsymbol\theta},z;{\rm true}) + c({\boldsymbol\theta},z).
+\label{eq:gmod}
+\end{equation}
+Appendix~\ref{app:wl-budget} then allocates the systematic budget for $Z$ to $c$ (in different angular bins) and $m$. One challenge is that the shear biases may be redshift-dependent. Fortunately, when we start assigning portions of the shear systematic error budget to underlying root causes, we usually know something about the redshift dependence (for example, most PSF-related errors grow with redshift because the galaxies get smaller). Therefore, we have assigned each possible redshift dependence a weighting factor $S$, which represents the ratio of what fraction (in an RSS sense) of the error budget is taken up by a systematic with a given redshift dependence, relative to a systematic that is redshift-independent with the same maximum amplitude. A redshift-independent systematic has $S=1$; due to covariance between redshift bins, it is possible to have $S>1$.
 
 \subsection{Mapping from wavefront error to galaxy ellipticities -- analytic approach}
 \label{ss:dedZ}
 
+The requirements based on $Z$ are described in terms of shear systematics, but in order to be useful for engineering, we need to write a requirement in terms of wavefront errors. The key step to doing this is to write the derivative of the observed shear $\gamma_{\rm obs}$ with respect to the wavefront error $\psi_j$ (where $j$ denotes a Zernike mode). Because the PSF size and ellipticity are quadratic rather than linear in the wavefront error, it is necessary to take a quadratic expansion; then $\partial\gamma_{{\rm obs},i}/\partial\psi_j$ is linear in the static wavefront error $\psi_j$ \cite{2010SPIE.7731E..1EN}. Our approach is to use symmetries to categorize the possible quadratic terms, which gives 4 independent coefficients if we take the first 11 Zernike modes (up through spherical aberration). We can then use a suite of simple simulations to determine the 4 coefficients. Then -- given a limit on the static wavefront error $\lVert{\boldsymbol\psi}\rVert \le 92$ nm rms, set to achieve diffraction-limited imaging in $J$-band -- we can analytically search the space of possible static wavefront errors and find the maximum possible $|\partial\gamma_{{\rm obs},i}/\partial\psi_j|$ (units: nm$^{-1}$). This worst-case sensitivity can be used to set requirements on knowledge of the WFIRST wavefront.
+
+A similar process can be used for changes in the PSF within an exposure (either line of sight motion, or wavefront jitter -- i.e., beyond the tip-tilt modes -- due to vibrations). The baseline plan for WFIRST will be to independently fit the line of sight motion contribution to the PSF in each exposure \cite{2012SPIE.8442E..10J}, but not the wavefront jitter. This implies a requirement on the wavefront jitter to make its contribution to the PSF negligible. This requires a computation of the derivative of $\gamma_{\rm obs}$ with respect to the second moments of the PSF (units: mas$^{-2}$); with respect to the variance or covariance of the wavefront jitter (units: nm$^{-2}$); or with respect to the covariance of wavefront jitter and line of sight motion (units: nm$^{-1}$ mas$^{-1}$).
+
+All of these calculations are described in detail in Appendix~\ref{app:psf-stability}.
+
 \subsection{Limitations of the analytical approach}
+
+\chris{write this}
 
 %\begin{figure*}
 %\begin{center}
@@ -702,9 +713,9 @@ therein.
 \label{ss:add_mult}
 
 The cosmic shear measurement is sensitive to two major types of
-measurement errors. {\em Additive bias} or ``spurious shear'' is a
+measurement errors. {\em Additive bias} or ``spurious shear'' $c$ is a
 shear signal that is detected even when none is present. {\em
-Multiplicative bias} or ``calibration bias'' is an incorrect response
+Multiplicative bias} or ``calibration bias'' $m$ is an incorrect response
 to a real shear, e.g.\ a shear $\gamma$ is present in the sky but the
 measurement yields 1.01$\gamma$. Normally, we think of additive biases
 as resulting from mis-estimation of the PSF ellipticity (or its
@@ -713,20 +724,14 @@ mis-estimation of the size of the PSF. However, detector
 nonlinearities, approximations used in the data processing/analysis
 pipelines, and uncertainties about the distribution of galaxy
 morphologies in the sky can also contribute to both types of
-biases. These biases produce an effect on the observed shear:
-\begin{equation}
-\gamma({\boldsymbol\theta},z;{\rm obs}) = [1+m(z)] \gamma({\boldsymbol\theta},z;{\rm true}) + c({\boldsymbol\theta},z),
-\label{eq:gmod}
-\end{equation}
-where $m$ is the multiplicative bias parameter (possibly
-redshift-dependent) and $c$ is the additive bias field. The $E$-mode
+biases.  The $E$-mode
 shear cross-power spectrum between two redshift bins $z_i$ and $z_j$
 is modified in the presence of these biases:
 \begin{equation}
 C_\ell^{z_i,z_j}({\rm obs}) = (1+m_i)(1+m_j)C_\ell^{z_i,z_j}({\rm true}) + C_\ell^{c_i,c_j},
 \label{eq:mod}
 \end{equation}
-where we write $m_i\equiv m(z_i)$ as a shorthand. To linear order in
+where we write $m_i\equiv m(z_i)$ as a shorthand for the bias in bin $i$. To linear order in
 the biases, the correction to the power spectrum can be written as
 \begin{equation}
 \Delta C_\ell^{z_i,z_j} = C_\ell^{z_i,z_j}({\rm obs}) - C_\ell^{z_i,z_j}({\rm true}) = (m_i+m_j)C_\ell^{z_i,z_j}+C_\ell^{c_i,c_j}.
