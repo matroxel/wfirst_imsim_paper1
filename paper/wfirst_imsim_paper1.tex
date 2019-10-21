@@ -89,6 +89,8 @@ We now proceed to describe requirements and the role of this suite of image simu
 \subsection{WFIRST weak lensing}
 \label{ss:wlprog}
 
+\chris{Write overview}
+
 \subsection{The requirements process}
 \label{ss:req}
 
@@ -122,9 +124,15 @@ A similar process can be used for changes in the PSF within an exposure (either 
 
 All of these calculations are described in detail in Appendix~\ref{app:psf-stability}.
 
-\subsection{Limitations of the analytical approach}
+\subsection{Limitations of the analytic approach}
 
-\chris{write this}
+The analytic approach to estimating the sensitivity to wavefront errors has some advantages: it is simple, maintains a close link to underlying physical principles, enables rapid exploration of the parameter space, and was available at an earlier stage of the project than the image simulations. However, it has some drawbacks:
+\begin{list}{$\bullet$}{}
+\item The analytic approach deals with single images, so it does not represent what happens when images are combined. This is especially relevant when the input images are undersampled at the native resolution of the WFIRST pixels. (The pixel scale is 110 mas, whereas Nyquist sampling would be $\lambda/2D = 56$, 68, or 80 mas at J, H, or F184 bands respectively.)
+\item The analytic approach computes the derivatives $\partial\gamma_{{\rm obs},i}/\partial\psi_j$ are computed at one point. Therefore, it does not capture the correlations across the focal plane or tiling patterns; the distribution of systematic shear in 2-point correlation function space or in power spectrum space is not captured.
+\item The analytic approach cannot be extended to include interaction of PSF errors with other aspects of the data, such as noise, detector systematics, blending/selection, etc., in the way that is possible with image simulations.
+\end{list}
+For these reasons, we have also estimated the mapping from wavefront error to galaxy ellipticities using pixel-level image simulations with the {\sc GalSim} package. The version of the simulations used here is highly idealized -- for example, the matching to the ``truth catalog'' means that selection/blending effects are not realistically implemented, some detector effects were not implemented, and the input galaxies have artificially prescribed shears and do not come from a realistic large scale structure distribution. Nevertheless, {\sc GalSim} as a tool is extensible and could be configured to use a realistic WFIRST input catalog for future systematics studies.
 
 %\begin{figure*}
 %\begin{center}
