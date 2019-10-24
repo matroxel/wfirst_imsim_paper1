@@ -1531,6 +1531,20 @@ Data size (gzipped) & 25MB & 1GB & $<$1MB (per tile) \\
 }
 \end{table}
 
+\section{PSF model resolution}
+\label{app:psf_resol}
+
+For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) within about 1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured at oversampling factors of 1, 2, 4, 8, and 16, relative to a `true' PSF model image with an oversampling factor of 32 and native pixel stamp size of $8\times 8$ pixels.
+ 
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{figures/psf_oversampling.pdf}
+\end{center}
+\caption[]{
+The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size ($T$) for various factors of PSF model pixel scale oversampling factors of 1, 2, 4, 8, and 16 relative to the native WFIRST pixel scale, in cutouts of size $8\times 8$ native pixels. The fractional error is measured relative to a `true' PSF model, which is represented by a cutout of native pixel size $32\times32$ pixels with a resolution that is oversampled by a factor of 32.
+\label{fig:psf_oversampling}}
+\end{figure}
+
 \end{widetext}
 
 \bibliographystyle{apsrev4-1}
