@@ -20,7 +20,7 @@
 \newcommand\troxel[1]{\todo[color=cyan!40, inline, size=\small]{Troxel: #1}}
 \newcommand\chris[1]{\todo[color=magenta!40, inline, size=\small]{Chris: #1}}
 \newcommand\mj[1]{\todo[color=LimeGreen, inline, size=\small]{MJ: #1}}
-
+\interfootnotelinepenalty=10000
 \newcommand{\galsim}{\textsc{GalSim}}
  
 \newcommand\green[1]{\textcolor{green}{#1}}
@@ -42,18 +42,6 @@
 \label{firstpage}
 
 \begin{abstract}
-Need to include link to data.
-
-Need to clean up referring to different runs.
-
-Need to match significant digits to uncertainty in Table III
-
-Should we include appendix showing why oversampling factor of 8 is required for psf model? This is something I shared with the SIT a long time ago.
-
-add comparison reference to lsst effort and tie into future work item merging with lsst sims
-
-reference in prep forecasting papers
-
 
 \end{abstract}
 
@@ -83,7 +71,7 @@ Toward this goal, we describe in this paper a simulation pipeline designed to en
 The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq. deg. observation strategy for the survey; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
 We use a blending-free version of this simulation to test the impact on weak lensing science of a variety of simulated wave-front modelling errors, including static, low-, and high-frequency biases. 
 
-(insert standard toc para?) 
+We discuss the WFIRST weak lensing survey, the current reference survey structure, and the weak lensing requirements process in Sec. \ref{sec:wfirst}. The  synthetic survey simulation suite is described generally in Sec. \ref{sec:sim}, where we outline the simulated survey strategy, input galaxy and star catalogs, and the \galsim\ implementation of the WFIRST instrument used to simulate images. We discuss the specific simulation runs produced for this work to study wavefront error propagation in Sec. \ref{sec:results} and discuss the resulting biases and how these compare to the analytic requirements flowdown in Sec. \ref{sec:results2}. We conclude and discuss future plans for using this simulation suite in validating WFIRST requirements and algorithm design in Sec \ref{sec:conclusion}. 
 
 \section{WFIRST weak lensing, the requirements process, and the need for simulations}
 \label{sec:wfirst}
@@ -176,8 +164,10 @@ A simulated $\sim$140s exposure Sensor Chip Array (SCA) \#16 image, chosen for t
 
 To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a synthetic survey suite that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects so as to enable informative tests and preliminary algorithm development. 
 This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the \galsim\ framework and its WFIRST module. 
-The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper.}. 
-The code is publicly available \cite{wfirst_imsim}. An example SCA image is shown in Fig. \ref{fig:sca}.
+The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications.\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper.} 
+The code is publicly available \cite{wfirst_imsim}. An example SCA image is shown in Fig. \ref{fig:sca}. The fiducial simulation run is available for download -- this public data is described in App. \ref{app:data_access}.
+
+This approach to producing (to varying degrees) realistic, synthetic survey realizations is a common approach for weak lensing experiments, both at the catalog level \cite{2018MNRAS.480.4614M,2019arXiv190706530K} and the image level \cite{2016MNRAS.457..786S,2018MNRAS.475.4524S,2017MNRAS.467.1627F,2018MNRAS.481.3170M}. These synthetic surveys can serve as sources of calibration or characterization, validation, and increasingly as end-to-end integration tests for measurement and analysis algorithms and pipelines. Our approach here is similar to the approach being implemented in parallel by the LSST Dark Energy Science Collaboration (DESC) \cite{2019arXiv190706530K}, with comparable levels of morphological complexity for weak lensing algorithm testing, but less complex true object properties. This approach is described in detail in the following subsections.
 
 \subsection{Simulation stages}\label{stages}
 
@@ -208,7 +198,7 @@ Objects that would have a postage stamp that overlaps the SCA image are drawn, s
 We do not save isolated postage stamps of objects that have a stamp size of greater than 288$\times$288 pixels, but they are drawn into the images.
 Finally, each isolated postage stamp is processed through the steps described in Sec. \ref{effects} to simulate the WFIRST observatory and detectors and written to disk. When all objects are added to the full SCA image, it is also processed through these steps and written to a FITS image file.
 
-\textbf{\textit{MEDS creation}} -- We then compile the output across pointings of the isolated object stamps into MEDS (Multi-Epoch Data Structure) files.\footnote{https://github.com/esheldon/meds}
+\textbf{\textit{MEDS creation}} -- We then compile the output across pointings of the isolated object stamps into MEDS (Multi-Epoch Data Structure) files.\footnote{\url{https://github.com/esheldon/meds}}
 These files concatenate all exposures of unique objects to allow for fast access for object-by-object data processing (like shape measurement). 
 Each MEDS file also stores for each object (and stamp) its original SCA, the object position and the stamp position within the SCA, the WCS for each stamp, the PSF model for each object, and other ancillary information and metadata.
 Each MEDS file contains all objects within a $n_{\textrm{side}}=512$ Healpixel\footnote{\url{https://healpix.jpl.nasa.gov}} \cite{2005ApJ...622..759G,Zonca2019}.
@@ -217,7 +207,7 @@ Each MEDS file contains all objects within a $n_{\textrm{side}}=512$ Healpixel\f
 The galaxy shape is measured by jointly fitting a two-component model, de Vaucouleurs bulge and exponential disk, across all suitable exposures. 
 Exposures where more than 20\% of the pixels are masked (i.e., the centroid falls too close to the edge of the SCA) are rejected. 
 The model fit has 7 parameters: $e_{1,2}$, $p_{x,y}$, half-light radius, flux, and bulge flux fraction, where $e_{1,2}$ is the component of the ellipticity and $p_{x,y}$ is the pixel centroid offset. 
-The minimization is performed using the \textsc{MOF}\footnote{https://github.com/esheldon/mof} package \cite{2014MNRAS.444L..25S}. 
+The minimization is performed using the \textsc{MOF}\footnote{\url{https://github.com/esheldon/mof}} package \cite{2014MNRAS.444L..25S}. 
 We also measure the PSF size and shape using an adaptive moments method \cite{2003MNRAS.343..459H}. 
 This stage writes a set of FITS files containing the galaxy and PSF measurement results and relevant truth catalog information.
 
@@ -274,7 +264,7 @@ We expect that the WebbPSF model is probably more accurate, but this will be exp
 
 \subsubsection{Implemented detector effects}\label{effects}
 
-Most of the development of \galsim\ has been to render simulations of CCD images.
+Most of the development of \galsim\ has been driven by the need to render simulations of CCD images.
 The HgCdTe detectors used by WFIRST are qualitatively similar, but there are significant differences in the physics, which lead to differences in some of the simulation steps. We discuss the implementation of some of these effects in detail below. 
 
 For this work, each image is processed through the following stages, simulating what physically happens in the detector: 1) the poisson background of stray light and thermal emission from the telescope is generated and a 'sky' background image is created that also undergoes stages 2--9, 2) the impact of reciprocity failure is added, 3) the electron counts are quantized, 4) dark current is added to the image, 5) nonlinear response to flux is applied, 6) the effect of interpixel capacitance is applied, 7) instrument read noise is applied, 8) electron counts are converted to ADU, and 9) the ADU value is quantized. In this work, we subtract the final background image from image, simulating a perfect background subtraction algorithm.
@@ -351,7 +341,7 @@ In general, the input distribution and properties of galaxies can be easily modi
 
 \subsection{Star catalog}\label{starcat}
 
-We simulate the positions and magnitudes of input stars in WFIRST passbands using the galaxy simulation Galaxia\footnote{http://galaxia.sourceforge.net} \cite{galaxia}. 
+We simulate the positions and magnitudes of input stars in WFIRST passbands using the galaxy simulation Galaxia\footnote{\url{http://galaxia.sourceforge.net}} \cite{galaxia}. 
 Galaxia uses an analytic model \cite{galaxia2} to simulate stars in the galaxy that includes a thin and thick disk with warp and flaring, bulge, and halo components. 
 Stars are simulated to 27th magnitude in V band, extinction is added, and they are uniformly translated to WFIRST bandpasses using the stellar SED of Alpha Lyra derived from HST CALSPEC as packaged with \galsim.  The star distribution in shown in Fig. \ref{fig:stars}, which has a mean stellar density of approx. 2.5 arcmin$^{-2}$. 
 
@@ -429,19 +419,21 @@ The measured PSF ellipticity and size, and the signal-to-noise of the galaxy mea
 \hline
 Run name & PSF change & Mode & Notes \\ 
 \hline
-Fiducial              & -- & -- & -- \\
-Focus                & $Z_4$ & Static & --  \\
-Astig                  & $Z_5$ & Static &  -- \\
-Coma                & $Z_7$ & Static &  -- \\
-GradZ4             & $Z_4$ & Static & Gradient in focal plane  \\
-GradZ6              & $Z_6$ & Static &Gradient in focal plane    \\
-Piston 		 & $Z_4$ & Static  &Random per SCA   \\
-Tilt 			 & $Z_4$ & Static & Random gradient per SCA \\
-IsoJitter 		& Gaussian  & High-Freq. & Isotropic  \\
-AniJitter 		 & Gaussian & High-Freq. & Anisotropic  \\
-RanJitter 		 & Gaussian & High-Freq. & 15\% of pointings  \\
-OscZ4 		 & $Z_4$ & Low-Freq. & Time-dependent  \\
-OscZ7 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
+\textsc{Fiducial}              & -- & -- & -- \\
+\textsc{Focus}                & $Z_4$ & Static & --  \\
+\textsc{Astig}                  & $Z_5$ & Static &  -- \\
+\textsc{Coma}                & $Z_7$ & Static &  -- \\
+\textsc{GradZ4}             & $Z_4$ & Static & Gradient in focal plane  \\
+\textsc{GradZ6}              & $Z_6$ & Static &Gradient in focal plane    \\
+\textsc{Piston} 		 & $Z_4$ & Static  &Random per SCA   \\
+\textsc{Tilt} 			 & $Z_4$ & Static & Random gradient per SCA \\
+\hline
+\textsc{IsoJitter}		& Gaussian  & High-Freq. & Isotropic  \\
+\textsc{AniJitter} 		 & Gaussian & High-Freq. & Anisotropic  \\
+\textsc{RanJitter} 		 & Gaussian & High-Freq. & 15\% of pointings  \\
+\hline
+\textsc{OscZ4} 		 & $Z_4$ & Low-Freq. & Time-dependent  \\
+\textsc{OscZ7} 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
 \hline
 \hline
 \end{tabular}
@@ -469,23 +461,23 @@ In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (
 \subsection{Static biases}\label{sec:static}
 
 We simulate seven static sources of bias in the PSF model. 
-Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus ($Z_4$) -- \emph{Focus}, oblique astigmatism ($Z_5$) -- \emph{Astig}, and vertical coma ($Z_7$) -- \emph{Coma}. 
-Two simulations include a coherent gradient in the defocus ($Z_4$) -- \emph{GradZ4} -- and vertical astigmatism ($Z_6$) -- \emph{GradZ6} -- across the focal plane with equivalent rms of 0.005 wavelengths. 
-For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA  -- \emph{Piston}, and 2) a random tilt in the $x$ or $y$ direction is assigned to each SCA  -- \emph{Tilt}, with equivalent rms of up to 0.005 wavelengths. 
+Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus $Z_4$ (\textsc{Focus}), oblique astigmatism $Z_5$ (\textsc{Astig}), and vertical coma $Z_7$ (\textsc{Coma}). 
+Two simulations include a coherent gradient in the defocus $Z_4$ (\textsc{GradZ4}) and vertical astigmatism $Z_6$ (\textsc{GradZ6}) across the focal plane with equivalent rms of 0.005 wavelengths. 
+For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA (\textsc{Piston}), and 2) a random tilt in the $x$ or $y$ direction is assigned to each SCA  (\textsc{Tilt}), with equivalent rms of up to 0.005 wavelengths. 
 These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object is assigned a different PSF consistent with this random tilt of the SCA). 
 Potential correlated biases in the WCS model due to these changes are ignored in this work, but should be considered in future studies of the WCS model recovery.
 
 \subsection{High-frequency biases}\label{sec:low}
 
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
-These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  -- \emph{IsoJitter}, 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian  -- \emph{AniJitter}, and 3) only applying this asymmetric vibration to a random 15\% of pointings  -- \emph{RanJitter}. \verify{can we state the high-frequency cases in milliarcsec$^2$, since that is the unit we used for the requirements?}
+These are represented by an additional convolution of the image with a Gaussian PSF of rms 0.005 wavelengths. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  (\textsc{IsoJitter}), 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian (\textsc{AniJitter}), and 3) only applying this asymmetric vibration to a random 15\% of pointings (\textsc{RanJitter}). \verify{can we state the high-frequency cases in milliarcsec$^2$, since that is the unit we used for the requirements?}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/focal_mean_e1.pdf}
 \end{center}
 \caption[]{
-The binned mean difference of measured $e_1$ compared to the Fiducial run in the focal plane. Each color bar is in units of $1\times 10^-4$. Gradients across the focal plane or chips are visible for all static PSF model biases, while the mean difference is particularly large for the anisotropic jitter case, where the large mean $e_1$ difference corresponds to the direction of anisotropy in the Gaussian smearing.
+The binned mean difference of measured $e_1$ compared to the \textsc{Fiducial} run in the focal plane. Each color bar is in units of $1\times 10^-4$. Gradients across the focal plane or chips are visible for all static PSF model biases, while the mean difference is particularly large for the anisotropic jitter case, where the large mean $e_1$ difference corresponds to the direction of anisotropy in the Gaussian smearing.
 \label{fig:focal_mean_e1}}
 \end{figure}
 
@@ -494,13 +486,13 @@ The binned mean difference of measured $e_1$ compared to the Fiducial run in the
 \includegraphics[width=\columnwidth]{figures/focal_mean_e2.pdf}
 \end{center}
 \caption[]{
-The binned mean difference of measured $e_2$ compared to the Fiducial run in the focal plane.  Each color bar is in units of $1\times 10^-4$. There are visible gradients for most cases of static PSF model biases.
+The binned mean difference of measured $e_2$ compared to the \textsc{Fiducial} run in the focal plane.  Each color bar is in units of $1\times 10^-4$. There are visible gradients for most cases of static PSF model biases.
 \label{fig:focal_mean_e2}}
 \end{figure}
 
 \subsection{Low-frequency biases}\label{sec:high}
 
-Two low-frequency biases are simulated to represent thermal drift through the lifetime of the mission. Thermal perturbations propagate into $Z_4$ -- \emph{OscZ4} -- and $Z_7$  -- \emph{OscZ7} --  modes.
+Two low-frequency biases are simulated to represent thermal drift through the lifetime of the mission. Thermal perturbations propagate into $Z_4$ (\textsc{OscZ4})  and $Z_7$ (\textsc{OscZ7}) modes.
 We generate a random time-dependent function $f(t)$ with rms amplitude 0.005 wavelengths following a given power spectrum to quantify the perturbation of the Zernike coefficients over time. 
 The power spectrum of thermal drift noise is taken to be a Lorenzian function 
 \begin{equation}
@@ -514,16 +506,16 @@ which leads to $A=\frac{\sigma^2}{\pi\nu_0}$. $\nu_0=\frac{1}{2\pi\tau}\approx 3
 
 \section{Results}\label{sec:results2}
 
-Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the Fiducial PSF model is the true model, which simulates the impact of misestimating the PSF model and introduces varying levels of bias. 
-All estimates of the multiplicative and additive bias will be explored relative to the Fiducial simulation run, since we have not employed an absolute calibration scheme. 
+Each simulation is analyzed in an identical way, except that shape measurement for each simulation assumes the \textsc{Fiducial} PSF model is the true model, which simulates the impact of misestimating the PSF model and introduces varying levels of bias. 
+All estimates of the multiplicative and additive bias will be explored relative to the \textsc{Fiducial} simulation run, since we have not employed an absolute calibration scheme. 
 This is justified to first order, since we are only interested in the relative impacts of the PSF model biases.
-We find that 3\% of objects are not included in the shape measurement stage in the Fiducial simulation, due to being too large/bright or because too large a fraction of all cutouts are masked (fall off the edge of an SCA) -- see Sec. \ref{stages} for more details on these selections. 
+We find that 3\% of objects are not included in the shape measurement stage in the \textsc{Fiducial} simulation, due to being too large/bright or because too large a fraction of all cutouts are masked (fall off the edge of an SCA) -- see Sec. \ref{stages} for more details on these selections. 
 
 Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects -- a total of 871,841 galaxies. 
 We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on measured properties, since we expect all objects to be within this selection if we were to simulate all remaining pointings in other bandpasses. 
 The recovered multiplicative shear bias is only approx. 2\% smaller and the mean shear is unchanged if we make this selection, which removes an additional 35\% of objects, almost exclusively due to the signal-to-noise cut.
 
-We present results for the non-Fiducial simulations only for objects that lie in the intersection of successful shape measurement between each simulation and the Fiducial simulation, to allow for 1-1 comparison of the shapes and cancellation of shape noise and sources of photon noise, which are identical in each simulation. 
+We present results for the non-\textsc{Fiducial} simulations only for objects that lie in the intersection of successful shape measurement between each simulation and the \textsc{Fiducial} simulation, to allow for 1-1 comparison of the shapes and cancellation of shape noise and sources of photon noise, which are identical in each simulation. 
 We neglect the impact of selection biases here, since the intersection criteria excludes on average only 0.3\% of objects.
 
 \subsection{Summary statistics}
@@ -532,7 +524,7 @@ The bias in an ensemble shear measurement is typically characterized in the weak
 \begin{equation}
 e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + b_i.
 \end{equation}
-We find the following multiplicative and additive biases in the Fiducial simulation: 
+We find the following multiplicative and additive biases in the \textsc{Fiducial} simulation: 
 \begin{align*}
 m_1 &= -0.0756 \pm 0.0019\\ 
 m_2 &= -0.0940 \pm 0.0019\\ 
@@ -541,7 +533,7 @@ b_2 &= -0.00157 \pm 0.00016.
 \end{align*}
 The difference in measured shape vs true input shape (intrinsic shape and shear) is shown in Fig. \ref{fig:shape_hist}.
 
-For each simulation, we compare the recovered shear to the Fiducial simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the Fiducial result, which is shown in Table \ref{deltamb}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{dpsi}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. We can study the difference in the measured ellipticity relative to the Fiducial simulation in both focal plane and sky coordinates. The mean ellipticity difference binned in the focal plane is shown in Figs. \ref{fig:focal_mean_e1}  \& \ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. Fig. \ref{fig:f2pt_corrs} shows the two-point correlation function of the ellipticity difference. 
+For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the \textsc{Fiducial} result, which is shown in Table \ref{deltamb}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{dpsi}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. We can study the difference in the measured ellipticity relative to the \textsc{Fiducial} simulation in both focal plane and sky coordinates. The mean ellipticity difference binned in the focal plane is shown in Figs. \ref{fig:focal_mean_e1}  \& \ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. Fig. \ref{fig:f2pt_corrs} shows the two-point correlation function of the ellipticity difference. 
 \verify{Should we have further discussion here of the results before going into the comparison to the appendix?}
 
 
@@ -563,9 +555,11 @@ GradZ4       & $-2.63 \pm 0.27 $ &  $ -2.52\pm 0.23 $ &$ -0.51\pm 0.21$ & $ 6.71
 GradZ6       & $0.22 \pm 0.23 $  &  $ -0.22\pm 0.23 $ &$ 14.72 \pm 0.62$ & $ 0.44\pm 0.23$ \\
 Piston 		 & $-13.6 \pm 5.0 $  &  $ -15.0\pm 5.3 $ &$ -3.70 \pm 0.31$ & $-7.51 \pm 0.34$   \\
 Tilt 		 & $-38.0 \pm 8.0 $  &  $ -36.6\pm 8.0 $ &$ -0.40 \pm 0.38$ & $ 0.73 \pm 0.38$   \\
+\hline
 IsoJitter 	 & $-40.8 \pm 8.6 $  &  $ -39.5\pm 8.5 $ &$ 0.24\pm 0.84$ & $0.43 \pm 0.91$ \\
 AniJitter 	 & $-11.4 \pm 1.1 $  &  $ -11.5\pm 1.0 $ &$43.27 \pm 0.85$ & $ -0.13 \pm 0.86$ \\
 RanJitter 	 & $-12.8 \pm 4.4 $  &  $ -12.6\pm 4.1 $ &$ 7.50 \pm 0.64$ & $ 0.33 \pm 0.43$   \\
+\hline
 OscZ4 		 & $-7.2\pm3.1 $     &  $-6.5\pm 3.1$   &$ 0.89\pm0.31$    & $2.15\pm0.49$  \\
 OscZ7 	     & $-12.1\pm  6.8$   &  $-11.4\pm6.3$ &$-0.08\pm 0.31$ & $-0.17\pm 0.44$  \\
 \hline
@@ -666,7 +660,7 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/2pt_corrs.pdf}
 \end{center}
-\caption[]{ The correlation function $\xi_+$ (red) and $\xi_-$ (blue) of ellipticity difference between each run, indicated by the label for each panel, and the fiducial run. Negative points are shown as crosses. The $\xi_-$ points are offset slightly for clarity.
+\caption[]{ The correlation function $\xi_+$ (red) and $\xi_-$ (blue) of ellipticity difference between each run, indicated by the label for each panel, and the \textsc{Fiducial} run. Negative points are shown as crosses. The $\xi_-$ points are offset slightly for clarity.
 \label{fig:f2pt_corrs}}
 \end{figure}
 
@@ -688,19 +682,29 @@ The AniJitter panel in Fig.~\ref{fig:f2pt_corrs} shows a numerical result that i
 
 \chris{fill in numbers and put in summary statement here at the very end}
 
+\section{Future development plans}
+
+The simulation framework described here is an iterative, but substantial step forward in the development of a significant synthetic WFIRST imaging survey, which incorporates a realistic set of photometric properties and distributions of galaxies and stars, complex morphological properties for galaxies, and most known detector non-idealities present in HgCdTe H4RG detectors. There are many advances that are still necessary, however, many of which are currently in progress. These include increased simulation volume for more precise end-to-end tests, increased fidelity in the simulation of the data accumulation processes within the detector simulation, and more realistic input galaxy and star information. Together, they will enable more precise and advanced tests of algorithm development and pipeline integration testing for the WFIRST weak lensing program.
+
+In terms of advances in detector physics simulation within \texttt{galsim.wfirst}, \texttt{galsim.wfirst} now includes a model for the persistence effect in the detectors based on measurements from preliminary engineering detectors that will be implemented in future versions of the survey simulation \cite{}. We also ...brighter fatter.  We now also have the engineering data to implement measured realizations of the correlated noise fields derived from detector flats and darks. One significant difference relative to how data will be taken with the WFIRST SCAs is the lack of `up the ramp' information as charge accumulates within the SCA. In practice, we will have access to several linear combinations of intermediate read-outs from the SCAs, which is not currently implemented. Other plans for \texttt{galsim.wfirst} are also discussed in Sec. \ref{sec:sim}.
+
+On the mock galaxy catalog side, we have produced test runs where we interface our weak lensing survey simulation pipeline for WFIRST with the existing LSST DESC Data Challenge 2 (DC2) mock galaxy and star catalog, CosmoDC2, to produced WFIRST imaging over the same simulated universe as is currently being used for DESC image simulations. The result of this work will be described in a future paper. CosmoDC2 provides a deeper mock catalog than is currently being used, with synthetic spectra provided for each object to enable fully chromatic studies of weak lensing shape recovery. With planned improvements to the recovery of the near-infrared colors for objects in CosmoDC2, this will also enable a powerful joint-simulation with matched imaging as expected for both LSST and WFIRST. These matched simulations will enable a range of joint-processing tests at the pixel level to test combinations of ground-based imaging from LSST with space-based imaging from WFIRST.
+
+While the current synthetic survey volume used in this paper is relatively small, due to the necessity of simulating it many times, we plan the production of much larger public simulations in the near future. This will include many of the improvements described above, including multi-band imaging across tens of square degrees at full WFIRST 5-year reference survey depth matched to LSST imaging from DESC. 
+
 \section{Conclusion}\label{sec:conclusion}
 
-wrap-up
 
-future work and timeline
 
 \section*{Acknowledgements}
 
-This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987} and ...OSG, Duke.... Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
+We thank...
+CH, HL, and MT are supported by NASA Grant \#XXXXX.  
+This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987}. This research was done using resources provided by the Open Science Grid \cite{Pordes2008,Sfiligoi2009}, which is supported by the National Science Foundation and the U.S. Department of Energy's Office of Science. Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
 
 \appendix
 
-\begin{widetext}
+%\begin{widetext}
 
 \section{Overview of weak lensing systematics budgeting}
 \label{app:wl-budget}
@@ -750,10 +754,11 @@ C_\ell^{z_i,z_j}({\rm obs}) = (1+m_i)(1+m_j)C_\ell^{z_i,z_j}({\rm true}) + C_\el
 \end{equation}
 where we write $m_i\equiv m(z_i)$ as a shorthand for the bias in bin $i$. To linear order in
 the biases, the correction to the power spectrum can be written as
-\begin{equation}
-\Delta C_\ell^{z_i,z_j} = C_\ell^{z_i,z_j}({\rm obs}) - C_\ell^{z_i,z_j}({\rm true}) = (m_i+m_j)C_\ell^{z_i,z_j}+C_\ell^{c_i,c_j}.
+\begin{align}
+\Delta C_\ell^{z_i,z_j} &= C_\ell^{z_i,z_j}({\rm obs}) - C_\ell^{z_i,z_j}({\rm true}) \nonumber\\
+&= (m_i+m_j)C_\ell^{z_i,z_j}+C_\ell^{c_i,c_j}.
 \label{eq:Delta C}
-\end{equation}
+\end{align}
 
 \subsection{Setting requirements}
 
@@ -884,10 +889,11 @@ $\gamma_{\rm rms} = 0.22$.
 
 We approximate ${\boldsymbol\Sigma}$ using the usual Gaussian
 covariance matrix formula,
-\begin{equation}
-\Sigma[C^{z_i,z_j}_\ell, C^{z_k,z_m}_{\ell'}] = \frac{1}{(2\ell+1)f_{\rm sky}} \delta_{\ell\ell'} [ C^{{\rm tot},z_i,z_k}_\ell C^{{\rm tot},z_j,z_m}_\ell + C^{{\rm tot},z_i,z_m}_\ell C^{{\rm tot},z_j,z_k}_\ell],
+\begin{align}
+&\Sigma[C^{z_i,z_j}_\ell, C^{z_k,z_m}_{\ell'}]= \nonumber\\
+& \frac{\delta_{\ell\ell'} [ C^{{\rm tot},z_i,z_k}_\ell C^{{\rm tot},z_j,z_m}_\ell + C^{{\rm tot},z_i,z_m}_\ell C^{{\rm tot},z_j,z_k}_\ell]}{(2\ell+1)f_{\rm sky}} ,
 \label{eq:SGauss}
-\end{equation}
+\end{align}
 where $f_{\rm sky} = \Omega/(4\pi)$.  The non-Gaussian contributions
 to the error covariance matrix are turned off, because since the
 FoMSWG \cite{2009arXiv0901.0721A} there has been an ongoing program of
@@ -896,13 +902,13 @@ using nonlinear transformations on the data to remove them (e.g.\
 we do not want applications of these novel statistics to WFIRST data
 to run into systematic error limits. We also do not include astrophysical systematic errors in ${\boldsymbol\Sigma}$; we envision instead that they will be treated with nuisance parameters in the analysis. Another advantage of this is that the covariance matrix ${\boldsymbol\Sigma}$ is block diagonal in $\ell$-space (it is formally $375720\times375720$ without $\ell$-binning), which makes computations possible on a machine with limited memory. Indeed, in the Gaussian case one may write
 %The formal length of the data vector ${\bf C}$ is 378240. However, the inversion of Eq.~(\ref{eq:SGauss}) is accelerated by two realizations: first, that each $\ell$ is independent, so that ${\boldsymbol\Sigma}$ is block-diagonal and the contributions of each $\ell$ to $Z^2$ can be linearly summed. Secondly, the particular form of Eq.~(\ref{eq:SGauss}) allows us to write\footnote{This equation is trivially verified by forming, for each $\ell$, linear combinations of the redshift slices that diagonalize ${\bf C}^{\rm tot}_\ell$.}
-\begin{equation}
-\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}
-= \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
+\begin{align}
+&\Delta{\bf C} \cdot {\boldsymbol\Sigma}^{-1} \Delta {\bf C}=\nonumber\\
+& \sum_\ell \frac{(2\ell+1)f_{\rm sky}}2 \sum_{ijkm}
  \Delta C_\ell^{ij} [C^{{\rm tot}-1}_\ell]_{jk}
  \Delta C_\ell^{km} [C^{{\rm tot}-1}_\ell]_{mi},
 \label{eq:sprodform}
-\end{equation}
+\end{align}
 where the matrix inverses are $N_z\times N_z$.
 
 \begin{table}
@@ -926,7 +932,7 @@ $0.90\pm0.10$ & 2.79 & $1.90\pm0.10$ & 1.68 & $2.90\pm0.10$ & 0.19 \\
 \subsubsection{Implementation: additive systematics}
 \label{ss:implement-add}
 
-\begin{table}
+\begin{table*}
 \caption{The requirements for additive and multiplicative systematic errors. There are $N_{\rm band}=4$ additive error bands ranging over a total signal band from $\ell_{\rm min,tot}=10$ to $\ell_{\rm max,tot}=3161$. The fraction of the error budget allocated to each band is also indicated, as are the maximum allowed redshift-independent spurious shear ($A_0^{\rm flat}(\alpha)$, RMS per component), and the maximum scaling factors for redshift dependence, $S_{\rm max,\pm}(\alpha)$ and $S_{\rm max,+}(\alpha)$. There is only one row for the multiplicative errors, since the implementation does not contain an $\ell$ dependence; we quote a requirement on the post-calibration shear multiplicative uncertainty $\sigma_{m,\rm req't}^{\rm flat}$.
 \label{tab:addbands}}
 \center{
@@ -949,7 +955,7 @@ Band $\alpha$ & $\ell_{\rm min}(\alpha)$ & $\ell_{\rm max}(\alpha)$ & Allocation
 mult &  & & 0.4600 & $3.200\times 10^{-4}$ & 2.186 & 1.140 \\ \hline\hline
 \end{tabular}
 }
-\end{table}
+\end{table*}
 
 Each additive systematic error is taken to have an angular dependence
 given by some template $T_\ell$, and a redshift dependence given by a
@@ -976,10 +982,10 @@ therefore consider a suite of $N_{\rm band}$ disjoint angular
 templates that cover the shape measurement band. Each template
 satisfies the normalization rule, Eq.~(\ref{eq:Tlsum}), and has
 $\ell(\ell+1)T_\ell/(2\pi)=$constant:
-\begin{equation}
-T_\ell^{(\alpha)} = \left[ \sum_{\ell'=\ell_{\rm min}(\alpha)}^{\ell_{\rm max}(\alpha)} \frac{2\ell'+1}{\ell'(\ell'+1)} \right]^{-1} \frac{4\pi}{\ell(\ell+1)}
-\times\left\{ \begin{array}{cc} 1 & \ell_{\rm min}(\alpha)\le\ell\le\ell_{\rm max}(\alpha) \\ 0 & {\rm otherwise} \end{array} \right.\!,~\alpha=0,1,...N_{\rm band}-1.
-\end{equation}
+\begin{align}
+T_\ell^{(\alpha)} = &\left[ \sum_{\ell'=\ell_{\rm min}(\alpha)}^{\ell_{\rm max}(\alpha)} \frac{2\ell'+1}{\ell'(\ell'+1)} \right]^{-1} \frac{4\pi}{\ell(\ell+1)}\nonumber\\
+&\times\left\{ \begin{array}{cc} 1 & \ell_{\rm min}(\alpha)\le\ell\le\ell_{\rm max}(\alpha) \\ 0 & {\rm otherwise} \end{array} \right.\!,~\alpha=0,...N_{\rm band}-1.
+\end{align}
 The current bands are displayed in Table~\ref{tab:addbands}. Each band
 $\alpha$ is allowed a contribution to the total error
 $Z(\alpha)$. Since there are no statistical correlations between
@@ -1161,12 +1167,13 @@ modes to unit RMS, so that $|{\boldsymbol\psi}({\boldsymbol\theta})|$
 is the RMS wavefront error at position ${\boldsymbol\theta}$. That is,
 we write the wavefront error at pupil position ${\boldsymbol\eta}$ and
 field position ${\boldsymbol\theta}$ as
-\begin{equation}
-\psi({\boldsymbol\eta};{\boldsymbol\theta}) = \sum_{n=2}^\infty
+\begin{align}
+&\psi({\boldsymbol\eta};{\boldsymbol\theta}) = \nonumber\\
+&\sum_{n=2}^\infty
 \sum_{m} \sqrt{n+1}\,\psi_{nm}({\boldsymbol\theta}) R_n^m(\rho)
 \times\left\{\begin{array}{ccc} 1 & & m=0 \\ \sqrt2\,\cos m\varphi & &
 m>0 \\ \sqrt2\,\sin m\varphi & & m<0 \end{array} \right.,
-\end{equation}
+\end{align}
 where $\rho$ is the radius of the pupil position normalized to 1 at
 the edge, and $\varphi$ is the polar angle in the pupil plane, $m$ is
 summed over integers with the same parity as $n$ (both odd or both
@@ -1242,24 +1249,26 @@ ${\boldsymbol\gamma}_{\rm obs,ref}$ is an even function of
 ${\boldsymbol\psi}$ (this statement remains true even for an
 asymmetric pupil, due e.g.\ to the spider). For a circularly symmetric
 pupil, we find the further restrictions that
-\begin{eqnarray}
-\gamma_{\rm obs,ref\,1} &=& C_{fa} \psi_{20} \psi_{22} + C_{sa} \psi_{40} \psi_{22}
-+ C_{cc} (\psi_{31}^2-\psi_{3-1}^2) + C_{ct} (\psi_{31}\psi_{33} + \psi_{3-1}\psi_{3-3})
+\begin{align}
+\gamma_{\rm obs,ref\,1} =& C_{fa} \psi_{20} \psi_{22} + C_{sa} \psi_{40} \psi_{22}
++ C_{cc} (\psi_{31}^2-\psi_{3-1}^2) \nonumber\\
+&+ C_{ct} (\psi_{31}\psi_{33} + \psi_{3-1}\psi_{3-3})
 + ...~{\rm and}
 \nonumber \\
-\gamma_{\rm obs,ref\,2} &=& C_{fa} \psi_{20} \psi_{2-2} + C_{sa} \psi_{40} \psi_{2-2}
-+ 2C_{cc} \psi_{31} \psi_{3-1} + C_{ct} (\psi_{31}\psi_{3-3} - \psi_{3-1}\psi_{33})
+\gamma_{\rm obs,ref\,2} =& C_{fa} \psi_{20} \psi_{2-2} + C_{sa} \psi_{40} \psi_{2-2}
++ 2C_{cc} \psi_{31} \psi_{3-1} \nonumber\\
+&+ C_{ct} (\psi_{31}\psi_{3-3} - \psi_{3-1}\psi_{33})
 + ...\,,
-\end{eqnarray}
+\end{align}
 where we have taken the lowest-order aberrations (focus, astigmatism,
 coma, trefoil, and spherical) as these dominate the wavefront
 stability budget. With the wavefront error vector written in this
 order, ${\boldsymbol\psi} = (\psi_{20}; \psi_{22},\psi_{2-2};
 \psi_{31},\psi_{3-1}; \psi_{33},\psi_{3-3}; \psi_{40})$, we find a
 sensitivity matrix
-\begin{equation}
-{\bf M}^{\rm T} = \left[ \frac{\partial \gamma_{{\rm obs,ref},i}}{\partial\psi_j} \right]^{\rm T}
-= \left( \begin{array}{cc}
+\begin{align}
+{\bf M}^{\rm T} &= \left[ \frac{\partial \gamma_{{\rm obs,ref},i}}{\partial\psi_j} \right]^{\rm T}\nonumber\\
+&= \left( \begin{array}{cc}
 C_{fa}\psi_{22}  & C_{fa}\psi_{2-2} \\
 C_{fa}\psi_{20}+C_{sa}\psi_{40} & 0 \\
 0 & C_{fa}\psi_{20}+C_{sa}\psi_{40} \\
@@ -1270,7 +1279,7 @@ C_{ct}\psi_{3-1} & C_{ct}\psi_{31} \\
 C_{sa}\psi_{22} & C_{sa}\psi_{2-2}
 \end{array} \right)
 \label{eq:TheMatrix}
-\end{equation}
+\end{align}
 (we show the transpose here for ease of display; the operator norm is the same).
 
 We want a limit on the maximum singular value of
@@ -1363,12 +1372,12 @@ wavefront jitter, and their effects on ${\boldsymbol\gamma}_{\rm
 obs,ref}$ must be treated here.
 
 We can then write the matrix of second derivatives:
-\begin{equation}
-\gamma_{{\rm obs},i}(z_k) = \gamma_{{\rm obs},i}(z_k)|_{\rm no~wf~jitter}
-+ \sum_{aj} K^{\rm LOS,WFE}_{iaj}(z_k) {\rm Cov}({\theta}_a,{\psi}_j)
-+ \frac12 \sum_{jj'} K^{\rm WFE,WFE}_{ija}(z_k) {\rm Cov}({\psi}_j,{\psi}_{j'}).
+\begin{align}
+\gamma_{{\rm obs},i}(z_k) &= \gamma_{{\rm obs},i}(z_k)|_{\rm no~wf~jitter}\nonumber\\
+&+ \sum_{aj} K^{\rm LOS,WFE}_{iaj}(z_k) {\rm Cov}({\theta}_a,{\psi}_j)\nonumber\\
+&+ \frac12 \sum_{jj'} K^{\rm WFE,WFE}_{ija}(z_k) {\rm Cov}({\psi}_j,{\psi}_{j'}).
 \label{eq:gamma-S-Sens}
-\end{equation}
+\end{align}
 The matrix ${\bf K}^{\rm WFE,WFE}$, describing how much small
 high-frequency vibrations of the wavefront impact the shear, has a
 dependence on redshift bin $z_k$, shear component $i$, and the Zernike
@@ -1406,6 +1415,7 @@ K_{2aj}^{\rm LOS,WFE} = \left( \begin{array}{cccccccc}
 where the two rows are $a=1,2$ and the eight columns are the low-order
 Zernikes. Similarly, for the wavefront jitter variance, we have
 \begin{equation}
+\setlength\arraycolsep{1.5pt}
 K_{1jj'}^{\rm WFE,WFE} = \left( \begin{array}{cccccccc}
 0 & K_{fa} & 0 & 0 & 0 & 0 & 0 & 0 \\
 K_{fa} & 0 & 0 & 0 & 0 & 0 & 0 & K_{sa} \\
@@ -1419,6 +1429,7 @@ K_{fa} & 0 & 0 & 0 & 0 & 0 & 0 & K_{sa} \\
 \end{equation}
 and
 \begin{equation}
+\setlength\arraycolsep{1.5pt}
 K_{2jj'}^{\rm WFE,WFE} = \left( \begin{array}{cccccccc}
 0 & 0 & K_{fa} & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -1433,7 +1444,9 @@ K_{fa} & 0 & 0 & 0 & 0 & 0 & 0 & K_{sa} \\
 Finally, for the line-of-sight-motion only, we have
 \begin{equation}
 K_{1ab}^{\rm LOS,LOS} = \left( \begin{array}{cc} K_{\theta\theta} & 0 \\ 0 & -K_{\theta\theta} \end{array} \right)
-~~~~~~~~{\rm and}~~~~~~~~
+\end{equation}
+and
+\begin{equation}
 K_{2ab}^{\rm LOS,LOS} = \left( \begin{array}{cc} 0 & K_{\theta\theta} \\ K_{\theta\theta} & 0 \end{array} \right).
 \end{equation}
 Image simulations are required to determine the specific values of
@@ -1450,20 +1463,22 @@ per axis. We note that the RMS wavefront jitter is
 \sigma_{\rm wfe-jitter} = \sqrt{\sum_j {\rm Var} \psi_j},
 \end{equation}
 and that covariances between WFE jitter and LOS jitter are limited by the rule that the covariance matrix be positive-definite (in particular, the correlation coefficients cannot exceed 1). This implies the limits
-\begin{equation}
-\left|\sum_{aj} K^{\rm LOS,WFE}_{1aj}(z_k) {\rm
-Cov}({\theta}_a,{\psi}_j)\right| \le \sqrt{K_{\theta c}^2 + K_{\theta
+\begin{align}
+&\left|\sum_{aj} K^{\rm LOS,WFE}_{1aj}(z_k) {\rm
+Cov}({\theta}_a,{\psi}_j)\right| \nonumber\\
+&\le \sqrt{K_{\theta c}^2 + K_{\theta
 t}^2}~\, \sigma_{\rm los-jitter} \sigma_{\rm wfe-jitter}
 \label{eq:g1-wfej.corr}
-\end{equation}
+\end{align}
 and
-\begin{equation}
-\left|\frac12 \sum_{jj'} K^{\rm WFE,WFE}_{ija}(z_k) {\rm
-Cov}({\psi}_j,{\psi}_{j'})\right| \le \frac12 \max\left(
+\begin{align}
+&\left|\frac12 \sum_{jj'} K^{\rm WFE,WFE}_{ija}(z_k) {\rm
+Cov}({\psi}_j,{\psi}_{j'})\right| \nonumber\\
+&\le \frac12 \max\left(
 \sqrt{K_{fa}^2+K_{sa}^2}, |K_{cc}|+\sqrt{K_{cc}^2+K_{ct}^2}
 \right)\,\sigma_{\rm wfe-jitter}^2,
 \label{eq:g1-wfej.var}
-\end{equation}
+\end{align}
 where $\sigma_{\rm los-jitter}$ is the RMS line-of-sight jitter per
 axis, i.e.\ we set ${\rm Cov}(\theta_a,\theta_b) = \sigma_{\rm
 los-jitter}^2\delta_{ab}$. (Note that only the jitter contributes
@@ -1473,7 +1488,7 @@ The sum of Eqs.~(\ref{eq:g1-wfej.corr}) and (\ref{eq:g1-wfej.var})
 represents a bound on the RMS spurious shear in the $\gamma_1$
 component (a similar bound applies to $\gamma_2$).
 
-\begin{table}
+\begin{table*}
 \center{\caption{\label{tab:wfej}The coefficients of spurious shear at
 ${\boldsymbol\psi}=0$, appearing in
 Eqs.~(\ref{eq:temp.078524}--\ref{eq:g1-wfej.var}). Coefficients are
@@ -1483,7 +1498,8 @@ J129 band (which is always the most sensitive to wavefront jitter
 because it has the shortest wavelength). The $S$-factor is shown for
 the worst angular bin, which is always the smallest scales
 ($3.0<\log_{10}\ell<3.5$).}
-\begin{tabular}{|c|rrr|c|cc|}
+\begin{tabular}{c|rrr|c|cc}
+\hline
 \hline
 Band: & J129 & H158 & F184 & Units & Worst $z$-bin & Worst $S$-factor \\
 \hline
@@ -1497,19 +1513,34 @@ $K_{sa}$ & 4.14 & 3.21 & 2.59 & $10^{-6}$ nm$^{-2}$ & 2.8--3.0 & 0.672 \\
 \hline
 $K_{\theta\theta}$ & 14.32 & 13.77 & 13.34 & $10^{-6}$ mas$^{-2}$ & 2.8--3.0 & 0.504 \\
 \hline
+\hline
 \end{tabular}
 }
-\end{table}
+\end{table*}
 
 The RMS spurious shear per component in J-band, weighted by the worst scaling factor $S = 0.672$ (which accounts for redshift dependence), is then
-\begin{equation}
-\gamma_{\rm rms}S^{1/2} \le \frac{6.85\times 10^{-6}\,{\rm
+\begin{align}
+\gamma_{\rm rms}\sqrt{S N_{\rm ind}} &\le 6.85\times 10^{-6}\,{\rm
 nm}^{-1}\,{\rm mas}^{-1}\,\sigma_{\rm los-jitter}\sigma_{\rm
-wfe-jitter} + 4.67\times 10^{-6} \,{\rm nm}^{-2}\,\sigma_{\rm
-wfe-jitter}^2}{N_{\rm ind}^{1/2}}.
+wfe-jitter} \nonumber\\
+&+ 4.67\times 10^{-6} \,{\rm nm}^{-2}\,\sigma_{\rm
+wfe-jitter}^2.
 \label{eq:wfej-grms}
-\end{equation}
+\end{align}
 This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-sight jitter is required to be $\sigma_{\rm los-jitter}=12$ mas rms per axis, and the observing strategy has two passes at epochs separated by many months so we take $N_{\rm ind}=2$. From Eq.~(\ref{eq:wfej-grms}), we find that the entire error budget would be taken up for $\sigma_{\rm wfe-jitter}=3.76$ nm rms. If $\sigma_{\rm wfe-jitter}=1$ nm rms, then $\gamma_{\rm rms}S^{1/2}=6.14\times 10^{-5}$, and 5.4\% of the error budget is used (in an RSS sense).
+%\end{widetext}
+
+\section{Simulation data acess}
+\label{app:data_access}
+
+The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 sq. deg., full-depth synthetic WFIRST HLS imaging survey in the $H$-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing. The data is available for download via a public shared Globus endpoint.\footnote{The Globus shared endpoint can be found at: \\\url{https://app.globus.org/file-manager?origin_id=53c9dafc-cf41-11e9-98e2-0a63aa6b37da&origin_path=\%2Fwfirst_sim_fiducial\%2F}.}  This endpoint directory includes the following sub-directories:
+
+\begin{itemize}
+\item \textsc{images}: A set of FITS images for each SCA in each pointing. 
+\item \textsc{meds}: A set of MEDS files that contain cutouts of each object in each exposure that do not include any neighboring galaxy light. These MEDS files were used for the analysis in this paper. 
+\item \textsc{truth}: A FITS catalog of true object properties and a FITS catalog containing information about where each object appeared in each SCA in each pointing. The true centroid of the object in SCA pixel coordinates offset by 0.5 pixels in $x$ and $y$ relative to the positions recorded in the second FITS catalog, which must be corrected when doing precision operations with the images or cutouts like shape measurement. This correction is not needed if using the pre-made MEDS files.
+\end{itemize}
+
 
 \section{Performance statistics}
 \label{app:performance}
@@ -1517,15 +1548,18 @@ This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-
 Each stage of the image simulation suite can be trivially parallelized. Disk I/O is not a practical issue in the image generation when running at scale across 4-5k jobs. Within each image generation job (simulation of a complete SCA), the drawing of each object is currently also be trivially parallelized across available threads. This will likely change as the simulation of the detectors becomes more realistic, though. In both modes, the image generation stage achieves about 95\% CPU utilization. Stages that process the image output into different data formats are less efficient, and the generation of the MEDS files is generally limited by disk I/O and remote data transfer. Typical timing (per thread), memory usage, and resulting data sizes are provided in Table \ref{table:performance}. The total data volume is 58GB of FITS images, 364GB of MEDS files, and $<$1GB of catalog data, for a total of about 423GB. These values will scale approximately linearly with the area of sky simulated and the density of objects.
 
 \begin{table}
-\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is still in generating the images. 
+\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is still in generating the images. 
 }
 \begin{tabular}{cccc}
 \hline
-Benchmark & Image generation (per SCA image) & MEDS creation (per tile ) & Shape measurement \\
 \hline
-CPU time & 180 min. & 10-15 min. & 5 sec. (per object) \\
-Memory (per core) & 2-4GB & 1-2GB & $<$1GB (per tile) \\
-Data size (gzipped) & 25MB & 1GB & $<$1MB (per tile) \\
+Benchmark & Image generation & MEDS creation& Shape  \\
+  &  (per SCA image) & (per tile ) & measurement \\
+\hline
+CPU time & 180 min. & 10-15 min. & 5 sec.  \\
+Memory  & 2-4GB & 1-2GB & $<$1GB  \\
+Data size  & 25MB & 1GB & $<$1MB  \\
+\hline
 \hline
 \end{tabular}
 }
@@ -1534,18 +1568,17 @@ Data size (gzipped) & 25MB & 1GB & $<$1MB (per tile) \\
 \section{PSF model resolution}
 \label{app:psf_resol}
 
-For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) within about 1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured at oversampling factors of 1, 2, 4, 8, and 16, relative to a `true' PSF model image with an oversampling factor of 32 and native pixel stamp size of $8\times 8$ pixels.
+For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) within about 1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured at oversampling factors of 1, 2, 4, 8, and 16, relative to a `true' PSF model image with an oversampling factor of 32 and native pixel stamp size of $8\times 8$ pixels. This choice has no impact on the measurement of galaxy shapes as implemented in this paper.
  
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.5\textwidth]{figures/psf_oversampling.pdf}
+\includegraphics[width=\columnwidth]{figures/psf_oversampling.pdf}
 \end{center}
 \caption[]{
 The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size ($T$) for various factors of PSF model pixel scale oversampling factors of 1, 2, 4, 8, and 16 relative to the native WFIRST pixel scale, in cutouts of size $8\times 8$ native pixels. The fractional error is measured relative to a `true' PSF model, which is represented by a cutout of native pixel size $32\times32$ pixels with a resolution that is oversampled by a factor of 32.
 \label{fig:psf_oversampling}}
 \end{figure}
 
-\end{widetext}
 
 \bibliographystyle{apsrev4-1}
 \bibliography{short}
