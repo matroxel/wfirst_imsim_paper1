@@ -471,7 +471,7 @@ Potential correlated biases in the WCS model due to these changes are ignored in
 \subsection{High-frequency biases}\label{sec:low}
 
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
-These are represented by an additional convolution of the image with a Gaussian PSF with equivalent width to an rms of 0.015 arcsec. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  (\textsc{IsoJitter}), 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian (\textsc{AniJitter}), and 3) only applying this asymmetric vibration to a random 15\% of pointings (\textsc{RanJitter}).
+These are represented by an additional convolution of the image with a Gaussian PSF with equivalent width to an rms of 0.015 arcsec. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  (\textsc{IsoJitter}), 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian (\textsc{AniJitter}), and 3) only applying this asymmetric vibration to a random 15\% of pointings (\textsc{RanJitter}).  The additional second moments are conserved, which means $\sigma_x\sigma_y=\sigma_{orig}^2=(15mas)^2$. For AniJitter and RanJitter, we applies a shear $e_1=\frac{\sigma_x-\sigma_y}{\sigma_x+\sigma_y}=0.3$,  with Zernike term amplitude change in this case  $d\psi=\sigma_x^2-\sigma_y^2=297\quad{mas}^2$. In the case of IsoJitter, $\sigma_x=\sigma_y$, which leads to $d\psi=\sigma_x^2+\sigma_y^2=450{mas}^2$.
 
 \begin{figure}
 \begin{center}
@@ -585,7 +585,7 @@ GradZ4          & $-0.089 \pm 0.030$   & $1.0   \pm 0.029$  & nm$^{-1}$ \\
 GradZ6          & $2.2    \pm 0.029$   & $0.044 \pm 0.028$  & nm$^{-1}$ \\
 Piston 		    & $-0.560  \pm 0.048$  & $-1.2  \pm 0.048$  & nm$^{-1}$ \\
 Tilt 			& $-0.036 \pm 0.063$   & $0.10  \pm 0.063$  & nm$^{-1}$ \\ \hline
-IsoJitter 		& $  0.00033 \pm 0.00199$     & $0.00051  \pm 0.00195$ & mas$^{-2}$ \\
+IsoJitter 		& $  0.0004 \pm 0.0024$     & $0.0006  \pm 0.0023$ & mas$^{-2}$ \\
 AniJitter 		& $0.145   \pm 0.003$  & $-0.001 \pm 0.003$ & mas$^{-2}$ \\
 RanJitter 	    & $0.0246  \pm 0.0016$  & $0.00087  \pm 0.00159$ & mas$^{-2}$ \\ \hline
 OscZ4 		    & $0.13   \pm 0.039$   & $0.30  \pm 0.039$  & nm$^{-1}$ \\
