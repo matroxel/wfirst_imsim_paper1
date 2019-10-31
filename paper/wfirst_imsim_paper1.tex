@@ -42,7 +42,9 @@
 \label{firstpage}
 
 \begin{abstract}
+change Z to psi?
 
+partial e vs partial gamma\_obs
 \end{abstract}
 
 \keywords{}
@@ -375,7 +377,7 @@ The number of simulated exposures per object (blue) compared to the number event
 \includegraphics[width=\columnwidth]{figures/pointings.pdf}
 \end{center}
 \caption[]{
-A visualization of the individual pointings of the telescope using the H158 filter in the five-year simulated High-Latitude Survey that overlap the region of the sky we are simulating images for (the non-shaded region). There are a total of 189 pointings in H158 that overlap this region. Each marker is an individual pointing, whose color represents the focal plane position angle. Each cluster of pointings typically contains 3-4 very small translational dithers to cover chip gaps. The dither pattern in other filters overlaps in other directions to produce a more homogeneous coverage than is indicated in this figure. 
+A visualization of the individual pointings of the telescope using the H158 filter in the five-year simulated Reference survey that overlap the region of the sky we are simulating images for (the non-shaded region). There are a total of 189 pointings in H158 that overlap this region. Each marker is an individual pointing, whose color represents the focal plane position angle. Each cluster of pointings typically contains 3-4 very small translational dithers to cover chip gaps. The dither pattern in other filters overlaps in other directions to produce a more homogeneous coverage than is indicated in this figure. 
 \label{fig:pointings}}
 \end{figure}
 
@@ -452,12 +454,12 @@ The difference in the measured (obs) shape relative to the true sheared intrinsi
 
 \section{Wavefront model errors}\label{sec:results}
 
-In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. \verify{Chris: insert text connecting to early motivation section when written}. 
+In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. These are used to to empirically derive the relationship between recovered shear and wavefront error modes $\partial e_i / \partial \psi_j$, which allows us to validate earlier Phase A analytic estimates of the requirements flowdown for WFIRST.
 
-We simulate 13 identical 2.5$\times$2.5 deg$^2$ HLS survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate various failure modes in the PSF reconstruction. 
+We simulate 13 identical 2.5$\times$2.5 deg$^2$ Reference Survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate various failure modes in the PSF reconstruction. 
 %Shape measurement is performed using the fiducial PSF model in each case to simulate the effect of unknown errors in the PSF model.
 These are split into three types of failure modes: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over the lifetime of the mission, but can be considered static over the timescale of a single exposure. 
-In each mode, the (rms) amplitude of the bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm.  These PSF changes are summarized in Table \ref{table:runs}.
+In each static and low-frequency mode, the (rms) amplitude of the wavefront bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293 nm), which is equivalent to approx. 6.5 nm. These PSF changes are summarized in Table \ref{table:runs}.
 
 \subsection{Static biases}\label{sec:static}
 
@@ -471,7 +473,7 @@ Potential correlated biases in the WCS model due to these changes are ignored in
 \subsection{High-frequency biases}\label{sec:low}
 
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
-These are represented by an additional convolution of the image with a Gaussian PSF with equivalent width to an rms of 0.015 arcsec. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  (\textsc{IsoJitter}), 2) an anisotropic vibration modeled with a shear of $e_1=0.3$ of the Gaussian (\textsc{AniJitter}), and 3) only applying this asymmetric vibration to a random 15\% of pointings (\textsc{RanJitter}).  The additional second moments are conserved, which means $\sigma_x\sigma_y=\sigma_{orig}^2=(15mas)^2$. For AniJitter and RanJitter, we applies a shear $e_1=\frac{\sigma_x-\sigma_y}{\sigma_x+\sigma_y}=0.3$,  with Zernike term amplitude change in this case  $d\psi=\sigma_x^2-\sigma_y^2=297\quad{mas}^2$. In the case of IsoJitter, $\sigma_x=\sigma_y$, which leads to $d\psi=\sigma_x^2+\sigma_y^2=450{mas}^2$.
+These are represented by an additional convolution of the image with a Gaussian PSF. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  (\textsc{IsoJitter}), 2) an anisotropic vibration (\textsc{AniJitter}), and 3) only applying this anisotropic vibration to a random 15\% of pointings (\textsc{RanJitter}). The additional second moments are conserved, which means $\sigma_x\sigma_y=\sigma_{orig}^2=15$ mas$^2$. For \textsc{AniJitter} and \textsc{RanJitter}, we applies a shear $e_1=\frac{\sigma_x-\sigma_y}{\sigma_x+\sigma_y}=0.3$,  with Zernike amplitude change in this case  $d\psi=\sigma_x^2-\sigma_y^2=297$ mas$^2$. In the case of \textsc{IsoJitter}, $\sigma_x=\sigma_y$, which leads to $d\psi=\sigma_x^2+\sigma_y^2=450$ mas$^2$.
 
 \begin{figure}
 \begin{center}
@@ -493,7 +495,7 @@ The binned mean difference of measured $e_2$ compared to the \textsc{Fiducial} r
 
 \subsection{Low-frequency biases}\label{sec:high}
 
-Two low-frequency biases are simulated to represent thermal drift through the lifetime of the mission. Thermal perturbations propagate into $Z_4$ (\textsc{OscZ4})  and $Z_7$ (\textsc{OscZ7}) modes.
+Two low-frequency biases are simulated to represent thermal drift throughout the lifetime of the mission. Thermal perturbations propagate into $Z_4$ (\textsc{OscZ4})  and $Z_7$ (\textsc{OscZ7}) modes.
 We generate a random time-dependent function $f(t)$ with rms amplitude 0.005 wavelengths following a given power spectrum to quantify the perturbation of the Zernike coefficients over time. 
 The power spectrum of thermal drift noise is taken to be a Lorenzian function 
 \begin{equation}
