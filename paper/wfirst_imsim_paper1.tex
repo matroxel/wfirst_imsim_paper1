@@ -45,9 +45,7 @@
 \label{firstpage}
 
 \begin{abstract}
-change Z to psi?
 
-partial e vs partial gamma\_obs
 \end{abstract}
 
 \keywords{}
@@ -90,9 +88,9 @@ We now proceed to describe requirements and the role of this suite of image simu
 
 The WFIRST weak lensing program has undergone significant evolution over the past decade \cite{2011arXiv1108.1374G, 2012arXiv1208.4012G, 2013arXiv1305.5422S, 2015arXiv150303757S, 2018arXiv180403628D, 2019arXiv190205569A}, but the basic philosophy has not changed. The next major advance in cosmology from weak lensing will require unprecedented control of systematic errors in photometric measurements (this includes, but is not limited to, shape measurement and PSF corrections). WFIRST will make this measurement with a thermally controlled telescope from beyond low Earth orbit, where the PSF can be made both stable and small. The imaging observations will be carried out in multiple filters and will have a cross-linked observing strategy within each filter to enable multiple internal cross-checks in the weak lensing signal.
 
-The current Reference Survey in the WFIRST Science Requirements Document (SRD) \verify{need citation} envisions shape measurements in 3 filters ($J$, $H$, and $F184$), where the PSF is at least half-Nyquist sampled (i.e., pixel size $<\lambda/D$; Nyquist sampling would be $\lambda/2D$). Here $F184$ is the reddest filter on WFIRST, spanning 1.68--2.00 $\mu$m; it is between ground-based $H$ and $K$, and was chosen based on the thermal constraints from the previously existing telescope hardware that was donated to the program. Photometric redshift determination requires bluer filters as well. WFIRST itself will do a photometric survey in the $Y$ filter since there was no ground-based option that would reach the required depth. Ground-based observations will be required for the $z$ and bluer filters; the primary option for collecting these data will be LSST \verify{[cite?]}. The expected imaging depth is 26.9/26.95/26.9/26.25 mag AB in $Y/J/H/F184$, and the expected depth is 35 galaxies/arcmin$^2$ ($H$-band, the best for shape measurement) or 50 galaxies/arcmin$^2$ (co-added bands). The Reference Survey also includes 10\% of the time devoted to medium-deep fields to calibrate the properties of the source galaxies, which have $10\times$ the exposure time over 1\% of the overall survey area.
+The current Reference Survey in the WFIRST Science Requirements Document (SRD) \verify{need citation} envisions shape measurements in 3 filters ($J129$, $H158$, and $F184$), where the PSF is at least half-Nyquist sampled (i.e., pixel size $<\lambda/D$; Nyquist sampling would be $\lambda/2D$). Here $F184$ is the reddest filter on WFIRST, spanning 1.68--2.00 $\mu$m; it is between ground-based $H$ and $K$, and was chosen based on the thermal constraints from the previously existing telescope hardware that was donated to the program. Photometric redshift determination requires bluer filters as well. WFIRST itself will do a photometric survey in the $Y$ filter since there was no ground-based option that would reach the required depth. Ground-based observations will be required for the $z$ and bluer filters; the primary option for collecting these data will be LSST \verify{[cite?]}. The expected imaging depth is 26.9/26.95/26.9/26.25 mag AB in $Y106/J129/H158/F184$, and the expected depth is 35 galaxies/arcmin$^2$ ($H158$-band, the best for shape measurement) or 50 galaxies/arcmin$^2$ (co-added bands). The Reference Survey also includes 10\% of the time devoted to medium-deep fields to calibrate the properties of the source galaxies, which have $10\times$ the exposure time over 1\% of the overall survey area.
 
-The Reference Survey area is 2000 deg$^2$, which is limited by the need for internal redundancy (e.g., 2 passes over the sky in each of 4 filters means each region must be observed 8 times) and the medium-deep fields, and by the need to carry out many other observing programs as well in a five-year prime mission. This area is less than considered in some previous studies. Options for larger survey area have been considered, and could include a wider layer with less redundancy (e.g., an $H$-band survey overlaid with LSST data), an extended mission (WFIRST has no consumable cryogens, and carries propellant for at least 10 years), or both \cite{2019BAAS...51c.418E}. The actual survey -- which may look different from the Reference Survey and be informed by developments in the coming years -- will be chosen closer to launch. However, from the requirements point of view, we focus on enabling the Reference Survey.
+The Reference Survey area is 2000 deg$^2$, which is limited by the need for internal redundancy (e.g., 2 passes over the sky in each of 4 filters means each region must be observed 8 times) and the medium-deep fields, and by the need to carry out many other observing programs as well in a five-year prime mission. This area is less than considered in some previous studies. Options for larger survey area have been considered, and could include a wider layer with less redundancy (e.g., an $H158$-band survey overlaid with LSST data), an extended mission (WFIRST has no consumable cryogens, and carries propellant for at least 10 years), or both \cite{2019BAAS...51c.418E}. The actual survey -- which may look different from the Reference Survey and be informed by developments in the coming years -- will be chosen closer to launch. However, from the requirements point of view, we focus on enabling the Reference Survey.
 
 \subsection{The requirements process}
 \label{ss:req}
@@ -131,7 +129,7 @@ All of these calculations are described in detail in Appendix~\ref{app:psf-stabi
 
 The analytic approach to estimating the sensitivity to wavefront errors has some advantages: it is simple, maintains a close link to underlying physical principles, enables rapid exploration of the parameter space, and was available at an earlier stage of the project than the image simulations. However, it has some drawbacks:
 \begin{list}{$\bullet$}{}
-\item The analytic approach deals with single images, so it does not represent what happens when images are combined. This is especially relevant when the input images are undersampled at the native resolution of the WFIRST pixels. (The pixel scale is 110 mas, whereas Nyquist sampling would be $\lambda/2D = 56$, 68, or 80 mas at J, H, or F184 bands respectively.)
+\item The analytic approach deals with single images, so it does not represent what happens when images are combined. This is especially relevant when the input images are undersampled at the native resolution of the WFIRST pixels. (The pixel scale is 110 mas, whereas Nyquist sampling would be $\lambda/2D = 56$, 68, or 80 mas at J129, H158, or F184 bands respectively.)
 \item The analytic approach computes the derivatives $\partial\gamma_{{\rm obs},i}/\partial\psi_j$ at one point. Therefore, it does not capture the correlations across the focal plane or tiling patterns; the distribution of systematic shear in 2-point correlation function space or in power spectrum space is not captured.
 \item The analytic approach cannot be extended to include interaction of PSF errors with other aspects of the data, such as noise, detector systematics, blending/selection, etc., in the way that is possible with image simulations.
 \end{list}
@@ -183,7 +181,7 @@ The simulation is broken into several stages:
 \textbf{\textit{Truth catalog generation}} -- A truth catalog is generated from the simulated input galaxy distribution, photometric galaxy catalog, and Milky Way simulation. 
 The following true object properties are assigned to each simulated galaxy:
 1) The sky position in right ascension (RA) and declination (Dec) from the simulated galaxy distribution; 
-2) Photometric properties (consistent $YJHF$ magnitudes, size, and redshift) drawn from a random object in the photometric galaxy catalog; 
+2) Photometric properties (consistent $Y106/J129/H158/F184$ magnitudes, size, and redshift) drawn from a random object in the photometric galaxy catalog; 
 3) Intrinsic ellipticity components drawn from a Gaussian distribution of width 0.27 (truncated at $\pm$0.7); 
 4) A random rotation angle; 
 5) The ratio of fluxes in each of the three galaxy components: a) de Vaucouleurs bulge, b) exponential disk, and c) random-walk star-forming knots (a maximum of 25\% of flux can exist in the knots); 
@@ -426,20 +424,20 @@ The measured PSF ellipticity and size, and the signal-to-noise of the galaxy mea
 Run name & PSF change & Mode & Notes \\ 
 \hline
 \textsc{Fiducial}              & -- & -- & -- \\
-\textsc{Focus}                & $Z_4$ & Static & --  \\
-\textsc{Astig}                  & $Z_5$ & Static &  -- \\
-\textsc{Coma}                & $Z_7$ & Static &  -- \\
-\textsc{GradZ4}             & $Z_4$ & Static & Gradient in focal plane  \\
-\textsc{GradZ6}              & $Z_6$ & Static &Gradient in focal plane    \\
-\textsc{Piston} 		 & $Z_4$ & Static  &Random per SCA   \\
-\textsc{Tilt} 			 & $Z_4$ & Static & Random gradient per SCA \\
+\textsc{Focus}                & $\psi_4$ & Static & --  \\
+\textsc{Astig}                  & $\psi_5$ & Static &  -- \\
+\textsc{Coma}                & $\psi_7$ & Static &  -- \\
+\textsc{GradZ4}             & $\psi_4$ & Static & Gradient in focal plane  \\
+\textsc{GradZ6}              & $\psi_6$ & Static &Gradient in focal plane    \\
+\textsc{Piston} 		 & $\psi_4$ & Static  &Random per SCA   \\
+\textsc{Tilt} 			 & $\psi_4$ & Static & Random gradient per SCA \\
 \hline
 \textsc{IsoJitter}		& Gaussian  & High-Freq. & Isotropic  \\
 \textsc{AniJitter} 		 & Gaussian & High-Freq. & Anisotropic  \\
 \textsc{RanJitter} 		 & Gaussian & High-Freq. & 15\% of pointings  \\
 \hline
-\textsc{OscZ4} 		 & $Z_4$ & Low-Freq. & Time-dependent  \\
-\textsc{OscZ7} 		 & $Z_7$ & Low-Freq. & Time-dependent  \\
+\textsc{OscZ4} 		 & $\psi_4$ & Low-Freq. & Time-dependent  \\
+\textsc{OscZ7} 		 & $\psi_7$ & Low-Freq. & Time-dependent  \\
 \hline
 \hline
 \end{tabular}
@@ -457,7 +455,7 @@ The difference in the measured (obs) shape relative to the true sheared intrinsi
 
 \section{Wavefront model errors}\label{sec:results}
 
-In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. These are used to to empirically derive the relationship between recovered shear and wavefront error modes $\partial e_i / \partial \psi_j$, which allows us to validate earlier Phase A analytic estimates of the requirements flowdown for WFIRST.
+In this paper, we focus on empirical tests of weak lensing requirements for wave front model control (i.e., the PSF) in WFIRST. These are used to to empirically derive the relationship between recovered shear and wavefront error modes $\partial e_i / \partial \psi_j$, which allows us to validate earlier Phase A analytic estimates of the requirements flowdown for WFIRST. In the absence of shear biases, or when comparing between runs that should have identical intrinsic shear biases, $\partial e_i / \partial \psi_j$ is equivalent to $\partial \gamma_{\mathrm{obs},i} / \partial \psi_j$.
 
 We simulate 13 identical 2.5$\times$2.5 deg$^2$ Reference Survey cutouts: a fiducial survey that represents perfect knowledge of the PSF and 12 iterations to simulate various failure modes in the PSF reconstruction. 
 %Shape measurement is performed using the fiducial PSF model in each case to simulate the effect of unknown errors in the PSF model.
@@ -467,10 +465,10 @@ In each static and low-frequency mode, the (rms) amplitude of the wavefront bias
 \subsection{Static biases}\label{sec:static}
 
 We simulate seven static sources of bias in the PSF model. 
-Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus $Z_4$ (\textsc{Focus}), oblique astigmatism $Z_5$ (\textsc{Astig}), and vertical coma $Z_7$ (\textsc{Coma}). 
-Two simulations include a coherent gradient in the defocus $Z_4$ (\textsc{GradZ4}) and vertical astigmatism $Z_6$ (\textsc{GradZ6}) across the focal plane with equivalent rms of 0.005 wavelengths. 
+Three of these simulations include a coherent change in the PSF model Zernike coefficients, where the fiducial value is changed by 0.005 wavelengths in each of defocus $\psi_4$ (\textsc{Focus}), oblique astigmatism $\psi_5$ (\textsc{Astig}), and vertical coma $\psi_7$ (\textsc{Coma}). 
+Two simulations include a coherent gradient in the defocus $\psi_4$ (\textsc{GradZ4}) and vertical astigmatism $\psi_6$ (\textsc{GradZ6}) across the focal plane with equivalent rms of 0.005 wavelengths. 
 For speed, these are simulated such that the PSF is constant within a single SCA. Finally, two simulations approximate errors in the mounting of the SCAs: 1) a random vertical mounting offset of up to 0.005 wavelengths is assigned to each SCA (\textsc{Piston}), and 2) a random tilt in the $x$ or $y$ direction is assigned to each SCA  (\textsc{Tilt}), with equivalent rms of up to 0.005 wavelengths. 
-These are modeled as changes in the $Z_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object is assigned a different PSF consistent with this random tilt of the SCA). 
+These are modeled as changes in the $\psi_4$ coefficient, with the PSF being evaluating based on the object $x$--$y$ position within the SCA (i.e., each object is assigned a different PSF consistent with this random tilt of the SCA). 
 Potential correlated biases in the WCS model due to these changes are ignored in this work, but should be considered in future studies of the WCS model recovery.
 
 \subsection{High-frequency biases}\label{sec:low}
@@ -502,7 +500,7 @@ The binned mean difference of measured $e_2$ compared to the \textsc{Fiducial} r
 
 \subsection{Low-frequency biases}\label{sec:high}
 
-Two low-frequency biases are simulated to represent thermal drift throughout the lifetime of the mission. Thermal perturbations propagate into $Z_4$ (\textsc{OscZ4})  and $Z_7$ (\textsc{OscZ7}) modes.
+Two low-frequency biases are simulated to represent thermal drift throughout the lifetime of the mission. Thermal perturbations propagate into $\psi_4$ (\textsc{OscZ4})  and $\psi_7$ (\textsc{OscZ7}) modes.
 We generate a random time-dependent function $f(t)$ with rms amplitude 0.005 wavelengths following a given power spectrum to quantify the perturbation of the Zernike coefficients over time. 
 The power spectrum of thermal drift noise is taken to be a Lorenzian function 
 \begin{equation}
@@ -675,7 +673,7 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 
 \subsection{Comparison of analytic to numerical results}
 
-The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the $H$-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the $H$-band. In the numerical results presented in Table~\ref{table:partials}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront) and \verify{???} (for jitter). This \verify{is/is not (decide after addressing jitter case)} consistent with the analytic expectations.
+The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the $H158$-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the $H158$-band. In the numerical results presented in Table~\ref{table:partials}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront) and \verify{???} (for jitter). This \verify{is/is not (decide after addressing jitter case)} consistent with the analytic expectations.
 
 A similar comparison is possible for the 2-point correlation functions $\xi_\pm(\theta)$ of the ellipticity changes $\Delta e$. Since we put in wavefront change of 6.5 nm rms, the analytic prediction is that these correlation functions should be
 \begin{equation}
@@ -901,7 +899,7 @@ finite size of its survey and due to the large cosmic variance of the
 lowest multipoles. The smallest scales are generally not used in
 cosmic shear analyses because the baryonic effects are severe (e.g.\
 \cite{2008PhRvD..77d3507Z, 2013PhRvD..87d3509Z}). We use $N_z=15$
-redshift slices, as shown in Table~\ref{tab:dNdz}, which are chosen by the Exposure Time Calculator \cite{2012arXiv1204.5151H} v17, with the Phase B exposure times ($5\times 140.25$ s in $H$-band). In order to ensure
+redshift slices, as shown in Table~\ref{tab:dNdz}, which are chosen by the Exposure Time Calculator \cite{2012arXiv1204.5151H} v17, with the Phase B exposure times ($5\times 140.25$ s in $H158$-band). In order to ensure
 that WFIRST would not become systematics-limited in an extended
 mission, we set the top-level requirement on systematics to $Z=1$ for
 a survey of area $\Omega =10^4$ deg$^2$ (3.05 sr).
@@ -1365,7 +1363,7 @@ the $C$-coefficients are largest. However, the weights $w(z_i)$
 obtained from $C_{ct}$ (the next largest coefficient) are only
 slightly different.
 
-We find that in $J$, $H$, and F184 bands, the operator norms are $\lVert{\boldsymbol\Lambda}\rVert = 1.14\times 10^{-5}$, $9.76\times 10^{-6}$, and $8.46\times 10^{-6}$ nm$^{-2}$, respectively. Using the $J$-band limit, which has the worst total contamination, we find a limit on the total wavefront error of
+We find that in $J129$, $H158$, and $F184$ bands, the operator norms are $\lVert{\boldsymbol\Lambda}\rVert = 1.14\times 10^{-5}$, $9.76\times 10^{-6}$, and $8.46\times 10^{-6}$ nm$^{-2}$, respectively. Using the $J129$-band limit, which has the worst total contamination, we find a limit on the total wavefront error of
 $|{\boldsymbol\psi}({\boldsymbol\theta})|<92\,$nm, we find
 \begin{equation}
 A \le \frac1{\sqrt{24}}\lVert{\boldsymbol\Lambda} \rVert |{\boldsymbol\psi}| |\dot{\boldsymbol\psi}({\boldsymbol\theta})| \Delta t
@@ -1565,7 +1563,7 @@ This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-
 \section{Simulation data acess}
 \label{app:data_access}
 
-The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 sq. deg., full-depth synthetic WFIRST HLS imaging survey in the $H$-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing. The data is available for download via a public shared Globus endpoint.\footnote{The Globus shared endpoint can be found at: \\\url{https://app.globus.org/file-manager?origin_id=53c9dafc-cf41-11e9-98e2-0a63aa6b37da&origin_path=\%2Fwfirst_sim_fiducial\%2F}.}  This endpoint directory includes the following sub-directories:
+The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 sq. deg., full-depth synthetic WFIRST HLS imaging survey in the $H158$-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing. The data is available for download via a public shared Globus endpoint.\footnote{The Globus shared endpoint can be found at: \\\url{https://app.globus.org/file-manager?origin_id=53c9dafc-cf41-11e9-98e2-0a63aa6b37da&origin_path=\%2Fwfirst_sim_fiducial\%2F}.}  This endpoint directory includes the following sub-directories:
 
 \begin{itemize}
 \item \textsc{images}: A set of FITS images for each SCA in each pointing. 
