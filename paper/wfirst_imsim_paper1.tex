@@ -740,7 +740,7 @@ This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supe
 \label{app:wl-budget}
 
 This appendix describes the requirements flowdown and error budgeting
-for the weak lensing program on the WFIRST mission, and documents the
+for the weak lensing (WL) program on the WFIRST mission, and documents the
 detailed rationale behind the summary requirements listed in the
 WFIRST SRD. This kind of error budgeting has been performed elsewhere
 in the literature \cite{2008A&A...484...67P,2013MNRAS.429..661M}, but
@@ -792,7 +792,7 @@ the biases, the correction to the power spectrum can be written as
 
 \subsection{Setting requirements}
 
-We arrange the power spectra are arranged into a vector ${\bf C}$ with
+The power spectra are arranged into a vector ${\bf C}$ with
 a covariance matrix ${\bf\Sigma}$. For the WL power spectrum, with
 $N_z$ redshift bins and $N_\ell$ angular scale bins, there are $N_\ell
 N_z(N_z+1)/2$ power spectra $C_\ell^{z_i,z_j}$; hence ${\bf C}$ is a
@@ -804,7 +804,7 @@ have its significance assessed by
 Z = \sqrt{\Delta{\bf C}\cdot{\bf\Sigma}^{-1}\Delta{\bf C}},
 \label{eq:alpha}
 \end{equation}
-which is the number of sigmas at which one could distinguish the
+which is the number of $\sigma$s at which one could distinguish the
 correct power spectrum from the contaminated power spectrum. Note that
 as the survey area $\Omega$ is increased, $Z$ will increase as
 $\propto\Omega^{1/2}$, and hence contaminants $\Delta{\bf C}$ must be
@@ -887,7 +887,7 @@ which.
 
 \subsubsection{Data vector and covariance model}
 
-We build our data vector for the shear power spectra and cross-spectra. We recognize that weak lensing analyses have shifted to ``$3\times 2$-point'' data vectors containing shear-shear, galaxy-shear, and galaxy-galaxy correlations, and by the time WFIRST the list of standard observables may be even longer. However, for setting requirements on shape measurement, shear-shear provides the most demanding use case, and so for simplicity here we only consider shear-shear.
+We build our data vector for the shear power spectra and cross-spectra. We recognize that weak lensing analyses have shifted to ``$3\times 2$-point'' data vectors containing shear-shear, galaxy-shear, and galaxy-galaxy correlations, and by the time of WFIRST the list of standard observables may be even longer. However, for setting requirements on shape measurement, shear-shear provides the most demanding use case, and so for simplicity here we only consider shear-shear.
 
 We use for our data vector the $N_\ell N_z(N_z+1)/2$ power spectra and
 cross-spectra. Each $\ell$ is treated separately, so there are
@@ -1011,7 +1011,7 @@ The additive systematic errors can have various scale dependences. We
 therefore consider a suite of $N_{\rm band}$ disjoint angular
 templates that cover the shape measurement band. Each template
 satisfies the normalization rule, Eq.~(\ref{eq:Tlsum}), and has
-$\ell(\ell+1)T_\ell/(2\pi)=$constant:
+$\ell(\ell+1)T_\ell/(2\pi)=$ constant:
 \begin{align}
 T_\ell^{(\alpha)} = &\left[ \sum_{\ell'=\ell_{\rm min}(\alpha)}^{\ell_{\rm max}(\alpha)} \frac{2\ell'+1}{\ell'(\ell'+1)} \right]^{-1} \frac{4\pi}{\ell(\ell+1)}\nonumber\\
 &\times\left\{ \begin{array}{cc} 1 & \ell_{\rm min}(\alpha)\le\ell\le\ell_{\rm max}(\alpha) \\ 0 & {\rm otherwise} \end{array} \right.\!,~\alpha=0,...N_{\rm band}-1.
@@ -1095,7 +1095,7 @@ Once again, we initially set $Z({\rm mult})=0.5$, allocating 25\% of the systema
 
 In order to translate a requirement on additive bias $c$ or multiplicative bias $m$ into requirements on lower-level quantities, we need to know how a given effect -- e.g.\ an error in the PSF model -- affects the shear measurement. We focus here on the additive biases, which are of interest for this paper; the multiplicative biases can be treated in the same formalism and we comment on how to do this at the end.
 
-We need to compute compute $\partial\gamma_{\rm obs}(z_i)/\partial X$, where $\gamma_{\rm obs}$ is the measured shear in a region (and in redshift slice $i$) and $X$ is any quantity on which we want to set a knowledge requirement. The spurious shear in bin $i$ is taken to be
+We need to compute $\partial\gamma_{\rm obs}(z_i)/\partial X$, where $\gamma_{\rm obs}$ is the measured shear in a region (and in redshift slice $i$) and $X$ is any quantity on which we want to set a knowledge requirement. The spurious shear in bin $i$ is taken to be
 \begin{equation}
 c_i = c(z_i) = \frac{\partial\gamma_{\rm obs}(z_i)}{\partial X} \Delta X,
 \label{eq:X-shape}
@@ -1187,7 +1187,7 @@ the wavefront error -- which depend on field position
 ${\boldsymbol\theta}$ -- are functions of these parameters, and will
 each have their own time dependence
 $\psi_i({\boldsymbol\theta};t)$. This induces a time dependence in the
-PSF $G({\bf x};{\boldsymbol\theta};t)$, and hence in the observes
+PSF $G({\bf x};{\boldsymbol\theta};t)$, and hence in the observed
 shear $\gamma_{\rm obs}$ for an object.
 
 We may write the amplitudes $\psi_i$ at a given position as a vector
@@ -1283,8 +1283,10 @@ pupil, we find the further restrictions that
 \gamma_{\rm obs,ref\,1} =& C_{fa} \psi_{20} \psi_{22} + C_{sa} \psi_{40} \psi_{22}
 + C_{cc} (\psi_{31}^2-\psi_{3-1}^2) \nonumber\\
 &+ C_{ct} (\psi_{31}\psi_{33} + \psi_{3-1}\psi_{3-3})
-+ ...~{\rm and}
-\nonumber \\
++ ...\nonumber \\
+\end{align}
+and
+\begin{align}
 \gamma_{\rm obs,ref\,2} =& C_{fa} \psi_{20} \psi_{2-2} + C_{sa} \psi_{40} \psi_{2-2}
 + 2C_{cc} \psi_{31} \psi_{3-1} \nonumber\\
 &+ C_{ct} (\psi_{31}\psi_{3-3} - \psi_{3-1}\psi_{33})
@@ -1563,22 +1565,22 @@ This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-
 \section{Simulation data acess}
 \label{app:data_access}
 
-The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 sq. deg., full-depth synthetic WFIRST HLS imaging survey in the $H158$-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing. The data is available for download via a public shared Globus endpoint.\footnote{The Globus shared endpoint can be found at: \\\url{https://app.globus.org/file-manager?origin_id=53c9dafc-cf41-11e9-98e2-0a63aa6b37da&origin_path=\%2Fwfirst_sim_fiducial\%2F}.}  This endpoint directory includes the following sub-directories:
+The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 sq. deg., full-depth synthetic WFIRST Reference Survey in the $H158$-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing data. The simulated data is available for download via a public shared Globus endpoint.\footnote{The Globus shared endpoint can be found at: \\\url{https://app.globus.org/file-manager?origin_id=53c9dafc-cf41-11e9-98e2-0a63aa6b37da&origin_path=\%2Fwfirst_sim_fiducial\%2F}.}  This endpoint directory includes the following sub-directories:
 
 \begin{itemize}
 \item \textsc{images}: A set of FITS images for each SCA in each pointing. 
-\item \textsc{meds}: A set of MEDS files that contain cutouts of each object in each exposure that do not include any neighboring galaxy light. These MEDS files were used for the analysis in this paper. 
-\item \textsc{truth}: A FITS catalog of true object properties and a FITS catalog containing information about where each object appeared in each SCA in each pointing. The true centroid of the object in SCA pixel coordinates offset by 0.5 pixels in $x$ and $y$ relative to the positions recorded in the second FITS catalog, which must be corrected when doing precision operations with the images or cutouts like shape measurement. This correction is not needed if using the pre-made MEDS files.
+\item \textsc{meds}: A set of MEDS files that contain cutouts of each object in each exposure, which do not include any neighboring galaxy light. These MEDS files were used for the analysis in this paper. 
+\item \textsc{truth}: A FITS catalog of true object properties and a FITS catalog containing information about where each object appeared in each SCA in each pointing. The true centroid of the object in SCA pixel coordinates is offset by 0.5 pixels in $x$ and $y$ relative to the positions recorded in the second FITS catalog, which must be corrected when doing precision operations with the images like shape measurement. This correction is not needed if using the pre-made MEDS files.
 \end{itemize}
 
 
 \section{Performance statistics}
 \label{app:performance}
 
-Each stage of the image simulation suite can be trivially parallelized. Disk I/O is not a practical issue in the image generation when running at scale across 4-5k jobs. Within each image generation job (simulation of a complete SCA), the drawing of each object is currently also be trivially parallelized across available threads. This will likely change as the simulation of the detectors becomes more realistic, though. In both modes, the image generation stage achieves about 95\% CPU utilization. Stages that process the image output into different data formats are less efficient, and the generation of the MEDS files is generally limited by disk I/O and remote data transfer. Typical timing (per thread), memory usage, and resulting data sizes are provided in Table \ref{table:performance}. The total data volume is 58GB of FITS images, 364GB of MEDS files, and $<$1GB of catalog data, for a total of about 423GB. These values will scale approximately linearly with the area of sky simulated and the density of objects.
+Each stage of the image simulation suite can be trivially parallelized. Disk I/O is not a practical issue in the image generation when running at scale across 4-5k jobs. Within each image generation job (simulation of a complete SCA), the drawing of each object is currently also trivially parallelized across available threads. This will likely change as the simulation of the detectors becomes more realistic, though. In both modes, the image generation stage achieves about 95\% CPU utilization. Stages that process the image output into different data formats are less efficient, and the generation of the MEDS files is generally limited by disk I/O and remote data transfer. Typical timing (per thread), memory usage, and resulting data sizes are provided in Table \ref{table:performance}. The total data volume is 66GB of FITS images, 412GB of MEDS files, and $<$1GB of catalog data, for a total of about 478GB. These values will scale approximately linearly with the area of sky simulated and the density of objects.
 
 \begin{table}
-\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is still in generating the images. 
+\center{\caption{\label{table:performance} Performance information for the major image simulation suite stages. Each tile is 0.013 deg$^2$ on the sky. Each image contains about 2255 galaxies and 140 stars. For the image simulation created in this paper, with an area of 6.25 deg$^2$, these numbers correspond to a total CPU time cost per simulation realization of about 7,500 CPU hours for image generation and 9,000 CPU hours total. The time required for shape measurement is expected to decrease by at least an order of magnitude, since the current measurement algorithm employed is very slow by current standards, but most of the CPU cost is still in generating the images, which is unlikely to be reduced in the future. 
 }
 \begin{tabular}{cccc}
 \hline
@@ -1598,14 +1600,14 @@ Data size  & 25MB & 1GB & $<$1MB  \\
 \section{PSF model resolution}
 \label{app:psf_resol}
 
-For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) within about 1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured at oversampling factors of 1, 2, 4, 8, and 16, relative to a `true' PSF model image with an oversampling factor of 32 and native pixel stamp size of $8\times 8$ pixels. This choice has no impact on the measurement of galaxy shapes as implemented in this paper.
+For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) within about 1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured at oversampling factors of 1, 2, 4, 8, and 16, relative to a `true' PSF model image with an oversampling factor of 32 and native pixel stamp size of $64\times 64$ pixels. This choice has no impact on the measurement of galaxy shapes as implemented in this paper.
  
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/psf_oversampling.pdf}
 \end{center}
 \caption[]{
-The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size ($T$) for various factors of PSF model pixel scale oversampling factors of 1, 2, 4, 8, and 16 relative to the native WFIRST pixel scale, in cutouts of size $8\times 8$ native pixels. The fractional error is measured relative to a `true' PSF model, which is represented by a cutout of native pixel size $32\times32$ pixels with a resolution that is oversampled by a factor of 32.
+The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size ($T$) for various factors of PSF model pixel scale oversampling factors of 1, 2, 4, 8, and 16 relative to the native WFIRST pixel scale, in cutouts of size $8\times 8$ native pixels. The fractional error is measured relative to a `true' PSF model, which is represented by a cutout of native pixel size $64\times64$ pixels with a resolution that is oversampled by a factor of 32.
 \label{fig:psf_oversampling}}
 \end{figure}
 
