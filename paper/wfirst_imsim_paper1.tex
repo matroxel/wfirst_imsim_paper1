@@ -697,7 +697,8 @@ These include increased simulation volume for more precise end-to-end tests, inc
 Together, they will enable more precise and advanced tests of algorithm development and pipeline integration testing for the WFIRST weak lensing program.
 
 In terms of advances in detector physics simulation within \texttt{galsim.wfirst}, \texttt{galsim.wfirst} now includes a model for the persistence effect in the detectors based on measurements from preliminary engineering detectors that will be implemented in future versions of the survey simulation \cite{}. 
-We also ...brighter fatter.  
+The current simulations do not include an implementation for the brighter-fatter effect. GalSim has an implementation of this for silicon CCDs, but not for the HgCdTe detectors used by WFIRST.  
+It is possible that using the CCD implementation would be sufficiently accurate for future simulation runs, but this needs to be further investigated. 
 We now also have the engineering data to implement measured realizations of the correlated noise fields derived from detector flats and darks. 
 One significant difference relative to how data will be taken with the WFIRST SCAs is the lack of `up the ramp' information as charge accumulates within the SCA. 
 In practice, we will have access to several linear combinations of intermediate read-outs from the SCAs, which is not currently implemented. 
