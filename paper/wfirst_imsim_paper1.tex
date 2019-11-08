@@ -475,9 +475,9 @@ Potential correlated biases in the WCS model due to these changes are ignored in
 
 Three high-frequency resonant modes are simulated to represent residual vibrations of the telescope after orienting to a new pointing. 
 These are represented by an additional convolution of the image with a Gaussian PSF. We simulate three cases: 1) an isotropic (about the pointing axis) vibration  (\textsc{IsoJitter}), 2) an anisotropic vibration (\textsc{AniJitter}), and 3) only applying this anisotropic vibration to a random 15\% of pointings (\textsc{RanJitter}). 
-The additional second moments are conserved, which means $\sigma_x\sigma_y=\sigma_{\mathrm{orig}}^2=15^2$ mas$^2$. 
-For \textsc{AniJitter} and \textsc{RanJitter}, we applies a shear $e_1=\frac{\sigma_x-\sigma_y}{\sigma_x+\sigma_y}=0.3$,  with Zernike amplitude change in this case  $d\psi=\sigma_x^2-\sigma_y^2=297$ mas$^2$. 
-In the case of \textsc{IsoJitter}, $\sigma_x=\sigma_y$, which leads to $d\psi=\sigma_x^2+\sigma_y^2=450$ mas$^2$.
+The additional second moments are conserved, which means $\theta_x\theta_y=\theta_{\mathrm{orig}}^2=15^2$ mas$^2$. 
+For \textsc{AniJitter} and \textsc{RanJitter}, we applies a shear $e_1=\frac{\theta_x-\theta_y}{\theta_x+\theta_y}=0.3$,  with Zernike amplitude change in this case  $d\psi=\theta_x^2-\theta_y^2=297$ mas$^2$. 
+In the case of \textsc{IsoJitter}, $\theta_x=\theta_y$, which leads to $d\psi=\theta_x^2+\theta_y^2=450$ mas$^2$.
 
 
 \begin{figure}
