@@ -550,7 +550,7 @@ For each simulation, we compare the recovered shear to the \textsc{Fiducial} sim
 
 
 \begin{table}
-\caption{Table}{Additive and multiplicative bias parameter changes in each version of the simulation relative to the \textsc{Fiducial} simulation.\label{table:bias}}
+\caption{Additive and multiplicative bias parameter changes in each version of the simulation relative to the \textsc{Fiducial} simulation.\label{table:bias}}
 \begin{center}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{ lcccc }
@@ -581,7 +581,7 @@ OscZ7 	     & $-12.1\pm  6.8$   &  $-11.4\pm6.3$ &$-0.08\pm 0.31$ & $-0.17\pm 0.
 
 \begin{table}
 \label{table:partials}
-\caption{The changes of ellipticity with respect to changes in wavefront error for different modes. \verify{let's talk about comparison to Table~\ref{table:bias} for the jitter cases}}\label{dpsi}
+\caption{The changes of ellipticity with respect to changes in line of sight motion for jitter cases and wavefront error for the other modes.}\label{dpsi}
 \begin{center}
 \begin{tabular}{ lccc }
 \hline
@@ -677,21 +677,20 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 
 \subsection{Comparison of analytic to numerical results}
 
-The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the $H158$-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the $H158$-band. In the numerical results presented in Table~\ref{table:partials}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront) and \verify{???} (for jitter). This \verify{is/is not (decide after addressing jitter case)} consistent with the analytic expectations.
+The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the $H158$-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the $H158$-band. In the numerical results presented in Table~\ref{table:partials}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront) and $1.45\times 10^{-5}$\,mas$^{-2}$ (for jitter). For the wavefront drift case, this is consistent with the analytic expectations. For the anisotropic jitter case, the sensitivity $|\partial e/\partial\psi|$ determined from the simulations is $5\pm 2$\%\ larger than the analytic bound (we would expect a sensitivity equal to the analytic bound since the AniJitter run is the worst-case jitter pattern: the anisotropy is in the $e_1$ component for every exposure). The $5\pm 2$\% difference may simply represent the approximations made in the analytic calculation (e.g., no treatment of undersampling/image combination, a different shape measurement algorithm, etc.).
+%This \verify{is/is not (decide after addressing jitter case)} consistent with the analytic expectations.
 
 A similar comparison is possible for the 2-point correlation functions $\xi_\pm(\theta)$ of the ellipticity changes $\Delta e$. Since we put in wavefront change of 6.5 nm rms, the analytic prediction is that these correlation functions should be
 \begin{equation}
 \xi_\pm(\theta) \le (8.98\times 10^{-4}\,{\rm nm}^{-1} \times 6.5\,{\rm nm})^2 = 3.4\times 10^{-5}.
 \end{equation}
 As seen in Fig.~\ref{fig:f2pt_corrs}, this inequality is indeed satisfied.
-A similar result can be written for the jitter cases. The most stressing case is the AniJitter case, which has $\langle\theta_x^2 - \theta_y^2\rangle = 297\,$mas$^2$ \verify{[check I read the input file right!]} and hence should satisfy
+A similar result can be written for the jitter cases. The most stressing case is the AniJitter case, which has $\langle\theta_x^2 - \theta_y^2\rangle = 297\,$mas$^2$ and hence should satisfy
 \begin{equation}
 \xi_\pm(\theta) \le (1.38\times 10^{-5}\,{\rm mas}^{-2}\times 297\,{\rm mas}^2)^2
 = 1.68\times 10^{-5};
 \end{equation}
-The AniJitter panel in Fig.~\ref{fig:f2pt_corrs} shows a numerical result that is very close to this (the error bar contains $1.68\times 10^{-5}$).
-
-\chris{fill in numbers and put in summary statement here at the very end}
+The AniJitter panel in Fig.~\ref{fig:f2pt_corrs} shows a numerical result that is very close to this. The central values of $\xi_+(\theta)$ range from (1.79--1.95)$\times 10^{-5}$, which are slightly larger than the analytical estimate, although the $1\sigma$ error bars include $1.68\times 10^{-5}$. If this is not a statistical fluctuation, it is likely due to the same simplifying approximations in the analytic calculation as described above for $|\partial e/\partial\psi|$. In either case, the numerical calculation gives a result that is near the analytically estimated upper bound.
 
 \section{Future development plans}\label{sec:future}
 
