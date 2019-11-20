@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{A synthetic WFIRST survey: Simulation suite and the impact of wavefront errors on weak lensing}
+\title{A synthetic WFIRST imaging survey: Simulation suite and \\the impact of wavefront errors on weak lensing}
 
 %\author{Troxel, M.A.}
 %\email{michael.troxel@duke.edu}
@@ -45,7 +45,7 @@
 \label{firstpage}
 
 \begin{abstract}
-
+The Wide-Field InfraRed Survey Telescope (WFIRST) mission, expected to launch in 2025, and its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to confront an uncertain cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on GalSim that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. These simulations are designed to enable empirical validation of the WFIRST analytically-derived weak lensing requirements flowdown and ultimately to provide a basis for integration testing of the weak lensing measurement pipelines as they are defined and developed over the next several years. We study an application of the first of these, by producing a suite of 12 matched image simulations, each representing a different wavefront model failure mode, chosen to reflect a range of potential static and low-and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these wavefront model failure modes. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response to that predicted by the analytic model.
 \end{abstract}
 
 \keywords{}
@@ -68,13 +68,13 @@ These surveys have spurred the development of revolutionary algorithms and metho
 By the planned launch of WFIRST in 2025, we will have final results from the ongoing generation of weak lensing experiments (DES, HSC, and KiDS) and preliminary results from the Dark Energy Spectroscopic Instrument (DESI) \cite{desi}, the Large Synoptic Survey Telescope (LSST) \cite{lsst}, and the Euclid mission \cite{euclid}. 
 Faced with the unknown discovery potential of these experiments in the early 2020s, it is vital to maintain the agility of the WFIRST mission to respond with the best possible science, particularly in what is likely to be a systematics dominated weak lensing field.
 The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing in the current phase of mission development is a critical task that this paper will attempt to address. 
-Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts \cite{} \verify{need forecast papers} will enable WFIRST to make crucial contributions to the study of new discoveries made in the early years of LSST and Euclid, and to the resolution of any remaining disagreements between surveys.
+Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts \cite{forecast1,forecast2} will enable WFIRST to make crucial contributions to the study of new discoveries made in the early years of LSST and Euclid, and to the resolution of any remaining disagreements between surveys.
 
 Toward this goal, we describe in this paper a simulation framework designed to enable the empirical study of requirements flowing down from the WFIRST wide-field imaging survey, in particular for weak lensing. 
 This simulation pipeline can incorporate a realistic simulated survey strategy, galaxy properties, and instrument effects to create a synthetic WFIRST wide-field imaging survey. 
 We present in this paper a set of synthetic WFIRST imaging surveys covering approx. 6 sq. deg. to full five-year survey depth in one filter: a fiducial survey and 11 variations incorporating ways in which the point-spread function (PSF) could be mis-estimated. 
 The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq. deg. observation strategy for the survey; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
-We use a blending-free version of this simulation to test the impact on weak lensing science of these simulated wave-front modeling errors, including static, low-, and high-frequency biases. 
+We use a blending-free version of this simulation to test the impact on weak lensing science of these simulated wavefront modeling errors, including static, low-, and high-frequency biases. 
 
 We discuss the WFIRST weak lensing survey, the current reference survey structure, and the weak lensing requirements process in Sec. \ref{sec:wfirst}. The  synthetic survey simulation suite is described generally in Sec. \ref{sec:sim}, where we outline the simulated survey strategy, input galaxy and star catalogs, and the \galsim\ implementation of the WFIRST instrument used to simulate images. We discuss the specific simulation runs produced for this work to study wavefront error propagation in Sec. \ref{sec:results} and discuss the resulting biases and how these compare to the analytic requirements flowdown in Sec. \ref{sec:results2}. We discuss future plans for using this simulation suite in validating WFIRST requirements and algorithm design in Sec \ref{sec:future} and conclude in Sec. \ref{sec:conclusion}. 
 
@@ -88,20 +88,20 @@ We now proceed to describe requirements and the role of this suite of image simu
 
 The WFIRST weak lensing program has undergone significant evolution over the past decade \cite{2011arXiv1108.1374G, 2012arXiv1208.4012G, 2013arXiv1305.5422S, 2015arXiv150303757S, 2018arXiv180403628D, 2019arXiv190205569A}, but the basic philosophy has not changed. The next major advance in cosmology from weak lensing will require unprecedented control of systematic errors in photometric measurements (this includes, but is not limited to, shape measurement and PSF corrections). WFIRST will make this measurement with a thermally controlled telescope from beyond low Earth orbit, where the PSF can be made both stable and small. The imaging observations will be carried out in multiple filters and will have a cross-linked observing strategy within each filter to enable multiple internal cross-checks in the weak lensing signal.
 
-The current Reference Survey in the WFIRST Science Requirements Document (SRD) \verify{need citation} envisions shape measurements in 3 filters ($J129$, $H158$, and $F184$), where the PSF is at least half-Nyquist sampled (i.e., pixel size $<\lambda/D$; Nyquist sampling would be $\lambda/2D$). Here $F184$ is the reddest filter on WFIRST, spanning 1.68--2.00 $\mu$m; it is between ground-based $H$ and $K$, and was chosen based on the thermal constraints from the previously existing telescope hardware that was donated to the program. Photometric redshift determination requires bluer filters as well. WFIRST itself will do a photometric survey in the $Y$ filter since there was no ground-based option that would reach the required depth. Ground-based observations will be required for the $z$ and bluer filters; the primary option for collecting these data will be LSST \verify{[cite?]}. The expected imaging depth is 26.9/26.95/26.9/26.25 mag AB in $Y106/J129/H158/F184$, and the expected depth is 35 galaxies/arcmin$^2$ ($H158$-band, the best for shape measurement) or 50 galaxies/arcmin$^2$ (co-added bands). The Reference Survey also includes 10\% of the time devoted to medium-deep fields to calibrate the properties of the source galaxies, which have $10\times$ the exposure time over 1\% of the overall survey area.
+The current Reference Survey in the WFIRST Science Requirements Document (SRD) \verify{need citation} envisions shape measurements in 3 filters ($J129$, $H158$, and $F184$), where the PSF is at least half-Nyquist sampled (i.e., pixel size $<\lambda/D$; Nyquist sampling would be $\lambda/2D$). Here $F184$ is the reddest filter on WFIRST, spanning 1.68--2.00 $\mu$m; it is between ground-based $H$ and $K$, and was chosen based on the thermal constraints from the previously existing telescope hardware that was donated to the program. Photometric redshift determination requires bluer filters as well. WFIRST itself will do a photometric survey in the $Y$ filter since there was no ground-based option that would reach the required depth. Ground-based observations will be required for the $z$ and bluer filters; the primary option for collecting these data will be LSST \cite{2009arXiv0912.0201L}. The expected imaging depth is 26.9/26.95/26.9/26.25 mag AB in $Y106/J129/H158/F184$, and the expected depth is 35 galaxies/arcmin$^2$ ($H158$-band, the best for shape measurement) or 50 galaxies/arcmin$^2$ (co-added bands). The Reference Survey also includes 10\% of the time devoted to medium-deep fields to calibrate the properties of the source galaxies, which have $10\times$ the exposure time over 1\% of the overall survey area.
 
 The Reference Survey area is 2000 deg$^2$, which is limited by the need for internal redundancy (e.g., 2 passes over the sky in each of 4 filters means each region must be observed 8 times) and the medium-deep fields, and by the need to carry out many other observing programs as well in a five-year prime mission. This area is less than considered in some previous studies. Options for larger survey area have been considered, and could include a wider layer with less redundancy (e.g., an $H158$-band survey overlaid with LSST data), an extended mission (WFIRST has no consumable cryogens, and carries propellant for at least 10 years), or both \cite{2019BAAS...51c.418E}. The actual survey -- which may look different from the Reference Survey and be informed by developments in the coming years -- will be chosen closer to launch. However, from the requirements point of view, we focus on enabling the Reference Survey.
 
 \subsection{The requirements process}
 \label{ss:req}
 
-Every precision cosmology project has a requirements process to control both its statistical and systematic errors and ensure that the overall mission can achieve its science objectives. In the case of WFIRST, requirements on the Project (e.g., flight hardware and software or ground system support) were baselined early in the mission (the Science Requirements Document was placed under configuration control in 2018), but requirements on science analyses are more flexible and will be fixed at a later date. The statistical error requirements are usually formulated in terms of survey area, depth and image quality in each filter, cadence (for time-domain programs), etc.; their relation to the science reach of the mission is handled by forecasting tools \verify{ref. forecasting papers}. Systematic error control is much more difficult, and the approach may differ depending on whether a source of systematic error is {\em observational} or {\em astrophysical}. Usually, observational systematics (e.g., PSF calibration for weak lensing) can be budgeted within the systems requirements framework of a large project, whereas astrophysical systematics (e.g., baryonic feedback) are addressed through a combination of nuisance parameters, additional observations, and theory/simulation. These astrophysical systematics are important science team responsibilities but are not part of Project requirements and engineering reviews.
+Every precision cosmology project has a requirements process to control both its statistical and systematic errors and ensure that the overall mission can achieve its science objectives. In the case of WFIRST, requirements on the Project (e.g., flight hardware and software or ground system support) were baselined early in the mission (the Science Requirements Document was placed under configuration control in 2018), but requirements on science analyses are more flexible and will be fixed at a later date. The statistical error requirements are usually formulated in terms of survey area, depth and image quality in each filter, cadence (for time-domain programs), etc.; their relation to the science reach of the mission is handled by forecasting tools \cite{forecast1,forecast2}. Systematic error control is much more difficult, and the approach may differ depending on whether a source of systematic error is {\em observational} or {\em astrophysical}. Usually, observational systematics (e.g., PSF calibration for weak lensing) can be budgeted within the systems requirements framework of a large project, whereas astrophysical systematics (e.g., baryonic feedback) are addressed through a combination of nuisance parameters, additional observations, and theory/simulation. These astrophysical systematics are important science team responsibilities but are not part of Project requirements and engineering reviews.
 
-We focus now on the approach to observational systematic errors; our focus is on the WFIRST process, but note that something similar has been done for other large weak lensing programs such as LSST and Euclid \verify{cites}.
+We focus now on the approach to observational systematic errors; our focus is on the WFIRST process, but note that something similar has been done for other large weak lensing programs such as LSST and Euclid \cite{LPM-17,LSE-29,euclid_srd,2016SPIE.9911E..05V}.
 
 First, one identifies a {\em data vector} that will contain the cosmological information. For setting WFIRST weak lensing requirements, the data vector is the concatenated list of shear power spectra and cross-power spectra ${\bf C}$ across tomographic bins. (Other choices, such as including higher-order statistics, using all $3\times 2$-point information, or working in correlation function space are possible, but given the tools available at the time of Project start these would have required additional tool development that did not fit in the schedule.)
 
-Second, one identifies an {\em error metric} that summarizes the impact of a systematic error on the data vector. We have chosen the error metric $Z^2 = \Delta{\bf C}\cdot{\boldsymbol\Sigma}^{-1}\Delta{\bf C}$, where $\Delta{\bf C}$ is the bias on the data vector and ${\boldsymbol\Sigma}$ is the statistics-only covariance matrix. The metric $Z$ is essentially a metric for the ratio of the systematic to the statistical error, and this depends on the solid angle $\Omega$ covered by the survey ($Z\propto \sqrt\Omega$). One also sets a limit on the maximum allowed error $Z$; in our case, we set $Z=0.5$ at 2500 deg$^2$ (or $Z=1$ at 10,000 deg$^2$), which means that the observational systematic errors are required to be below 50\% of the statistical errors in a 2500 deg$^2$ survey and below 100\% of the statistical errors if the survey were to be extended to 10,000 deg$^2$. \verify{there are other choices; do we want to talk about the advantages of this choice here or put it in an appendix?}
+Second, one identifies an {\em error metric} that summarizes the impact of a systematic error on the data vector. We have chosen the error metric $Z^2 = \Delta{\bf C}\cdot{\boldsymbol\Sigma}^{-1}\Delta{\bf C}$, where $\Delta{\bf C}$ is the bias on the data vector and ${\boldsymbol\Sigma}$ is the statistics-only covariance matrix. The metric $Z$ is essentially a metric for the ratio of the systematic to the statistical error, and this depends on the solid angle $\Omega$ covered by the survey ($Z\propto \sqrt\Omega$). One also sets a limit on the maximum allowed error $Z$; in our case, we set $Z=0.5$ at 2500 deg$^2$ (or $Z=1$ at 10,000 deg$^2$), which means that the observational systematic errors are required to be below 50\% of the statistical errors in a 2500 deg$^2$ survey and below 100\% of the statistical errors if the survey were to be extended to 10,000 deg$^2$. 
 
 Third, we note that each category of observational systematic error contributes to $Z$. In cases where the errors are presumed independent, the $Z^2$ values can be summed (i.e., $Z$ obeys root-sum-square or RSS addition), and the ``top-level'' budget for $Z$ can be broken down into contributions from different sources. If a source of observational systematic is parameterized by a parameter $p$ (e.g., overall shear calibration), then a requirement on knowledge of $p$ can be obtained by computing the sensitivity $d{\bf C}/dp$ and setting
 \begin{equation}
@@ -360,22 +360,10 @@ The distribution of simulated stars. The mean stellar density is 2.5 arcmin$^{-2
 \end{figure}
 
 \subsection{Survey strategy}
-\assign{Hirata}
 
-We considered a reference HLS observing strategy consisting of 2 passes in each of the 4 HLS imaging filters (plus 4 passes for the grism). To construct each pass, we take a sequence of $n$ exposures ($2\le n\le 4$, depending on the filter/grism choice), with a small diagonal step after each exposure to cover gaps between the SCAs. (These steps also ensure that in each of the $n$ exposures, an image of a star or galaxy does not land on the same small chip defect, nor in the same readout channel of an SCA, and does not interact with its persistence image from the previous exposure.\footnote{Because the same set of offsets is used each time we do a field step, it is possible for all $n$ images of galaxy G to land on the $n$ persistence artifacts from a previous star S. We intend to solve this problem by introducing some psuedo-randomness in the diagonal step sizes, but this has not yet been incorporated in survey simulations.}) \verify{[insert figure of the sequence]} After these exposures, we do a ``field step'' along the short axis of the field\footnote{We choose the short axis for two reasons. First, the slew times are shorter, resulting in a more efficient survey. Second, the ``arced'' layout of the focal plane means that we can make a strip with smoother edges by stepping on the short than the long axis; the resulting strips fit together much better when tiling a curved sky.} ($\sim 0.4$ degrees), and repeat the exposures. This produces a strip of observed sky; strips are tiled to cover a region on the sky. Subsequent strips are observed in opposite directions (i.e., we alternate ``up'' versus ``down''). The HLS is broken down into 8 such regions (plus deep fields), each with its own tiling.
+We considered a reference HLS observing strategy consisting of 2 passes in each of the 4 HLS imaging filters (plus 4 passes for the grism). To construct each pass, we take a sequence of $n$ exposures ($2\le n\le 4$, depending on the filter/grism choice), with a small diagonal step after each exposure to cover gaps between the SCAs. These steps also ensure that in each of the $n$ exposures, an image of a star or galaxy does not land on the same small chip defect, nor in the same readout channel of an SCA, and does not interact with its persistence image from the previous exposure.\footnote{Because the same set of offsets is used each time we do a field step, it is possible for all $n$ images of galaxy G to land on the $n$ persistence artifacts from a previous star S. We intend to solve this problem by introducing some psuedo-randomness in the diagonal step sizes, but this has not yet been incorporated in survey simulations.} After these exposures, we do a ``field step'' along the short axis of the field\footnote{We choose the short axis for two reasons. First, the slew times are shorter, resulting in a more efficient survey. Second, the ``arced'' layout of the focal plane means that we can make a strip with smoother edges by stepping on the short than the long axis; the resulting strips fit together much better when tiling a curved sky.} ($\sim 0.4$ degrees), and repeat the exposures. This produces a strip of observed sky; strips are tiled to cover a region on the sky. Subsequent strips are observed in opposite directions (i.e., we alternate ``up'' versus ``down''). The HLS is broken down into 8 such regions (plus deep fields), each with its own tiling. The H158 filter exposure sequence that overlaps the patch of sky simulated for this work is shown in Fig. \ref{fig:pointings} and the total number of exposures that overlap each simulated galaxy is shown in Fig. \ref{fig:hist2}.
 
 The overall survey strategy has to schedule each pass over each region, while being consistent with the needs of the other surveys and the observing constraints as well. We developed tools to do this early in WFIRST planning, especially since both L2 and geosynchronous orbits were under consideration, with the latter having complex Earth and Moon avoidance constraints \cite{2015arXiv150303757S}. The constraints are much more slowly varying at L2, but we still have the slowly varying Sun avoidance constraint (WFIRST observes between 54--126$^\circ$ degrees from the Sun), a roll angle constraint (the observatory can roll up to $\pm 15^\circ$ from the optimal orientation on the solar array; this is very important when attempting to tile a large region of the sky). Moreover there are cutouts for the microlensing seasons and -- during the middle of the reference mission -- a 30-hour supernova observing session every 5 days. This results in the need to cut each pass into shorter segments that can be observed all at once, in sequence. The strategy described here is an output from an update of the code used in \S3.10 of Ref.~\cite{2015arXiv150303757S}.
-
-\verify{Reference Figs. \ref{fig:hist2} \& \ref{fig:pointings}.}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/hist2.pdf}
-\end{center}
-\caption[]{
-The number of simulated exposures per object (blue) compared to the number eventually used in the shape measurement (orange). The median number of exposures per object both simulated and used is six over this part of the five-year simulated Reference Survey.
-\label{fig:hist2}}
-\end{figure}
 
 \begin{figure}
 \begin{center}
@@ -384,6 +372,15 @@ The number of simulated exposures per object (blue) compared to the number event
 \caption[]{
 A visualization of the individual pointings of the telescope using the H158 filter in the five-year simulated Reference survey that overlap the region of the sky we are simulating images for (the non-shaded region). There are a total of 189 pointings in H158 that overlap this region. Each marker is an individual pointing, whose color represents the focal plane position angle. Each cluster of pointings typically contains 3-4 very small translational dithers to cover chip gaps. The dither pattern in other filters overlaps in other directions to produce a more homogeneous coverage than is indicated in this figure. 
 \label{fig:pointings}}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/hist2.pdf}
+\end{center}
+\caption[]{
+The number of simulated exposures per object (blue) compared to the number eventually used in the shape measurement (orange). The median number of exposures per object both simulated and used is six over this part of the five-year simulated Reference Survey.
+\label{fig:hist2}}
 \end{figure}
 
 \subsection{Simulation implementation for this study}
@@ -396,7 +393,7 @@ Shape measurement is then performed on the images with some PSF model bias, but 
 Several simplifications are employed relative to the generic synthetic survey generation described in Sec. \ref{stages} to accommodate the computational load of the many realizations of the survey we are producing. 
 \begin{itemize}
 \item We simulate objects in a 2.5$\times$2.5 deg$^2$ patch of the sky.
-\item We only simulate pointings targeted for the H158 filter. \verify{use ANNN version of filter names?}
+\item We only simulate pointings targeted for the H158 filter.
 Since we are not simulating chromatic effects, the specific filter choice does not make a large difference in our results.
 \item We use a lower-resolution version of the PSF, which significantly speeds up the convolution.
 The impact of this approximation on the PSF model, in both native and oversampled pixels, can be seen in Fig. \ref{fig:psf}, but is not important for this work.
@@ -538,15 +535,23 @@ e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + b_i.
 \end{equation}
 We find the following multiplicative and additive biases in the \textsc{Fiducial} simulation: 
 \begin{align*}
-m_1 &= -0.0756 \pm 0.0019\\ 
-m_2 &= -0.0940 \pm 0.0019\\ 
-b_1 &= 0.00120 \pm 0.00017\\
-b_2 &= -0.00157 \pm 0.00016.
+m_1 &= (-7.56 \pm 0.19)\times 10^{-2}\\ 
+m_2 &= (-9.40 \pm 0.19)\times 10^{-2}\\ 
+b_1 &= (1.20 \pm 0.17)\times 10^{-3}\\
+b_2 &= (-1.57 \pm 0.16)\times 10^{-3}.
 \end{align*}
 The difference in measured shape vs true input shape (intrinsic shape and shear) is shown in Fig. \ref{fig:shape_hist}.
 
-For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the \textsc{Fiducial} result, which is shown in Table \ref{deltamb}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{dpsi}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. We can study the difference in the measured ellipticity relative to the \textsc{Fiducial} simulation in both focal plane and sky coordinates. The mean ellipticity difference binned in the focal plane is shown in Figs. \ref{fig:focal_mean_e1}  \& \ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. Fig. \ref{fig:f2pt_corrs} shows the two-point correlation function of the ellipticity difference. 
-\verify{Should we have further discussion here of the results before going into the comparison to the appendix?}
+For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the \textsc{Fiducial} result, which is shown in Table \ref{table:bias}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{dpsi}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. 
+
+We can study the difference in the measured ellipticity relative to the \textsc{Fiducial} simulation in both focal plane and sky coordinates. 
+The mean ellipticity difference binned in the focal plane is shown in Figs. \ref{fig:focal_mean_e1}  \& \ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. 
+We observe coherent, and sometimes large, biases in the mean ellipticity across the focal plane or individual chips for all static wavefront errors. 
+The time-dependent wavefront errors are generally less pronounced, except in the case of a non-random anisotropic jitter which produces a very strong, coherent bias in $e_1$, the direction of the anisotropy in the smearing.
+Fig. \ref{fig:f2pt_corrs} shows the two-point correlation function $\xi_{\pm}$ of the ellipticity difference in sky coordinates. 
+As expected for a wavefront error, the $\xi_{-}$ correlation of the differences are all consistent with zero. Like the mean shear in the focal plane, all static wavefront error cases lead to significantly non-zero $\xi_{+}$ at varying magnitudes. 
+The time-dependent errors have $\xi_{+}$ consistent with zero, except for the non-random anisotropic jitter case, which shows the largest impact in $\xi_{+}$ of any case. 
+The non-random anisotropic jitter, and the static focus and astigmatism errors, all produce a nearly constant $\xi_{+}$ correlation with angular scale.
 
 
 \begin{table}
@@ -726,14 +731,20 @@ This framework combines a simulated five-year Reference Survey, an appropriate m
 We present a set of 13 matched 2.5$\times$2.5 deg$^2$ image simulations to full depth of the reference five-year survey, varying potential failure modes of the wavefront model split into three broad categories: static, high-, and low-frequency.
 We study the shape recovery in these simulations to measure empirically the relative bias due to these failure modes, in order to compare to what is anticipated from the analytical requirements flowdown that was previously developed for WFIRST.  
 
-\verify{insert main conclusions from comparison}
+We present quantitative comparisons of the change in the recovered ellipticity due to these various failure modes in the wavefront model relative to the fiducial simulation. 
+These are presented in terms of both mean shear as a function of focal plane position and the correlation function $\xi_{pm}$ of the ellipticity difference as a function of angular separation on the sky. 
+Finally, we derive the response of the change in ellipticity relative to the wavefront model error mode, which we use to evaluate differences relative to previous analytical requirements forecasts.
+We find general agreement with the analytic requirements flowdown, though note that the empirical measurement of the bias induced in the non-random anisotropic jitter case is typically larger than predicted by the analytic flowdown. 
+We do not consider this to be a significant concern for continued reference to the baseline, analytic requirements flowdown used by the mission, as these differences are at the 1--2$\sigma$ level, depending on the type of comparison, and thus generally consistent with the analytically predicted upper bound of the effect. 
 
-\verify{insert final wrap-up paragraph?}
+We have outlined in Sec. \ref{sec:future} several future expansions to the validation framework described in this paper for the WFIRST weak lensing analysis. 
+These include updates to methodology, the incorporation of new flight-candidate detector measurements, and improvements in the fidelity of the image simulations to represent the full range of both properties of objects that will be observed by WFIRST and the full range of non-idealities in the detector systems. 
+As the WFIRST mission approaches its construction phase, we expect these simulations to also begin to play a substantial role as the basis for integration tests of measurement pipeline development over the next several years. 
 
 \section*{Acknowledgements}
 
 We thank...
-CH, HL, and MT are supported by NASA Grant \#XXXXX.  
+AC, CH, HL, and MT are supported by NASA Grant 15-WFIRST15-0008. 
 This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987}. This research was done using resources provided by the Open Science Grid \cite{Pordes2008,Sfiligoi2009}, which is supported by the National Science Foundation and the U.S. Department of Energy's Office of Science. Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
 
 \appendix
