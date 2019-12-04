@@ -1,5 +1,5 @@
 \pdfoutput=1
-\documentclass[aps,prd, amsmath,amssymb,superscriptaddress,showkeys,nofootinbib,reprint,preprintnumbers]{revtex4-1}
+\documentclass[aps,prd,amsmath,amssymb,superscriptaddress,showkeys,nofootinbib,reprint,preprintnumbers]{revtex4-1}
 \usepackage{color}
 \usepackage{aas_macros}
 \usepackage{hyperref,breakurl}
@@ -30,13 +30,28 @@
 
 \begin{document}
 
-\title{A synthetic WFIRST High-Latitude imaging survey: \\Simulation suite and the impact of wavefront errors on weak lensing}
+\title{A synthetic WFIRST high-latitude imaging survey: \\Simulation suite and the impact of wavefront errors on weak lensing}
 
-%\author{Troxel, M.A.}
-%\email{michael.troxel@duke.edu}
-\author{and others}
-
+\author{Troxel, M.~A.}
+\affiliation{Duke University}
+\email{michael.troxel@duke.edu}
+\author{Long, H.}
+\author{Hirata, C.~M.}
+\author{Ami, Choi}
+\affiliation{Ohio State University}
+\author{Jarvis, M.}
+\affiliation{University of Pennsylvania}
+\author{Mandelbaum, R.}
+\affiliation{Carnegie Mellon University}
+\author{Hemmati, S.}
+\affiliation{JPL}
+\author{Capak, P.}
+\affiliation{Caltech/IPAC}
 \collaboration{WFIRST HLS Cosmology SIT}
+\author{DeRose, J.}
+\author{Wechsler, R.}
+\affiliation{Stanford University}
+\affiliation{SLAC}
 
 \noaffiliation
 
@@ -55,6 +70,15 @@ The Wide-Field InfraRed Survey Telescope (WFIRST) mission, expected to launch in
 %\tableofcontents
 
 \section{Introduction}\label{sec:intro}
+
+Line 47 – mission name is correct in abstract but incorrect here, S is for Survey, not Space
+ 
+Line 155 – NASA HQ (Paul Hertz) has expressed a strong preference to describe the existing hardware as transferred to rather than gifted to NASA “Agencies don’t give each other presents”.
+ 
+Line 715 Am I right in thinking the reference here should be to Fig. 8 &9 rather than 7&8 ?
+ 
+Fig.9 caption – is this a histogram, should the vertical axis be labeled as number similar to Fig .8? Is it clear that this plot relates only to the fiducial simulation?
+
 
 The nature of dark energy, which drives cosmic acceleration in the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \cite{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
 A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift space distortions, Type Ia supernovae, and weak gravitational lensing. 
@@ -172,7 +196,7 @@ This synthetic survey utilizes several external simulation and data sources, and
 The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications.\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper.} 
 The code is publicly available \cite{wfirst_imsim}. An example SCA image is shown in Fig. \ref{fig:sca}. The fiducial simulation run is available for download -- this public data is described in App. \ref{app:data_access}.
 
-This approach to producing (to varying degrees) realistic, synthetic survey realizations is a common approach for weak lensing experiments, both at the catalog level \cite{2018MNRAS.480.4614M,2019arXiv190706530K} and the image level \cite{2016MNRAS.457..786S,2018MNRAS.475.4524S,2017MNRAS.467.1627F,2018MNRAS.481.3170M}. These synthetic surveys can serve as sources of calibration or characterization, validation, or increasingly as end-to-end integration tests for measurement and analysis algorithms and pipelines. Our approach here is similar to the approach being implemented in parallel by the LSST Dark Energy Science Collaboration (DESC) \cite{2019arXiv190706530K}, with comparable levels of morphological complexity for weak lensing algorithm testing, but less complex true object properties. This approach is described in detail in the following subsections.
+This approach to producing (to varying degrees) realistic, synthetic survey realizations is a common approach for weak lensing experiments, both at the catalog level \cite{2018MNRAS.480.4614M,2019arXiv190706530K} and the image level \cite{2016MNRAS.457..786S,2018MNRAS.475.4524S,2017MNRAS.467.1627F,2018MNRAS.481.3170M}. These synthetic surveys can serve as sources of calibration or characterization, validation, or increasingly as end-to-end integration tests for measurement and analysis algorithms and pipelines. Our approach here is similar to the approach being implemented in parallel by the LSST Dark Energy Science Collaboration (DESC) \cite{2019arXiv190706530K,dc2all}, with comparable levels of morphological complexity for weak lensing algorithm testing, but less complex true object properties. This approach is described in detail in the following subsections.
 
 \subsection{Simulation stages}\label{stages}
 
@@ -336,13 +360,13 @@ The true (blue) and recovered (orange) distributions of galaxy half-light radius
 \subsection{Galaxy catalogs}\label{galcats}
 
 The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \cite{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. 
-Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing selection \cite{2019ApJ...877..117H}. 
+Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Candels survey that simulates the fiducial WFIRST weak lensing selection \cite{2019ApJ...877..117H}. We imposed selection cuts on the lensing source galaxies based on Exposure Time Calculator \cite{2012arXiv1204.5151H}. The cuts require matched filter S/N ratio $>18$ in combined $J+H$, ellipticity error per component $<0.2$ (in the Ref.~\cite{2002AJ....123..583B} convention), and resolution factor $>0.4$ (again in the Ref.~\cite{2002AJ....123..583B} convention); note that this results in a limiting magnitude that depends on galaxy size. These cuts are also discussed in Ref.~\cite{2019ApJ...877..117H}.
+
 The galaxy distribution in shown in Fig. \ref{fig:galaxies}, which has a mean galaxy density of approx. 40 arcmin$^{-2}$. 
 In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the Candels sample. 
 We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. 
 In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog or a realistic shear field).
 
-We imposed selection cuts on the lensing source galaxies based on Exposure Time Calculator \cite{2012arXiv1204.5151H}. The cuts require matched filter S/N ratio $>18$ in combined $J+H$, ellipticity error per component $<0.2$ (in the Ref.~\cite{2002AJ....123..583B} convention), and resolution factor $>0.4$ (again in the Ref.~\cite{2002AJ....123..583B} convention); note that this results in a limiting magnitude that depends on galaxy size. These cuts are also discussed in Ref.~\cite{2019ApJ...877..117H}.
 
 \subsection{Star catalog}\label{starcat}
 
@@ -715,7 +739,7 @@ One significant difference relative to how data will be taken with the WFIRST SC
 In practice, we will have access to several linear combinations of intermediate read-outs from the SCAs, which is not currently implemented. 
 Other plans for \texttt{galsim.wfirst} are also discussed in Sec. \ref{sec:sim}.
 
-On the mock galaxy catalog side, we have produced test runs where we interface our weak lensing survey simulation pipeline for WFIRST with the existing LSST DESC Data Challenge 2 (DC2) mock galaxy and star catalog, CosmoDC2, to produced WFIRST imaging over the same simulated universe as is currently being used for DESC image simulations. 
+On the mock galaxy catalog side, we have produced test runs where we interface our weak lensing survey simulation pipeline for WFIRST with the existing LSST DESC Data Challenge 2 (DC2) mock galaxy and star catalog \cite{2019arXiv190706530K}, CosmoDC2, to produced WFIRST imaging over the same simulated universe as is currently being used for DESC image simulations \cite{dc2all}. 
 The result of this work will be described in a future paper. CosmoDC2 provides a deeper mock catalog than is currently being used, with synthetic spectra provided for each object to enable fully chromatic studies of weak lensing shape recovery. 
 With planned improvements to the recovery of the near-infrared colors for objects in CosmoDC2, this will also enable a powerful joint-simulation with matched imaging as expected for both LSST and WFIRST. 
 These matched simulations will enable a range of joint-processing tests at the pixel level to test combinations of ground-based imaging from LSST with space-based imaging from WFIRST.
@@ -746,8 +770,7 @@ As the WFIRST mission approaches its construction phase, we expect these simulat
 
 \section*{Acknowledgements}
 
-We thank...
-AC, CH, HL, and MT are supported by NASA Grant 15-WFIRST15-0008. 
+We thank Erin Sheldon for many useful conversations. AC, CH, HL, and MT are supported by NASA Grant 15-WFIRST15-0008. 
 This work used resources on the CCAPP condo of the Ruby Cluster at the Ohio Supercomputing Center \cite{OhioSupercomputerCenter1987}. This research was done using resources provided by the Open Science Grid \cite{Pordes2008,Sfiligoi2009}, which is supported by the National Science Foundation and the U.S. Department of Energy's Office of Science. Plots in this manuscript were produced partly with \textsc{Matplotlib} \cite{Hunter:2007}, and it has been prepared using NASA's Astrophysics Data System Bibliographic Services.
 
 \appendix
