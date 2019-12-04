@@ -29,32 +29,6 @@
 \usepackage{lineno}
 \linenumbers
 
-
-
-%\author{}
-%\affiliation{Duke University}
-%\email{michael.troxel@duke.edu}
-%\author{}
-%\author{}
-%\author{Ami, Choi}
-%\affiliation{Ohio State University}
-%\author{Jarvis, M.}
-%\affiliation{University of Pennsylvania}
-%\author{Mandelbaum, R.}
-%\affiliation{Carnegie Mellon University}
-%\author{Hemmati, S.}
-%\affiliation{JPL}
-%\author{Capak, P.}
-%\affiliation{Caltech/IPAC}
-%\collaboration{WFIRST HLS Cosmology SIT}
-%\author{DeRose, J.}
-%\author{Wechsler, R.}
-%\affiliation{Stanford University}
-%\affiliation{SLAC}
-%
-%\noaffiliation
-%
-
 \title[A Synthetic WFIRST High-Latitude Imaging Survey]{A Synthetic WFIRST High-Latitude Imaging Survey: \\Simulation Suite and the Impact of Wavefront Errors on Weak Gravitational Lensing}
 
 \author[K. T. Smith et al.]{
@@ -83,14 +57,10 @@ $^{10}$Kavli Institute for Particle Astrophysics \& Cosmology, P. O. Box 2450, S
 $^{11}$SLAC National Accelerator Laboratory, Menlo Park, CA 94025, USA\\
 }
 
-
-% These dates will be filled out by the publisher
 %\date{Accepted XXX. Received YYY; in original form ZZZ}
 
-% Enter the current year, for the copyright statements etc.
 \pubyear{2019}
 
-% Don't change these lines
 \begin{document}
 \label{firstpage}
 \pagerange{\pageref{firstpage}--\pageref{lastpage}}
@@ -189,15 +159,6 @@ The analytic approach to estimating the sensitivity to wavefront errors has some
 \end{list}
 For these reasons, we have also estimated the mapping from wavefront error to galaxy ellipticities using pixel-level image simulations with the {\sc GalSim} package. The version of the simulations used here is highly idealized -- for example, the matching to the ``truth catalog'' means that selection/blending effects are not realistically implemented, some detector effects were not implemented, and the input galaxies have artificially prescribed shears and do not come from a realistic large scale structure distribution. Nevertheless, {\sc GalSim} as a tool is extensible and could be configured to use a realistic WFIRST input catalog for future systematics studies.
 
-%\begin{figure*}
-%\begin{center}
-%\includegraphics[width=\textwidth]{figures/fov.pdf}
-%\end{center}
-%\caption[]{
-%A simulated field-of-view (FOV) from the fiducial simulation matching Cycle 7 specifications. The WFIRST FOV is 0.282 deg$^2$, composed of 18 near-IR Sensor Chip Arrays (H4RGs). This FOV is 200 times the area of the Hubble Space Telescope Wide Field Camera 3 FOV and 90 times that of its Advanced Camera for Surveys. (check chip orientation)
-%\label{fig:fov}}
-%\end{figure*}
-
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/sca.pdf}
@@ -206,18 +167,6 @@ For these reasons, we have also estimated the mapping from wavefront error to ga
 A simulated $\sim$140s exposure Sensor Chip Array (SCA) \#16 image, chosen for the presence of several large, bright galaxies and stars. Each SCA (HgCdTe H4RG) has a useable pixel grid of 4088$\times$4088, with a pixel scale of 0.11''. A total of 18 SCAs make up the WFIRST camera. For comparison, the size of the Hubble Space Telescope Wide Field Camera 3 is shown as the blue outline. The solid red circle indicates a particularly bright galaxy, for which six faint diffraction spikes due to the WFIRST secondary mirror support struts are visible. The dashed red circle indicates a bright star.
 \label{fig:sca}}
 \end{figure}
-
-
-%\begin{figure*}
-%\begin{center}
-%\includegraphics[width=\textwidth]{figures/dates.pdf}
-%\end{center}
-%\caption[]{
-%Dates of observations (is this useful? hard to make it readable)
-%\label{fig:dates}}
-%\end{figure*}
-
-
 
 \section{Simulation suite}\label{sec:sim}
 
@@ -304,9 +253,6 @@ PSF model for SCA \#1. The top row shows the model in native pixel scale, while 
 For the PSF we use a model of the WFIRST PSF from the \texttt{galsim.wfirst} module.
 While this module includes a high-resolution Cycle 7 estimate of the WFIRST spider pattern (i.e. the obscuration of the struts and camera in the pupil plane), we use a faster, low-resolution approximation, which gets the qualitative features correct, but has a slightly different detailed diffraction pattern.  
 For the purposes of this study, we are insensitive to the differences between the two spider patterns, so we did not enable the slower, more accurate option.
-%%%MJ: The below text is right if you aren't using approximate_struts.  But I think you are.
-%The spider pattern image for band F184 is slightly different from that in the other two bands (J129 and H158).  
-%Technically, the effective spider pattern varies continuously with wavelength, but the difference between the %two shorter wavelength bands is small, and we approximate them as having the same pattern.
 The PSF uses position-dependent (Zernike) aberrations, based on an investigation of the field-dependent wavefront errors for Cycle 5.0.6\footnote{\url{https://wfirst.gsfc.nasa.gov/science/sdt_public/wps/references/instrument/README_AFTA_C5_WFC_Zernike_and_Field_Data.pdf}}.
 Aberrations between the tabulated positions are estimated using bilinear interpolation of the tabulated values.
 
@@ -396,8 +342,6 @@ The galaxy distribution in shown in Fig. \ref{fig:galaxies}, which has a mean ga
 In Fig. \ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the CANDELS sample. 
 We discard less than 1\% of the largest objects in the shape measurement stage, however, due to a maximum postage stamp size restriction. 
 In general, the input distribution and properties of galaxies can be easily modified by configuration (i.e., specifying a different input galaxy catalog or a realistic shear field).
-
-%We imposed selection cuts on the lensing source galaxies based on the WFIRST Galaxy Survey Exposure Time Calculator \cite{2012arXiv1204.5151H}. The cuts require matched filter S/N ratio $>18$ in combined $J+H$, ellipticity error per component $<0.2$ (in the Ref.~\cite{2002AJ....123..583B} convention), and resolution factor $>0.4$ (again in the Ref.~\cite{2002AJ....123..583B} convention); note that this results in a limiting magnitude that depends on galaxy size. These cuts are also discussed in Ref.~\cite{2019ApJ...877..117H}.
 
 \subsection{Star catalog}\label{starcat}
 
@@ -669,66 +613,6 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 \end{tabular}
 \end{center}
 \end{table}
-
-%\begin{table}
-%\label{table:values}
-%\begin{center}
-%\resizebox{\columnwidth}{!}{
-%\begin{tabular}{ |c|c|c|c|c| }
-%\hline
-%\hline
-%%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
-%Run name & $m_1$ & $b_1$ & $m_2$ & $b_2$   \\
-%\hline
-%Fiducial              & $ -0.0756 \pm 0.0019$ & $0.00120 \pm 0.00017$ &  $-0.0940 \pm 0.0019$ & $-0.00157 \pm 0.00016$  \\
-%Focus                & $-0.0710 \pm 0.0019 $ & $ 0.00064\pm 0.00017$ & $ -0.0896\pm 0.0019 $ & $-0.00315\pm0.00016$   \\
-%Astig                & $-0.076 \pm 0.0019 $ & $-0.00171\pm 0.00017$ & $ -0.0931\pm 0.0019 $ & $-0.00162\pm0.00016$    \\
-%Coma                & $-0.0769 \pm 0.0019 $ & $0.00054\pm 0.00017$ & $ -0.0954\pm 0.0019 $ & $-0.00155\pm0.00016$   \\
-%GradZ4             & $-0.0783 \pm 0.0019 $ & $0.00115\pm 0.00017$ & $ -0.0966\pm 0.0019 $ & $-0.00090\pm0.00016$   \\
-%GradZ6             & $-0.0754 \pm 0.0019 $ & $0.00268\pm 0.00017$ & $ -0.0943\pm 0.0019 $ & $-0.00153\pm0.00016$ \\
-%Piston 		 & $-0.0896 \pm 0.0019 $ & $0.00083\pm 0.00016$ & $ -0.1089\pm 0.0019 $ & $-0.00232\pm0.00016$   \\
-%Tilt 			& $-0.1133 \pm 0.0019 $ & $0.00116\pm 0.00016$ & $ -0.1303\pm 0.0019 $ & $-0.00149\pm0.00016$   \\
-%IsoJitter 		& $-0.1164 \pm 0.0019 $ & $0.00123\pm 0.00016$ & $ -0.1333\pm 0.0018 $ & $-0.00153\pm0.00016$ \\
-%AniJitter 		& $-0.0870 \pm 0.0019 $ & $0.00553\pm 0.00016$ & $ -0.1054\pm 0.0019 $ & $-0.00158\pm0.00016$ \\
-%RanJitter 	& $-0.0884 \pm 0.0019 $ & $0.00195\pm 0.00016$ & $ -0.1066\pm 0.0019 $ & $-0.00154\pm0.00016$   \\
-%OscZ4 		 & $-0.08278\pm0.0019$ & $0.0013\pm 0.00016$ & $-0.10050\pm 0.0018$ & $-0.00135\pm 0.00016$  \\
-%OscZ7 		& $-0.08761\pm 0.0019$ & $0.00119\pm 0.00016$ & $-0.10529\pm 0.0019$ & $-0.00158\pm 0.00016$  \\
-%\hline
-%\hline
-%\end{tabular}}
-%\end{center}
-%\end{table}
-
-
-%
-%\begin{table}
-%\label{table:re_dm}
-%\begin{center}
-%\resizebox{\columnwidth}{!}{
-%\begin{tabular}{ |c|c|c|c|c| }
-%\hline
-%\hline
-%%Run name & Fiducial  & Focus & Astig & Coma & GradZ4 & GradZ6 & Piston & Tilt & IsoJitter &AniJitter & RanJitter & OscZ4 & OscZ7 \\ 
-%Run name & $\triangle m_1/m_{1fid}\times 10^{3}$ & $\triangle m_2/m_{2fid}\times 10^{3}$ & $\triangle b_1/b_{1fid}$ & $\triangle b_2/b_{2fid}$   \\
-%\hline
-%Fiducial              & -- & -- &  -- & --  \\
-%Focus                & $5.029 \pm 0.257 $ &  $ -4.809\pm 0.254 $ & $ -0.462862\pm 0.055216$ & $ 1.01220 \pm 0.111853$   \\
-%Astig                & $-2.44 \pm 0.260 $ &  $0.994\pm 0.231 $ & $ -2.420371 \pm 0.291650 $ & $ 0.034980 \pm 0.012969$    \\
-%Coma                & $-1.436 \pm 0.281 $ &  $ -1.622 \pm 0.233 $ & $ -0.552890 \pm 0.068065$ & $ -0.014333 \pm 0.021670$   \\
-%GradZ4             & $-2.847 \pm 0.289 $ &  $ -2.775\pm 0.251 $ & $ -0.042084 \pm 0.018697$ & $-0.417965 \pm0.051765$  \\
-%GradZ6             & $ 0.233 \pm 0.244 $ &  $ -0.337\pm 0.236 $ & $ 1.222809 \pm 0.160794$ & $ -0.026453 \pm 0.014106$ \\
-%Piston 		 & $-15.100 \pm 5.402 $ &  $ -16.524\pm 5.805 $ & $ -0.307647 \pm 0.041169$ & $ 0.479172 \pm 0.056785$   \\
-%Tilt 			& $-41.084 \pm 8.696 $ & $ -40.428\pm 8.822 $ & $ -0.033508 \pm 0.031404$ & $ -0.046589 \pm 0.002347$   \\
-%IsoJitter 		& $-44.134 \pm 9.314 $ & $ -43.584\pm 9.439 $ & $ 0.020227 \pm 0.069474$ & $-0.027127 \pm 0.056551$ \\
-%AniJitter 		& $ -12.332 \pm 1.129 $ & $ -12.663\pm 1.050 $ & $ 3.594399 \pm 0.441964$ & $ 0.00838 \pm 0.054719$ \\
-%RanJitter 	& $-13.869 \pm 4.774 $ & $ -13.911\pm 4.525 $ & $ 0.622797 \pm 0.095830$ & $ -0.020775 \pm 0.027366$   \\
-%OscZ4 		 & -- & --&--&--  \\
-%OscZ7 		&-- & -- &--&--  \\
-%\hline
-%\hline
-%\end{tabular}}
-%\end{center}
-%\end{table}
 
 \begin{figure}
 \begin{center}
