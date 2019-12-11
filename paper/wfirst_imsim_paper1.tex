@@ -214,7 +214,7 @@ Each MEDS file also stores for each object (and stamp) its original SCA, the obj
 Each MEDS file contains all objects within a $n_{\textrm{side}}=512$ Healpixel\footnote{\url{https://healpix.jpl.nasa.gov}} \citep{2005ApJ...622..759G,Zonca2019}.
 
 \textbf{\textit{Shape measurement}} -- 
-The galaxy shape is measured by jointly fitting a two-component model, de Vaucouleurs bulge and exponential disk, across all suitable exposures. \rachel{Should say what the fitter is told about the PSF model.}
+The galaxy shape is measured by jointly fitting a two-component model, de Vaucouleurs bulge and exponential disk, across all suitable exposures. 
 Exposures where more than 20\% of the pixels are masked (i.e., the centroid falls too close to the edge of the SCA) are rejected. 
 The model fit has 7 parameters: $e_{1,2}$, $p_{x,y}$, half-light radius, flux, and bulge flux fraction, where $e_{1,2}$ is the component of the ellipticity and $p_{x,y}$ is the pixel centroid offset. \rachel{So the two components are constrained to the same centroid, hlr, and shape?}
 The minimization is performed using the \textsc{NGMIX}\footnote{\url{https://github.com/esheldon/ngmix}} and \textsc{MOF}\footnote{\url{https://github.com/esheldon/mof}} packages \citep{2014MNRAS.444L..25S}. 
@@ -341,7 +341,7 @@ The true (blue) and recovered (orange) distributions of galaxy half-light radius
 \subsection{Galaxy catalogs}\label{galcats}
 
 The input galaxy catalog is created using a simulated galaxy distribution on the sky taken from one realization of the Buzzard simulation \citep{2019arXiv190102401D,wechsler2019}, to introduce realistic galaxy clustering. 
-Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS) survey that simulates the fiducial WFIRST weak lensing selection \citep{2019ApJ...877..117H}. We imposed selection cuts on the lensing source galaxies based on the Exposure Time Calculator \citep{2012arXiv1204.5151H}. The cuts require matched filter S/N ratio $>18$ in combined $J+H$, ellipticity error per component $<0.2$ (in the \citealt{2002AJ....123..583B} convention), and resolution factor $>0.4$ (again in the \citealt{2002AJ....123..583B} convention); note that this results in a limiting magnitude that depends on galaxy size. These cuts are also discussed in \cite{2019ApJ...877..117H}. \rachel{Just to check, the selection cuts were imposed on the inputs?  Figure 4 seems to suggest that is the case, unless it was created after cross-matching inputs and outputs and placing selection cuts on the outputs.}
+Each galaxy is then assigned a random set of photometric properties matching a galaxy from a sample based on the Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS) survey that simulates the fiducial WFIRST weak lensing selection \citep{2019ApJ...877..117H}. We imposed selection cuts on the lensing source galaxies based on the Exposure Time Calculator \citep{2012arXiv1204.5151H}. The cuts require matched filter S/N ratio $>18$ in combined $J+H$, ellipticity error per component $<0.2$ (in the \citealt{2002AJ....123..583B} convention), and resolution factor $>0.4$ (again in the \citealt{2002AJ....123..583B} convention); note that this results in a limiting magnitude that depends on galaxy size. These cuts are also discussed in \cite{2019ApJ...877..117H}. \rachel{Just to check, the selection cuts were imposed on the inputs?  Later text clarifies this is definitely the case; perhaps make it clear already here, as it is non-standard but improves efficiency?}
 
 The galaxy distribution, which has a mean galaxy density of approximately 40 arcmin$^{-2}$, is shown in Fig.~\ref{fig:galaxies}. 
 In Fig.~\ref{fig:hist}, we show the distributions of size, redshift, and H158 magnitude in the CANDELS sample. 
@@ -457,7 +457,7 @@ Run name & PSF change & Mode & Notes \\
 \includegraphics[width=\columnwidth]{figures/shape_hist.pdf}
 \end{center}
 \caption[]{
-The difference in the measured (obs) shape relative to the true sheared intrinsic shape of the galaxies in the fiducial simulation. The inferred multiplicative and additive shear bias is discussed in Sec. \ref{sec:results2}. 
+The difference in the measured (obs) shape relative to the true sheared intrinsic shape of the galaxies in the fiducial simulation. The inferred multiplicative and additive shear bias is discussed in Sec.~\ref{sec:results2}. 
 \label{fig:shape_hist}}
 \end{figure}
 
@@ -529,7 +529,7 @@ We find that 3\% of objects are not included in the shape measurement stage in t
 
 Since the simulated objects have already been pre-selected as objects that should pass the fiducial WFIRST weak lensing selection, we are able to successfully recover a shape fit for more than 99\% of the remaining objects -- a total of 871,841 galaxies. 
 We do not make an additional selection on objects that would pass the fiducial WFIRST shape selection based on measured properties, since we expect all objects to be within this selection if we were to simulate all remaining pointings in other bandpasses. 
-The recovered multiplicative shear bias is only approx. 2\% smaller and the mean shear is unchanged if we make this selection, which removes an additional 35\% of objects, almost exclusively due to the signal-to-noise cut.
+The recovered multiplicative shear bias is only approximately 2\% smaller and the mean shear is unchanged if we make this selection, which removes an additional 35\% of objects, almost exclusively due to the signal-to-noise cut.
 
 We present results for the non-\textsc{Fiducial} simulations only for objects that lie in the intersection of successful shape measurement between each simulation and the \textsc{Fiducial} simulation, to allow for 1-1 comparison of the shapes and cancellation of shape noise and sources of photon noise, which are identical in each simulation. 
 We neglect the impact of selection biases here, since the intersection criteria excludes on average only 0.3\% of objects.
@@ -540,6 +540,7 @@ The bias in an ensemble shear measurement is typically characterized in the weak
 \begin{equation}
 e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + b_i.
 \end{equation}
+\rachel{In cases where there are PSF ellipticity variations across the simulations, people often write this as a number times PSF ellipticity, to address the fact that additive residuals often correlate with PSF ellipticity.  Did you consider this model, or rule out the need for it?  At least the PSF $e_1$ has some positive and negative values, so an additive shear bias would be partially obscured by just considering the ensemble average.}
 We find the following multiplicative and additive biases in the \textsc{Fiducial} simulation: 
 \begin{align*}
 m_1 &= (-7.56 \pm 0.19)\times 10^{-2}\\ 
@@ -547,15 +548,15 @@ m_2 &= (-9.40 \pm 0.19)\times 10^{-2}\\
 b_1 &= (1.20 \pm 0.17)\times 10^{-3}\\
 b_2 &= (-1.57 \pm 0.16)\times 10^{-3}.
 \end{align*}
-The difference in measured shape vs true input shape (intrinsic shape and shear) is shown in Fig. \ref{fig:shape_hist}.
+The difference in measured shape versus true input shape (intrinsic shape and shear) is shown in Fig.~\ref{fig:shape_hist}.
 
 For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the \textsc{Fiducial} result, which is shown in Table \ref{table:bias}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{dpsi}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. 
 
 We can study the difference in the measured ellipticity relative to the \textsc{Fiducial} simulation in both focal plane and sky coordinates. 
-The mean ellipticity difference binned in the focal plane is shown in Figs. \ref{fig:focal_mean_e1}  \& \ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. 
+The mean ellipticity difference binned in the focal plane is shown in Figs.~\ref{fig:focal_mean_e1}  and~\ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. 
 We observe coherent, and sometimes large, biases in the mean ellipticity across the focal plane or individual chips for all static wavefront errors. 
 The time-dependent wavefront errors are generally less pronounced, except in the case of a non-random anisotropic jitter which produces a very strong, coherent bias in $e_1$, the direction of the anisotropy in the smearing.
-Fig. \ref{fig:f2pt_corrs} shows the two-point correlation function $\xi_{\pm}$ of the ellipticity difference in sky coordinates. 
+Fig.~\ref{fig:f2pt_corrs} shows the two-point correlation function $\xi_{\pm}$ of the ellipticity difference in sky coordinates. \rachel{Should define what these correlation functions are.}
 As expected for a wavefront error, the $\xi_{-}$ correlation of the differences are all consistent with zero. Like the mean shear in the focal plane, all static wavefront error cases lead to significantly non-zero $\xi_{+}$ at varying magnitudes. 
 The time-dependent errors have $\xi_{+}$ consistent with zero, except for the non-random anisotropic jitter case, which shows the largest impact in $\xi_{+}$ of any case as additional smear only applies to $e_1$ component. 
 The non-random anisotropic jitter, and the static focus and astigmatism errors, all produce a nearly constant $\xi_{+}$ correlation with angular scale, showing that the results are dominated by uniformly distributed $e_1$, $e_2$.
@@ -621,13 +622,13 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/2pt_corrs.pdf}
 \end{center}
-\caption[]{ The correlation function $\xi_+$ (red) and $\xi_-$ (blue) of ellipticity difference between each run, indicated by the label for each panel, and the \textsc{Fiducial} run. Negative points are shown as crosses. The $\xi_-$ points are offset slightly for clarity.
+\caption[]{ The correlation function $\xi_+$ (red) and $\xi_-$ (blue) of ellipticity difference between each run, indicated by the label for each panel, and the \textsc{Fiducial} run. Negative points are shown as crosses. The $\xi_-$ points are offset slightly for clarity. \rachel{caption seems to have red and blue flipped?  Are we really getting anything out of the $\xi_-$ as shown?  If not, then perhaps omit, so it's easier to see what's happened in the more informative $\xi_+$?  (I think the conclusion re: $\xi_-$ could be OK if just stated in the text and it would make this plot easier to read.)}
 \label{fig:f2pt_corrs}}
 \end{figure}
 
 \subsection{Comparison of analytic to numerical results}
 
-The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the H158-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the H158-band. In the numerical results presented in Table~\ref{table:partials}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront) and $1.45\times 10^{-5}$\,mas$^{-2}$ (for jitter). For the wavefront drift case, this is consistent with the analytic expectations. For the anisotropic jitter case, the sensitivity $|\partial e/\partial\psi|$ determined from the simulations is $5\pm 2$\%\ larger than the analytic bound (we would expect a sensitivity equal to the analytic bound since the AniJitter run is the worst-case jitter pattern: the anisotropy is in the $e_1$ component for every exposure). The $5\pm 2$\% difference may simply represent the approximations made in the analytic calculation (e.g., no treatment of undersampling/image combination, a different shape measurement algorithm, etc.).
+The partial derivatives $|\partial e/\partial\psi|$ of the ellipticity with respect to wavefront should be less than $\lVert {\boldsymbol\Lambda} \rVert \lVert {\boldsymbol\psi} \rVert$ \rachel{$\Lambda$ has not been defined}, which is $8.98\times 10^{-4}\,$nm$^{-1}$ for the H158-band (this is an RSS of the two ellipticity components). For the partial derivatives of the ellipticity with respect to the second moments of the jitter pattern, $|\partial e/\partial\psi|$ should be less than $K_{\theta\theta}$ \rachel{this quantity has also not been defined}, which is $1.38\times 10^{-5}$\,mas$^{-2}$ for the H158-band. In the numerical results presented in Table~\ref{table:partials} \rachel{for some reason this is rendering as ``table 5.1'', which can't be right, so perhaps the label has been misassociated}, the largest partial derivatives are $4.5\times 10^{-4}\,$nm$^{-1}$ (for wavefront \rachel{errors?}) and $1.45\times 10^{-5}$\,mas$^{-2}$ (for jitter). For the wavefront drift case, this is consistent with the analytic expectations. For the anisotropic jitter case, the sensitivity $|\partial e/\partial\psi|$ determined from the simulations is $5\pm 2$\%\ larger than the analytic bound (we would expect a sensitivity equal to the analytic bound since the AniJitter run is the worst-case jitter pattern: the anisotropy is in the $e_1$ component for every exposure). The $5\pm 2$\% difference may simply represent the approximations made in the analytic calculation (e.g., no treatment of undersampling/image combination, a different shape measurement algorithm, etc.). \rachel{Are the analytic expectations tabulated somewhere that you could refer to, or could they even be put into the table for ease of comparison?}
 
 A similar comparison is possible for the 2-point correlation functions $\xi_\pm(\theta)$ of the ellipticity changes $\Delta e$. Since we put in a wavefront change of 6.5 nm rms, the analytic prediction is that these correlation functions should be
 \begin{equation}
