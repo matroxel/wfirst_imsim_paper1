@@ -17,7 +17,7 @@
 \interfootnotelinepenalty=10000
 \newcommand{\galsim}{\textsc{GalSim}}
 \newcommand{\rachel}[1]{\textcolor{magenta}{RM: #1}}
-\newcommand{\verify}[1]{\textcolor{red}{RM: #1}}
+\newcommand{\verify}[1]{\textcolor{red}{Note: #1}}
 
 \usepackage{lineno}
 \linenumbers
@@ -60,7 +60,7 @@ $^{11}$SLAC National Accelerator Laboratory, Menlo Park, CA 94025, USA\\
 \maketitle
 
 \begin{abstract}
-The Wide-Field InfraRed Survey Telescope (WFIRST) mission, expected to launch in the mid-2020s, and its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to confront an uncertain cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on \galsim\ that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. These simulations are designed to enable empirical validation of the WFIRST analytically-derived weak lensing requirements flowdown and ultimately to provide a basis for integration testing of the weak lensing measurement pipelines as they are defined and developed over the next several years. We study an application of the first of these, by producing a suite of 12 matched image simulations, each representing a different perturbation to the wavefront or image motion model, chosen to reflect a range of potential static and low-and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these modes in the wavefront model. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response and that predicted by the analytic model.
+The Wide-Field InfraRed Survey Telescope (WFIRST) mission, expected to launch in the mid-2020s, and its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to confront an uncertain cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on \galsim\ that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. \emph{These simulations are designed to enable empirical validation of the WFIRST analytically-derived weak lensing requirements flowdown and ultimately to provide a basis for integration testing of the weak lensing measurement pipelines as they are defined and developed over the next several years.} We study an application of the first of these, by producing a suite of 12 matched image simulations, each representing a different perturbation to the wavefront or image motion model, chosen to reflect a range of potential static and low-and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these modes in the wavefront model. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response and that predicted by the analytic model.
 \end{abstract}
 
 \begin{keywords}
@@ -70,7 +70,7 @@ gravitational lensing: weak -- large-scale structure of Universe -- techniques: 
 \maketitle
 
 \rachel{Some notes on random things I noticed (many minor): (2) MNRAS is going to complain the abstract is beyond their 250-word limit.   (3) References could use an update (e.g., my 2017 review is published). }
-
+\verify{we could meet the abstract length requirements by removing the italicized sentence from the abstract}
 
 \section{Introduction}\label{sec:intro}
 
