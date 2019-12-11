@@ -16,6 +16,7 @@
 
 \interfootnotelinepenalty=10000
 \newcommand{\galsim}{\textsc{GalSim}}
+\newcommand{\rachel}[1]{\textcolor{magenta}{RM: #1}}
 
 \usepackage{lineno}
 \linenumbers
@@ -67,29 +68,34 @@ gravitational lensing: weak -- large-scale structure of Universe -- techniques: 
 
 \maketitle
 
+\rachel{Some notes on random things I noticed (many minor): (1) there is a mix of ``GalSim''
+and the macro \galsim\ or hard-coded {\sc GalSim}, so it would be good to standardize on one of them. (2) MNRAS is going to complain the abstract is beyond their 250-word limit.   (3) References could use an update (e.g., my 2017 review is published).  (4) MNRAS does not permit 'in prep' papers to be cited in the reference list - they should just be mentioned as 'in prep' in the text.}
+
+
 \section{Introduction}\label{sec:intro}
 
-The nature of dark energy, which drives cosmic acceleration in the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \citep{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
+The nature of dark energy, which drives cosmic acceleration in the Universe \rachel{the accelerated expansion of the Universe?}, remains one of the most fundamental mysteries in physics twenty years after its discovery \citep{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
 A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift space distortions, Type Ia supernovae, and weak gravitational lensing. 
 Current generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM), that will require more and better data in all of these probes to resolve. 
-The Wide-Field InfraRed Survey Telescope (WFIRST) \footnote{\url{http://wfirst.gsfc.nasa.gov}} has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \citep{2019arXiv190205569A,2019BAAS...51c.341D}.
+The Wide-Field InfraRed Survey Telescope (WFIRST)\footnote{\url{http://wfirst.gsfc.nasa.gov}} has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \citep{2019arXiv190205569A,2019BAAS...51c.341D}. \rachel{Maybe cite the WFIRST SDT report here, given that it first outlined this design?}
 
 Weak gravitational lensing is a particularly powerful cosmological probe that is sensitive to both the expansion of the Universe and the growth of large-scale structure \citep{2001PhR...340..291B,2017arXiv171003235M}. 
-In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES),\footnote{\url{http://www.darkenergysurvey.org/}} Hyper-Suprime Cam (HSC),\footnote{\url{http://hsc.mtk.nao.ac.jp/ssp/}} and Kilo-Degree Survey (KiDS)\footnote{\url{http://kids.strw.leidenuniv.nl}} have reached levels of precision that rival the previously best possible cosmological constraints when including a free dark energy equation of state \citep{2018arXiv181206076H,2018PhRvD..98d3528T,2019PhRvL.122q1301A,2019PASJ...71...43H}. 
-These surveys have spurred the development of revolutionary algorithms and methods for galaxy shape measurement and weak lensing analysis (e.g., \cite{HuffMandelbaum2017,SheldonHuff2017,shearcat}), highlighting the immense power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
+% Note correction below: HSC is an instrument, and the survey is "the HSC survey".
+In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES),\footnote{\url{http://www.darkenergysurvey.org/}} Hyper-Suprime Cam (HSC) survey,\footnote{\url{http://hsc.mtk.nao.ac.jp/ssp/}} and Kilo-Degree Survey (KiDS)\footnote{\url{http://kids.strw.leidenuniv.nl}} have reached levels of precision that rival the previously best possible cosmological constraints when including a free dark energy equation of state \citep{2018arXiv181206076H,2018PhRvD..98d3528T,2019PhRvL.122q1301A,2019PASJ...71...43H}. 
+These surveys have spurred the development of revolutionary algorithms and methods for galaxy shape measurement and weak lensing analysis (e.g., \citealt{HuffMandelbaum2017,SheldonHuff2017,shearcat}), highlighting the immense power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
 
 By the planned launch of WFIRST in the mid-2020s, we will have final results from the ongoing generation of weak lensing experiments (DES, HSC, and KiDS) and preliminary results from the Dark Energy Spectroscopic Instrument (DESI),\footnote{\url{https://www.desi.lbl.gov/}} the Large Synoptic Survey Telescope (LSST),\footnote{\url{http://www.lsst.org}} and the Euclid mission.\footnote{\url{http://sci.esa.int/euclid}} 
-Faced with the unknown discovery potential of these experiments in the early 2020s, it is vital to maintain the agility of the WFIRST mission to respond with the best possible science, particularly in what is likely to be a systematics dominated weak lensing field.
+Faced with the unknown discovery potential of these experiments in the early 2020s, it is vital to maintain the agility of the WFIRST mission to respond with the best possible science, particularly in what is likely to be a systematics-dominated weak lensing field.
 The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing in the current phase of mission development is a critical task that this paper will attempt to address. 
 Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts \citep{forecast1,forecast2} will enable WFIRST to make crucial contributions to the study of new discoveries made in the early years of LSST and Euclid, and to the resolution of any remaining disagreements between surveys.
 
 Toward this goal, we describe in this paper a simulation framework designed to enable the empirical study of requirements flowing down from the WFIRST wide-field imaging survey, in particular for weak lensing. 
 This simulation pipeline can incorporate a realistic simulated survey strategy, galaxy properties, and instrument effects to create a synthetic WFIRST wide-field imaging survey. 
-We present in this paper a set of synthetic WFIRST imaging surveys covering approx. 6 sq. deg. to full five-year survey depth in one filter: a fiducial survey and 11 variations incorporating ways in which the point-spread function (PSF) could be mis-estimated. 
-The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq. deg. observation strategy for the survey; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
+We present in this paper a set of synthetic WFIRST imaging surveys covering approximately 6 sq.~deg.~to full five-year survey depth in one filter: a fiducial survey and 11 variations incorporating ways in which the point-spread function (PSF) could be mis-estimated. 
+The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated fiducial five year, 2000 sq.~deg.~observation strategy for the survey \rachel{earlier you said 6 sq deg, so is it specifically something about the planned dither strategy that is used here rather than the 2000 sq deg area?}; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
 We use a blending-free version of this simulation to test the impact on weak lensing science of these simulated wavefront modeling errors, including static, low-, and high-frequency biases. 
 
-We discuss the WFIRST weak lensing survey, the current reference survey structure, and the weak lensing requirements process in Sec. \ref{sec:wfirst}. The  synthetic survey simulation suite is described generally in Sec. \ref{sec:sim}, where we outline the simulated survey strategy, input galaxy and star catalogs, and the \galsim\ implementation of the WFIRST instrument used to simulate images. We discuss the specific simulation runs produced for this work to study wavefront error propagation in Sec. \ref{sec:results} and discuss the resulting biases and how these compare to the analytic requirements flowdown in Sec. \ref{sec:results2}. We discuss future plans for using this simulation suite in validating WFIRST requirements and algorithm design in Sec \ref{sec:future} and conclude in Sec. \ref{sec:conclusion}. 
+We discuss the WFIRST weak lensing survey, the current reference survey structure, and the weak lensing requirements process in Sec.~\ref{sec:wfirst}. The  synthetic survey simulation suite is described generally in Sec.~\ref{sec:sim}, where we outline the simulated survey strategy, input galaxy and star catalogs, and the \galsim\ implementation of the WFIRST instrument used to simulate images. We discuss the specific simulation runs produced for this work to study wavefront error propagation in Sec.~\ref{sec:results} and discuss the resulting biases and how these compare to the analytic requirements flowdown in Sec.~\ref{sec:results2}. We discuss future plans for using this simulation suite in validating WFIRST requirements and algorithm design in Sec.~\ref{sec:future} and conclude in Sec.~\ref{sec:conclusion}. 
 
 \section{WFIRST weak lensing, the requirements process, and the need for simulations}
 \label{sec:wfirst}
