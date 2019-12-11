@@ -644,7 +644,7 @@ The AniJitter panel in Fig.~\ref{fig:f2pt_corrs} shows a numerical result that i
 
 \section{Future development plans}\label{sec:future}
 
-The simulation framework described here is an iterative, but substantial step forward in the development of a significant synthetic WFIRST imaging survey, which incorporates a realistic set of photometric properties and distributions of galaxies and stars, complex morphological properties for galaxies, and most known detector non-idealities present in HgCdTe H4RG detectors. 
+The simulation framework described here is an iterative \rachel{In what sense is it iterative?}, but substantial step forward in the development of a significant synthetic WFIRST imaging survey, which incorporates a realistic set of photometric properties and distributions of galaxies and stars, complex morphological properties for galaxies, and most known detector non-idealities present in HgCdTe H4RG detectors. 
 There are many advances that are still necessary, however, many of which are currently in progress. 
 These include increased simulation volume for more precise end-to-end tests, increased fidelity in the simulation of the data accumulation processes within the detector simulation, and more realistic input galaxy and star information. 
 Together, they will enable more precise and advanced tests of algorithm development and pipeline integration testing for the WFIRST weak lensing program.
@@ -655,9 +655,10 @@ It is possible that using the CCD implementation would be sufficiently accurate 
 We now also have the engineering data to implement measured realizations of the correlated noise fields derived from detector flats and darks. 
 One significant difference relative to how data will be taken with the WFIRST SCAs is the lack of `up the ramp' information as charge accumulates within the SCA. 
 In practice, we will have access to several linear combinations of intermediate read-outs from the SCAs, which is not currently implemented. 
-Other plans for \texttt{galsim.wfirst} are also discussed in Sec. \ref{sec:sim}.
+Other plans for \texttt{galsim.wfirst} are also discussed in Sec.~\ref{sec:sim}. 
+\rachel{All of this is true, but I wonder if you could tie more explicitly to the goals of the simulation framework?  For example, with a statement htat implementation of these effects in GalSim will enable studies of sensitivity to detector effects, placing requirements on our knowledge of those effects based on something beyond simple analytic prescriptions, etc.}
 
-On the mock galaxy catalog side, we have produced test runs where we interface our weak lensing survey simulation pipeline for WFIRST with the existing LSST DESC Data Challenge 2 (DC2) mock galaxy and star catalog \citep{2019arXiv190706530K}, CosmoDC2, to produce WFIRST imaging over the same simulated universe as is currently being used for DESC image simulations \citep{dc2all}. 
+On the mock galaxy catalog side, we have produced test runs where we interface our weak lensing survey simulation pipeline for WFIRST with the existing LSST DESC Data Challenge 2 (DC2) mock galaxy catalog \citep{2019arXiv190706530K}, CosmoDC2, to produce WFIRST imaging over the same simulated universe as is currently being used for DESC image simulations \citep{dc2all}.  % CosmoDC2 is galaxies only; the star catalog is a separate beast.
 On the mock galaxy catalog side, we have produced test runs where we interface our weak lensing survey simulation pipeline for WFIRST with the existing LSST DESC Data Challenge 2 (DC2) mock galaxy and star catalog, CosmoDC2, to produce WFIRST imaging over the same simulated universe as is currently being used for DESC image simulations. 
 The result of this work will be described in a future paper. CosmoDC2 provides a deeper mock catalog than is currently being used, with synthetic spectra provided for each object to enable fully chromatic studies of weak lensing shape recovery. 
 With planned improvements to the recovery of the near-infrared colors for objects in CosmoDC2, this will also enable a powerful joint-simulation with matched imaging as expected for both LSST and WFIRST. 
@@ -675,7 +676,7 @@ To ensure we are able to take full advantage of the potential of WFIRST, we must
 In this paper, we have described a simulation framework to produce a realistic, synthetic WFIRST imaging survey populated with suitably complex objects that can serve these functions at the current level of necessary realism. 
 This framework combines a simulated five-year Reference Survey, an appropriate mock galaxy and star population that would be observed by WFIRST, and a simulation of most relevant properties of the HgCdTe H4RG detectors to be integrated into the WFIRST camera. 
 We present a set of 13 matched 2.5$\times$2.5 deg$^2$ image simulations to full depth of the reference five-year survey, each with the wavefront model perturbed in some way. These perturbations can be classified into three broad categories: static, high-, and low-frequency.
-We study the shape recovery in these simulations to empirically measure the relative bias due to these errors in wavefront reconstruction, in order to compare to what is anticipated from the analytical requirements flowdown that was previously developed for WFIRST.  
+We study the galaxy shape recovery in these simulations to empirically measure the relative bias in weak gravitational lensing shear estimates due to these errors in wavefront reconstruction, in order to compare to what is anticipated from the analytical requirements flowdown that was previously developed for WFIRST.  
 
 We present quantitative comparisons of the change in the recovered ellipticity due to these various errors in the wavefront model relative to the fiducial simulation. 
 These are presented in terms of both mean shear as a function of focal plane position and the correlation function $\xi_{\pm}$ of the ellipticity difference as a function of angular separation on the sky. 
