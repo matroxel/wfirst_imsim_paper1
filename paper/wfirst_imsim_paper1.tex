@@ -538,19 +538,19 @@ We neglect the impact of selection biases here, since the intersection criteria 
 
 The bias in an ensemble shear measurement is typically characterized in the weak limit by 
 \begin{equation}
-e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + b_i.
+e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + c_i.
 \end{equation}
 \rachel{In cases where there are PSF ellipticity variations across the simulations, people often write this as a number times PSF ellipticity, to address the fact that additive residuals often correlate with PSF ellipticity.  Did you consider this model, or rule out the need for it?  At least the PSF $e_1$ has some positive and negative values, so an additive shear bias would be partially obscured by just considering the ensemble average.}
 We find the following multiplicative and additive biases in the \textsc{Fiducial} simulation: 
 \begin{align*}
 m_1 &= (-7.56 \pm 0.19)\times 10^{-2}\\ 
 m_2 &= (-9.40 \pm 0.19)\times 10^{-2}\\ 
-b_1 &= (1.20 \pm 0.17)\times 10^{-3}\\
-b_2 &= (-1.57 \pm 0.16)\times 10^{-3}.
+c_1 &= (1.20 \pm 0.17)\times 10^{-3}\\
+c_2 &= (-1.57 \pm 0.16)\times 10^{-3}.
 \end{align*}
 The difference in measured shape versus true input shape (intrinsic shape and shear) is shown in Fig.~\ref{fig:shape_hist}.
 
-For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $b$ change from the \textsc{Fiducial} result, which is shown in Table \ref{table:bias}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{table:partials}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. 
+For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $c$ change from the \textsc{Fiducial} result, which is shown in Table \ref{table:bias}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{table:partials}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. 
 
 We can study the difference in the measured ellipticity relative to the \textsc{Fiducial} simulation in both focal plane and sky coordinates. 
 The mean ellipticity difference binned in the focal plane is shown in Figs.~\ref{fig:focal_mean_e1}  and~\ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. 
@@ -574,7 +574,7 @@ The non-random anisotropic jitter, and the static focus and astigmatism errors, 
 \begin{tabular}{ lcccc }
 \hline
 \hline
-Run name & $\triangle m_1\times 10^{3}$ & $\triangle m_2\times 10^{3}$ & $\triangle b_1\times 10^{4}$ & $\triangle b_2\times 10^{4}$   \\
+Run name & $\triangle m_1\times 10^{3}$ & $\triangle m_2\times 10^{3}$ & $\triangle c_1\times 10^{4}$ & $\triangle c_2\times 10^{4}$   \\
 \hline
 Focus        & $4.65 \pm 0.24 $  &  $ 4.36\pm 0.23 $ &$ -5.57\pm 0.24$ & $-15.87 \pm 0.30$   \\
 Astig        & $-0.23 \pm 0.24 $ &  $ 0.90\pm 0.21 $ &$ -29.14 \pm 0.30$ & $-0.55 \pm 0.20$    \\
