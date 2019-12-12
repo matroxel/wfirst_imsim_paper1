@@ -131,6 +131,7 @@ Third, we note that each category of observational systematic error contributes 
 \begin{equation}
 \sqrt{\frac{d{\bf C}}{dp} \Delta p \cdot {\boldsymbol\Sigma}^{-1} \frac{d{\bf C}}{dp} \Delta p}
 \end{equation}
+\verify{need to define $\Delta p$}
 equal to the allocation for $Z$ from that contribution. An important aspect of this budgeting is that, like a requirements flowdown, it is {\em hierarchical} -- a top-level requirement on observational systematics may contain an allocation for shear calibration (one of several contributions), which itself may contain a branch for PSF size (one of several contributions), which itself may contain a branch for detector non-linearity, etc. In the life cycle of a cosmology project, more detail will be filled in first on the branches that have hardware impacts, and then branches related to algorithms or simulations later on.
 
 The details of our data vector, covariance, and systematics models are described in Appendix~\ref{app:wl-budget}. The systematic errors in the shear $\gamma$ are broken down into additive biases ($c$) and multiplicative biases ($m$) in accordance with
@@ -202,7 +203,7 @@ The assigned SED is the same for all objects, since after redshifting the spectr
 The intrinsic ellipticity, random rotation, and gravitational shear is then applied.
 We model stars as point sources with the SED of Alpha Lyra.
 Stars are also converted to be achromatic before drawing.
-Both stars and galaxies are then convolved with the appropriate PSF for the SCA (constant across the SCA in the fiducial simulation). An example of the PSF model for an object is shown in Fig. \ref{fig:psf}. We save images of the true PSF model both at native pixel scale and oversampled by a factor of 8, in stamps of native pixel size $8\times 8$ at the position of each galaxy.
+Both stars and galaxies are then convolved with the appropriate PSF for the SCA (constant across the SCA in the fiducial simulation). An example of the PSF model for an object is shown in Fig. \ref{fig:psf}, and the PSF model is discussed in more detail in Sec.~\ref{psf}. We save images of the true PSF model both at native pixel scale and oversampled by a factor of 8, in stamps of native pixel size $8\times 8$ at the position of each galaxy.
 
 The models are drawn in dynamically-sized square stamps, the sizes of which are chosen to include at least 99.5\% of the flux.
 These stamps are then added to the SCA image and saved separately (if drawing a galaxy) to provide an isolated image of each simulated galaxy to allow for tests of the impact of blending.
@@ -248,8 +249,7 @@ Details such as the telescope distortion and variable pixel area are correctly a
 \includegraphics[width=\columnwidth]{figures/psf.pdf}
 \end{center}
 \caption[]{
-PSF model for SCA \#1. The top row shows the model in native pixel scale, while the bottom row is oversampled by a factor of 8. From left to right: a comparison of the high-resolution (`true') model, the low-resolution model used in the simulation, and the difference of the two models. The color bars are defined by the range of the high-resolution model. More detail about the PSF model is given in Sec.~\ref{psf}. The difference between the low- and high-resolution PSF models is % "difference... is"
-not important for this work. 
+PSF model for SCA \#1. The top row shows the model in native pixel scale, while the bottom row is oversampled by a factor of 8. From left to right: a comparison of the high-resolution (`true') model, the low-resolution model used in the simulation, and the difference of the two models. The color bars are defined by the range of the high-resolution model. More detail about the PSF model is given in Sec.~\ref{psf}. The difference between the low- and high-resolution PSF models is negligible at the level required for the current study.
 \label{fig:psf}}
 \end{figure}
 
@@ -559,9 +559,9 @@ The time-dependent wavefront errors are generally less pronounced, except in the
 
 Fig.~\ref{fig:f2pt_corrs} shows the two-point correlation function $\xi_{+}$ of the ellipticity difference in sky coordinates, where
 \begin{align}
-\xi_{\pm} = \langle \delta e_{+}\delta e_{+} \rangle \pm \langle \delta e_{\times}\delta e_{\times} \rangle.
+\xi_{\pm} = \langle \Delta e_{+}\Delta e_{+} \rangle \pm \langle \Delta e_{\times}\Delta e_{\times} \rangle.
 \end{align}
-$\delta e_{+}$ and $\delta e_{\times}$ are the tangential and cross components, respectively, of the ellipticity difference relative to the fiducial simulation along the projected separation vector between each pair of galaxies on the sky. 
+$\Delta e_{+}$ and $\Delta e_{\times}$ are the tangential and cross components, respectively, of the ellipticity difference relative to the fiducial simulation along the projected separation vector between each pair of galaxies on the sky. 
 As expected for a wavefront error, the $\xi_{-}$ correlation of the differences are all consistent with zero. Like the mean shear in the focal plane, all static wavefront error cases lead to significantly non-zero $\xi_{+}$ at varying magnitudes. 
 The time-dependent errors have $\xi_{+}$ consistent with zero, except for the non-random anisotropic jitter case, which shows the largest impact in $\xi_{+}$ of any case as additional smear only applies to $e_1$ component. 
 The non-random anisotropic jitter, and the static focus and astigmatism errors, all produce a nearly constant $\xi_{+}$ correlation with angular scale, showing that the results are dominated by uniformly distributed $e_1$, $e_2$.
