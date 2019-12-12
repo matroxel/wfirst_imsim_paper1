@@ -17,7 +17,7 @@
 \interfootnotelinepenalty=10000
 \newcommand{\galsim}{\textsc{GalSim}}
 \newcommand{\rachel}[1]{\textcolor{magenta}{RM: #1}}
-\newcommand{\verify}[1]{\textcolor{red}{Note: #1}}
+\newcommand{\verify}[1]{\textcolor{red}{#1}}
 
 \usepackage{lineno}
 \linenumbers
@@ -116,9 +116,12 @@ The Reference Survey area is limited to 2000 deg$^2$ due to the need for interna
 \label{ss:req}
 
 \rachel{I've noticed that people who are new to this process often interpret terminology in surprising ways.  Recommendation: explicitly state that known biases will be characterized and remove, and requirements are on the {\em residual systematic uncertainty}.  I've noticed ``systematic error'' is sometimes interpreted as the combination of the bias and its uncertainty, rather than just its uncertainty.  Even if you want to say ``systematic error'' throughout, rather than changing all instances to ``residual systematic uncertaintay'' it would be good to clarify this once.}
+
+\verify{See my addition in second paragraph to address this}
+
 Every precision cosmology project has a requirements process to control both its statistical and systematic errors and ensure that the overall mission can achieve its science objectives. In the case of WFIRST, requirements on the Project (e.g., flight hardware and software or ground system support) were baselined early in the mission (the Science Requirements Document was placed under configuration control in 2018), but requirements on science analyses are more flexible and will be fixed at a later date. The statistical error requirements are usually formulated in terms of survey area, depth and image quality in each filter, cadence (for time-domain programs), etc.; their relation to the science reach of the mission is handled by forecasting tools to be described in Eifler et al. (in prep., 2019a,b). Systematic error control is much more difficult, and the approach may differ depending on whether a source of systematic error is {\em observational} or {\em astrophysical}. Usually, observational systematics (e.g., PSF calibration for weak lensing) can be budgeted within the systems requirements framework of a large project, whereas astrophysical systematics (e.g., baryonic feedback) are addressed through a combination of nuisance parameters, additional observations, and theory/simulation. These astrophysical systematics are important science team responsibilities but are not part of Project requirements and engineering reviews.
 
-We focus now on the approach to observational systematic errors; our focus is on the WFIRST process, but note that something similar has been done for other large weak lensing programs such as LSST and Euclid \citep{euclid_srd,2016SPIE.9911E..05V,LPM-17,2018arXiv180901669T,LSE-29}.
+\verify{In general, it is important to distinguish between known systematic biases in both categories, which can be calibrated and removed from the data, and uncertainties on that calibration, which cannot be removed and must either be small enough to ignore or marginalized over in an analysis. In the description of systematic errors here, we are referring to this residual uncertainty.} We focus now on the approach to observational systematic errors; our focus is on the WFIRST process, but note that something similar has been done for other large weak lensing programs such as LSST and Euclid \citep{euclid_srd,2016SPIE.9911E..05V,LPM-17,2018arXiv180901669T,LSE-29}.
 
 First, one identifies a {\em data vector} that will contain the cosmological information. For setting WFIRST weak lensing requirements, the data vector is the concatenated list of shear power spectra and cross-power spectra ${\bf C}$ across tomographic bins. Other choices, such as including higher-order statistics, using all $3\times 2$-point information, or working in correlation function space are possible, but given the tools available at the time of Project start these would have required additional tool development that did not fit in the schedule.
 
@@ -144,9 +147,11 @@ Appendix~\ref{app:wl-budget} then allocates the systematic budget for $Z$ to $c$
 
 The requirements based on $Z$ are described in terms of shear systematics, but in order to be useful for engineering, we need to write a requirement in terms of wavefront errors. The key step to doing this is to write the derivative of the observed shear $\gamma_{\rm obs}$ with respect to the wavefront error $\psi_j$ (where $j$ denotes a Zernike mode). Because the PSF size and ellipticity are quadratic rather than linear in the wavefront error, it is necessary to take a quadratic expansion; then $\partial\gamma_{{\rm obs},i}/\partial\psi_j$ is linear in the static wavefront error $\psi_j$ \citep{2010SPIE.7731E..1EN}. Our approach is to use symmetries to categorize the possible quadratic terms, which gives 4 independent coefficients if we take the first 11 Zernike modes (up through spherical aberration). We can then use a suite of simple simulations to determine the 4 coefficients. Then -- given a limit on the static wavefront error $\lVert{\boldsymbol\psi}\rVert \le 92$ nm rms \rachel{seems like it'd be good to link to some document where this is derived or set, if it lives somewhere public?}, set to achieve diffraction-limited imaging in $J$-band -- we can analytically search the space of possible static wavefront errors and find the maximum possible $|\partial\gamma_{{\rm obs},i}/\partial\psi_j|$ (units: nm$^{-1}$). This worst-case sensitivity can be used to set requirements on knowledge of the WFIRST wavefront. \rachel{For non-weak lensers, it may be necessary to spell out that the requirement fundamentally derives from the fact that we use the PSF model to correct the observed galaxy shapes for the convolution with the PSF, and if we do not know the wavefront well enough, our PSF model will be sufficiently wrong as to induce systematic uncertainty in the shear.  (This is obvious to us, but it's another point that I find gives rise to confusion.)}
 
+\verify{see my addition in final paragraph of subsection below to address this}
+
 A similar process can be used for changes in the PSF within an exposure (either line of sight motion, or wavefront jitter -- i.e., beyond the tip-tilt modes -- due to vibrations). The baseline plan for WFIRST will be to independently fit the line of sight motion contribution to the PSF in each exposure \citep{2012SPIE.8442E..10J}, but not the wavefront jitter. This implies a requirement on the wavefront jitter to make its contribution to the PSF negligible. This requires a computation of the derivative of $\gamma_{\rm obs}$ with respect to the second moments of the PSF (units: mas$^{-2}$); with respect to the variance or covariance of the wavefront jitter (units: nm$^{-2}$); or with respect to the covariance of wavefront jitter and line of sight motion (units: nm$^{-1}$ mas$^{-1}$).
 
-All of these calculations are described in detail in Appendix~\ref{app:psf-stability}.
+\verify{In both of these cases, the source of bias in the shear measurement is in practice due to errors in the wavefront model leading to mis-estimation of the PSF model that is used for convolution of the galaxy model when fitting the model shape.} All of these calculations are described in detail in Appendix~\ref{app:psf-stability}.
 
 \subsection{Limitations of the analytic approach}
 
@@ -253,7 +258,7 @@ not important for this work.
 For the PSF we use a model of the WFIRST PSF from the \texttt{galsim.wfirst} module.
 While this module includes a high-resolution Cycle 7 estimate of the WFIRST spider pattern (i.e., the obscuration of the struts and camera in the pupil plane), we use a faster, low-resolution approximation, which gets the qualitative features correct, but has a slightly different detailed diffraction pattern.  
 For the purposes of this study, we are insensitive to the differences between the two spider patterns, so we did not enable the slower, more accurate option.
-The PSF uses position-dependent (Zernike) aberrations, based on an investigation of the field-dependent wavefront errors for Cycle 5.0.6\footnote{\url{https://wfirst.gsfc.nasa.gov/science/sdt_public/wps/references/instrument/README_AFTA_C5_WFC_Zernike_and_Field_Data.pdf}}. \rachel{The code in the GalSim repo, galsim/wfirst/wfirst\_psfs.py, says it uses Cycle 7 results (see different file name listed in the code).}
+The PSF uses position-dependent (Zernike) aberration polynomials \citep{noll1976}, based on an investigation of the field-dependent wavefront errors used in the original Cycle 7 documentation.
 Aberrations between the tabulated positions are estimated using bilinear interpolation of the tabulated values.
 
 The wavelength-dependent features of the PSF, such as the width of the Airy diffraction pattern, and the wavelength-dependence of the aberrations, are taken at the effective wavelength of the observation bandpass.
@@ -267,14 +272,12 @@ We expect that the WebbPSF model is probably more accurate, but this will be exp
 
 \subsubsection{Implemented detector effects}\label{effects}
 
-\rachel{This subsubsection is somewhat bare in terms of references.  Arun's paper compiled a good set of refs that you might want to also refer to (at least 1-2 per effect).}
-
 Most of the development of \galsim\ has been driven by the need to render simulations of CCD images.
 The HgCdTe detectors used by WFIRST are qualitatively similar, but there are significant differences in the physics, which lead to differences in some of the simulation steps. We discuss the implementation of some of these effects in detail below. 
 
 For this work, each image is processed through the following stages, simulating what physically happens in the detector: 1) the Poisson background of stray light and thermal emission from the telescope is generated and a `sky' background image is created that also undergoes stages 2--9, 2) the impact of reciprocity failure is added, 3) the electron counts are quantized, 4) dark current is added to the image, 5) nonlinear response to flux is applied, 6) the effect of interpixel capacitance is applied, 7) instrument read noise is applied, 8) electron counts are converted to ADU, and 9) the ADU value is quantized. In this work, we subtract the final background image from the SCA image, simulating a perfect background subtraction algorithm.
 
-Reciprocity failure is a non-linear relationship between the voltage response in the detector to the incident flux of photons at low light levels.
+Reciprocity failure \citep{Biesiadzinski2011} is a non-linear relationship between the voltage response in the detector to the incident flux of photons at low light levels.
 The exact mechanism of this effect is unknown and hence we lack a good theoretical model. 
 \galsim\ uses a power law
 \begin{equation}
@@ -287,7 +290,7 @@ $f_0$ is the base flux rate (in electrons/sec) at which the nominal gain was cal
 $t_\mathrm{exp}$ is the exposure time,
 and $\alpha$ is taken to be $6.5 \times 10^{-3}$ for the WFIRST sensors.
 
-A particularly pernicious effect present in the HgCdTe detectors is known as ``persistence''.  
+A particularly pernicious effect present in the HgCdTe detectors is known as ``persistence'' \citep{10.1117/12.789619,2014arXiv1402.4181A,2016SPIE.9915E..0GM}.  
 In a series of images taken sequentially, some small fraction of the charge accumulated in earlier exposures apparently remains in the sensor and appears in later exposures.  
 The effect lasts for many minutes across multiple reset cycles.  
 Therefore, for simulating the effect, we need to keep track of the precise order and time of each observation, and the electron-level (i.e., pre-read-out) images of multiple prior exposures.
@@ -303,8 +306,8 @@ n_\mathrm{persist} = \frac{A \left(n/n_0\right)^a  \left(\frac{t}{1000 \mathrm{s
 where $A$, $n_0$, $a$, $r$, and $dn$ are constants estimated from laboratory measurements (and stored in the \texttt{galsim.wfirst} module).
 The persistence modeling was not available when this project started, and so is not implemented in the current simulations used in this paper.
 
-In addition to the non-linear pixel response, known as reciprocity failure, there is also a non-linearity in the conversion of accumulated charge to the measured voltage.
-This is a different effect, which occurs at a different point in the simulation -- namely, after the application of dark current and persistence. 
+In addition to the non-linear pixel response, known as reciprocity failure, there is also a non-linearity in the conversion of accumulated charge to the measured voltage \citep{2017JInst..12C4009P,Biesiadzinski2011,10.1117/12.2314475}.
+This is a different effect, which occurs at a different point in the simulation -- namely, after the application of dark current \citep{10.1117/12.790382,10.1117/12.2057308,10.1117/12.2233664} and persistence. 
 \galsim\ treats this as a modification in the effective number of electrons:
 \begin{equation}
 n_e^\prime = n_e - 6 \times 10^{-7} n_e^2
@@ -553,7 +556,12 @@ We can study the difference in the measured ellipticity relative to the \textsc{
 The mean ellipticity difference binned in the focal plane is shown in Figs.~\ref{fig:focal_mean_e1}  and~\ref{fig:focal_mean_e2}, for $e_1$ and $e_2$, respectively. 
 We observe coherent, and sometimes large, biases in the mean ellipticity across the focal plane or individual chips for all static wavefront errors. 
 The time-dependent wavefront errors are generally less pronounced, except in the case of a non-random anisotropic jitter which produces a very strong, coherent bias in $e_1$, the direction of the anisotropy in the smearing.
-Fig.~\ref{fig:f2pt_corrs} shows the two-point correlation function $\xi_{\pm}$ of the ellipticity difference in sky coordinates. \rachel{Should define what these correlation functions are.}
+
+Fig.~\ref{fig:f2pt_corrs} shows the two-point correlation function $\xi_{+}$ of the ellipticity difference in sky coordinates, where
+\begin{align}
+\xi_{\pm} = \langle \delta e_{+}\delta e_{+} \rangle \pm \langle \delta e_{\times}\delta e_{\times} \rangle.
+\end{align}
+$\delta e_{+}$ and $\delta e_{\times}$ are the tangential and cross components, respectively, of the ellipticity difference relative to the fiducial simulation along the projected separation vector between each pair of galaxies on the sky. 
 As expected for a wavefront error, the $\xi_{-}$ correlation of the differences are all consistent with zero. Like the mean shear in the focal plane, all static wavefront error cases lead to significantly non-zero $\xi_{+}$ at varying magnitudes. 
 The time-dependent errors have $\xi_{+}$ consistent with zero, except for the non-random anisotropic jitter case, which shows the largest impact in $\xi_{+}$ of any case as additional smear only applies to $e_1$ component. 
 The non-random anisotropic jitter, and the static focus and astigmatism errors, all produce a nearly constant $\xi_{+}$ correlation with angular scale, showing that the results are dominated by uniformly distributed $e_1$, $e_2$.
@@ -619,7 +627,7 @@ OscZ7 		    & $-0.019 \pm 0.045$   & $-0.044\pm 0.044$   & nm$^{-1}$ \\
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/2pt_corrs.pdf}
 \end{center}
-\caption[]{ The correlation function $\xi_+$ (red) and $\xi_-$ (blue) of ellipticity difference between each run, indicated by the label for each panel, and the \textsc{Fiducial} run. Negative points are shown as crosses. The $\xi_-$ points are offset slightly for clarity. \rachel{caption seems to have red and blue flipped?  Are we really getting anything out of the $\xi_-$ as shown?  If not, then perhaps omit, so it's easier to see what's happened in the more informative $\xi_+$?  (I think the conclusion re: $\xi_-$ could be OK if just stated in the text and it would make this plot easier to read.)}
+\caption[]{ The correlation function $\xi_+$ of the ellipticity difference between each run, indicated by the label for each panel, and the \textsc{Fiducial} run. Negative points are shown as crosses. The $\xi_-$ values are all consistent with zero, and are not shown.
 \label{fig:f2pt_corrs}}
 \end{figure}
 
