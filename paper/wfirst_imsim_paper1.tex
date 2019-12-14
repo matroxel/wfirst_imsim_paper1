@@ -127,7 +127,6 @@ Third, we note that each category of observational systematic error contributes 
 \begin{equation}
 \sqrt{\frac{d{\bf C}}{dp} \Delta p \cdot {\boldsymbol\Sigma}^{-1} \frac{d{\bf C}}{dp} \Delta p}
 \end{equation}
-%\verify{need to define $\Delta p$}
 equal to the allocation for $Z$ from that contribution. An important aspect of this budgeting is that, like a requirements flowdown, it is {\em hierarchical} -- a top-level requirement on observational systematics may contain an allocation for shear calibration (one of several contributions), which itself may contain a branch for PSF size (one of several contributions), which itself may contain a branch for detector non-linearity, etc. In the life cycle of a cosmology project, more detail will be filled in first on the branches that have hardware impacts, and then branches related to algorithms or simulations later on.
 
 The details of our data vector, covariance, and systematics models are described in Appendix~\ref{app:wl-budget}. The systematic errors in the shear $\gamma$ are broken down into additive biases ($c$) and multiplicative biases ($m$) in accordance with
@@ -539,6 +538,8 @@ m_2 &= (-9.40 \pm 0.19)\times 10^{-2}\\
 c_1 &= (1.20 \pm 0.17)\times 10^{-3}\\
 c_2 &= (-1.57 \pm 0.16)\times 10^{-3}.
 \end{align*}
+In some cases, biases are instead parameterized in terms of the PSF leakage as $e_i^{\mathrm{obs}} = (1+m_i) e_i^{\mathrm{true}} + \alpha_i e^{\mathrm{PSF}}_i + c_i$. 
+The constraints on $m$ used to interpret requirements in this paper are unchanged in either parameterization. 
 The difference in measured shape versus true input shape (intrinsic shape and shear) is shown in Fig.~\ref{fig:shape_hist}.
 
 For each simulation, we compare the recovered shear to the \textsc{Fiducial} simulation in several ways. First, we calculate how the inferred values of $m$ and $c$ change from the \textsc{Fiducial} result, which is shown in Table \ref{table:bias}. More importantly, we are interested in how the inferred shear changes as a function of the induced wavefront error. This allows us to draw a direct connection to the analytic requirements predictions. We show this shear response relative to the wavefront error in Table \ref{table:partials}. Finally, we are ultimately interested in how these biases will propagate to the shear correlation function -- that is, how any coherent scale dependence of the effects will impact cosmology. 
