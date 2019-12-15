@@ -35,8 +35,7 @@ M. Yamamoto,$^1$
 S. Hemmati,$^6$
 P. Capak,$^{7,8}$
 J. DeRose,$^{9}$
-R. Wechsler$^{9,10,11}$
-\\
+R. Wechsler$^{9,10,11}$\\
 $^{1}$Department of Physics, Duke University, Durham, NC 27708, USA\\
 $^{2}$Center for Cosmology and Astro-Particle Physics, The Ohio State University, Columbus, OH 43210, USA\\
 $^{3}$Department of Physics, The Ohio State University, Columbus, OH 43210, USA\\
@@ -47,7 +46,7 @@ $^{7}$IPAC, Mail Code 314-6, California Institute of Technology, 1200 East Calif
 $^{8}$Cosmic Dawn centre (DAWN), Niels Bohr Institute, University of Copenhagen, Juliane Maries vej 30, DK-2100 Copenhagen, Denmark\\
 $^{9}$Department of Physics, Stanford University, 382 Via Pueblo Mall, Stanford, CA 94305, USA\\
 $^{10}$Kavli Institute for Particle Astrophysics \& Cosmology, P. O. Box 2450, Stanford University, Stanford, CA 94305, USA\\
-$^{11}$SLAC National Accelerator Laboratory, Menlo Park, CA 94025, USA\\
+$^{11}$SLAC National Accelerator Laboratory, Menlo Park, CA 94025, USA
 }
 
 %\date{Accepted XXX. Received YYY; in original form ZZZ}
@@ -386,7 +385,7 @@ The details of these changes and their impacts are described in more detail in S
 Shape measurement is then performed on the images with some PSF model bias, but using the fiducial PSF model for convolution in the galaxy shape fitter, to simulate an unknown wavefront error.
 
 Several simplifications are employed relative to the generic synthetic survey generation described in Sec. \ref{stages} to accommodate the computational load of the many realizations of the survey we are producing. 
-\begin{itemize}
+\begin{list}{$\bullet$}{}
 \item We simulate objects in a 2.5$\times$2.5 deg$^2$ patch of the sky.
 \item We only simulate pointings targeted for the H158 filter.
 Since we are not simulating chromatic effects, the specific filter choice does not make a large difference in our results.
@@ -395,7 +394,7 @@ The impact of this approximation on the PSF model, in both native and oversample
 \item To better isolate the effects of PSF errors, we only utilize the isolated object postage stamps in shape measurement.
 \item We do not simulate objects with photometry that would fall outside the fiducial weak lensing selection criteria.
 \item We do not implement a shear calibration scheme like metacalibration \citep{SheldonHuff2017}, since we only care about changes to the recovered shape between simulation runs. Work on applying a method like metacalibration to these simulations is ongoing.
-\end{itemize}
+\end{list}
 
 We simulate a total of 907,170 unique galaxies and 56,128 unique stars across 189 pointings in each of the runs. The number of exposures per galaxy and the distribution of PSF properties are shown in Figs.~\ref{fig:hist2} and~\ref{fig:hist3}.
 
