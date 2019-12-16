@@ -33,8 +33,7 @@ R. Mandelbaum,$^6$
 K. Wang,$^1$
 M. Yamamoto,$^1$
 S. Hemmati,$^7$
-P. Capak,$^{8,9}$
-J. DeRose,$^{10}$\\
+P. Capak$^{8,9}$\\
 $^{1}$Department of Physics, Duke University, Durham, NC 27708, USA\\
 $^{2}$Center for Cosmology and Astro-Particle Physics, The Ohio State University, 191 West Woodruff Avenue, Columbus, OH 43210, USA\\
 $^{3}$Department of Physics, The Ohio State University, 191 West Woodruff Avenue, Columbus, OH 43210, USA\\
@@ -43,8 +42,7 @@ $^{5}$Department of Physics and Astronomy, University of Pennsylvania, Philadelp
 $^{6}$McWilliams Center for Cosmology, Department of Physics, Carnegie Mellon University, Pittsburgh, Pennsylvania 15213, USA\\
 $^{7}$Jet Propulsion Laboratory, California Institute of Technology, Pasadena, CA 91109, USA\\
 $^{8}$IPAC, Mail Code 314-6, California Institute of Technology, 1200 East California Boulevard, Pasadena, CA 91125, USA\\
-$^{9}$Cosmic Dawn centre (DAWN), Niels Bohr Institute, University of Copenhagen, Juliane Maries vej 30, DK-2100 Copenhagen, Denmark\\
-$^{10}$Department of Physics, Stanford University, 382 Via Pueblo Mall, Stanford, CA 94305, USA
+$^{9}$Cosmic Dawn centre (DAWN), Niels Bohr Institute, University of Copenhagen, Juliane Maries vej 30, DK-2100 Copenhagen, Denmark
 }
 
 %\date{Accepted XXX. Received YYY; in original form ZZZ}
@@ -57,7 +55,7 @@ $^{10}$Department of Physics, Stanford University, 382 Via Pueblo Mall, Stanford
 \maketitle
 
 \begin{abstract}
-The Wide-Field InfraRed Survey Telescope (WFIRST) mission is expected to launch in the mid-2020s. Its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to confront an uncertain cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on \galsim\ that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. We present a first study to empirically validate the existing WFIRST weak lensing requirements flowdown using a suite of 12 matched image simulations, each representing a different perturbation to the wavefront or image motion model. These are chosen to induce a range of potential static and low-and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these modes in the wavefront model. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response and that predicted by the analytic model.
+The Wide-Field InfraRed Survey Telescope (WFIRST) mission is expected to launch in the mid-2020s. Its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to adjust to and reliably contribute to the cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on \galsim\ that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. We present a first study to empirically validate the existing WFIRST weak lensing requirements flowdown using a suite of 12 matched image simulations, each representing a different perturbation to the wavefront or image motion model. These are chosen to induce a range of potential static and low-and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these modes in the wavefront model. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response and that predicted by the analytic model.
 \end{abstract}
 
 \begin{keywords}
@@ -72,11 +70,11 @@ gravitational lensing: weak -- large-scale structure of Universe -- techniques: 
 The nature of dark energy, which drives the accelerated expansion of the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \citep{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
 A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift space distortions, Type Ia supernovae, and weak gravitational lensing. 
 Current generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM), that will require more and better data in all of these probes to resolve. 
-The Wide-Field InfraRed Survey Telescope (WFIRST)\footnote{\url{http://wfirst.gsfc.nasa.gov}} has been designed to take advantage of all of these probes to study dark energy with unprecedented systematic control \citep{2015arXiv150303757S,2019arXiv190205569A,2019BAAS...51c.341D}.
+The Wide-Field InfraRed Survey Telescope (WFIRST)\footnote{\url{http://wfirst.gsfc.nasa.gov}} has been designed to take advantage of all of these probes to study dark energy and test general relativity with unprecedented systematic control \citep{2015arXiv150303757S,2019arXiv190205569A,2019BAAS...51c.341D}.
 
 Weak gravitational lensing is a particularly powerful cosmological probe that is sensitive to both the expansion of the Universe and the growth of large-scale structure \citep{2001PhR...340..291B,2017arXiv171003235M}. 
 In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES),\footnote{\url{http://www.darkenergysurvey.org/}} Hyper-Suprime Cam (HSC) survey,\footnote{\url{http://hsc.mtk.nao.ac.jp/ssp/}} and Kilo-Degree Survey (KiDS)\footnote{\url{http://kids.strw.leidenuniv.nl}} have reached levels of precision that rival the previously best possible cosmological constraints when including a free dark energy equation of state \citep{2018arXiv181206076H,2018PhRvD..98d3528T,2019PhRvL.122q1301A,2019PASJ...71...43H}. 
-These surveys have spurred the development of revolutionary algorithms and methods for galaxy shape measurement and weak lensing analysis (e.g., \citealt{HuffMandelbaum2017,SheldonHuff2017,shearcat}), highlighting the immense power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
+These surveys have spurred the development of new algorithms and methods for galaxy shape measurement and weak lensing analysis (e.g., \citealt{HuffMandelbaum2017,SheldonHuff2017,shearcat}), highlighting the potential power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
 
 By the planned launch of WFIRST in the mid-2020s, we will have final results from the ongoing generation of weak lensing experiments (DES, HSC, and KiDS) and preliminary results from the Dark Energy Spectroscopic Instrument (DESI),\footnote{\url{https://www.desi.lbl.gov/}} the Large Synoptic Survey Telescope (LSST),\footnote{\url{http://www.lsst.org}} and the Euclid mission.\footnote{\url{http://sci.esa.int/euclid}} 
 Faced with the unknown discovery potential of these experiments in the early 2020s, it is vital to maintain the agility of the WFIRST mission to respond with the best possible science, particularly in what is likely to be a systematics-dominated weak lensing field.
