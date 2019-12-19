@@ -22,8 +22,8 @@
 %\usepackage{lineno}
 %\linenumbers
 
-\title[A Synthetic WFIRST High-Latitude Imaging Survey]{A Synthetic WFIRST High-Latitude Imaging Survey: 
-Simulation Suite and the Impact of Wavefront Errors on Weak Gravitational Lensing}
+\title[A Synthetic WFIRST High-Latitude Imaging Survey]{A Synthetic WFIRST High-Latitude Imaging Survey: \\
+Simulation Suite and the Impact of Wavefront Errors \\on Weak Gravitational Lensing}
 
 \author[M.~A. Troxel et al.]{M.~A. Troxel,$^1$ \thanks{E-mail: michael.troxel@duke.edu}
 H. Long,$^{2,3}$
@@ -57,7 +57,7 @@ $^{9}$Cosmic Dawn centre (DAWN), Niels Bohr Institute, University of Copenhagen,
 \maketitle
 
 \begin{abstract}
-The Wide-Field InfraRed Survey Telescope (WFIRST) mission is expected to launch in the mid-2020s. Its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to adjust to and reliably contribute to the cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on \galsim\ that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. We present a first study to empirically validate the existing WFIRST weak lensing requirements flowdown using a suite of 12 matched image simulations, each representing a different perturbation to the wavefront or image motion model. These are chosen to induce a range of potential static and low-and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these modes in the wavefront model. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response and that predicted by the analytic model.
+The Wide-Field InfraRed Survey Telescope (WFIRST) mission is expected to launch in the mid-2020s. Its weak lensing program is designed to enable unprecedented systematics control in photometric measurements, including shear recovery, point-spread function (PSF) correction, and photometric calibration. This will enable exquisite weak lensing science and allow us to adjust to and reliably contribute to the cosmological landscape after the initial years of observations from other concurrent Stage IV dark energy experiments. This potential requires equally careful planning and requirements validation as the mission prepares to enter its construction phase. We present a suite of image simulations based on \galsim\ that are used to construct a complex, synthetic WFIRST weak lensing survey that incorporates realistic input galaxies and stars, relevant detector non-idealities, and the current reference five-year WFIRST survey strategy. We present a first study to empirically validate the existing WFIRST weak lensing requirements flowdown using a suite of 12 matched image simulations, each representing a different perturbation to the wavefront or image motion model. These are chosen to induce a range of potential static and low- and high-frequency time-dependent PSF model errors. We analyze the measured shapes of galaxies from each of these simulations and compare them to a reference, fiducial simulation to infer the response of the shape measurement to each of these modes in the wavefront model. We then compare this to existing analytic flowdown requirements, and find general agreement between the empirically derived response and that predicted by the analytic model.
 \end{abstract}
 
 \begin{keywords}
@@ -69,26 +69,26 @@ gravitational lensing: weak -- large-scale structure of Universe -- techniques: 
 \section{Introduction}\label{sec:intro}
 
 The nature of dark energy, which drives the accelerated expansion of the Universe, remains one of the most fundamental mysteries in physics twenty years after its discovery \citep{riess98,perlmutter99,detf,Frieman:2008sn,weinberg13}. 
-A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift space distortions, Type Ia supernovae, and weak gravitational lensing. 
-Current generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM), that will require more and better data in all of these probes to resolve. 
+A number of new experiments have been undertaken to probe dark energy using a variety of physical phenomena, including baryon acoustic oscillations, numbers and masses of galaxy clusters, galaxy clustering, redshift-space distortions, Type Ia supernovae, and weak gravitational lensing. 
+Current-generation experiments are limited to some subset of these probes, but have already begun to expose interesting questions about the soundness of our standard cosmological model, Lambda-Cold Dark Matter (LCDM), that will require more and better data in all of these probes to resolve. 
 The Wide-Field InfraRed Survey Telescope (WFIRST)\footnote{\url{http://wfirst.gsfc.nasa.gov}} has been designed to take advantage of all of these probes to study dark energy and test general relativity with unprecedented systematic control \citep{2015arXiv150303757S,2019arXiv190205569A,2019BAAS...51c.341D}.
 
 Weak gravitational lensing is a particularly powerful cosmological probe that is sensitive to both the expansion of the Universe and the growth of large-scale structure \citep{2001PhR...340..291B,2017arXiv171003235M}. 
 In the past few years, the current generation of ground-based weak lensing experiments like the Dark Energy Survey (DES),\footnote{\url{http://www.darkenergysurvey.org/}} Hyper-Suprime Cam (HSC) survey,\footnote{\url{http://hsc.mtk.nao.ac.jp/ssp/}} and Kilo-Degree Survey (KiDS)\footnote{\url{http://kids.strw.leidenuniv.nl}} have reached levels of precision that rival the previously best possible cosmological constraints when including a free dark energy equation of state \citep{2018arXiv181206076H,2018PhRvD..98d3528T,2019PhRvL.122q1301A,2019PASJ...71...43H}. 
-These surveys have spurred the development of new algorithms and methods for galaxy shape measurement and weak lensing analysis (e.g., \citealt{HuffMandelbaum2017,SheldonHuff2017,shearcat}), highlighting the potential power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
+These surveys have spurred the development of new algorithms and methods for galaxy shape measurement and weak lensing analysis (e.g., \citealt{HuffMandelbaum2017,SheldonHuff2017,shearcat}), enhancing the potential power of weak lensing to unravel the fundamental mysteries we face in cosmology today. 
 
 By the planned launch of WFIRST in the mid-2020s, we will have final results from the ongoing generation of weak lensing experiments (DES, HSC, and KiDS) and preliminary results from the Dark Energy Spectroscopic Instrument (DESI),\footnote{\url{https://www.desi.lbl.gov/}} the Large Synoptic Survey Telescope (LSST),\footnote{\url{http://www.lsst.org}} and the Euclid mission.\footnote{\url{http://sci.esa.int/euclid}} 
 Faced with the unknown discovery potential of these experiments in the early 2020s, it is vital to maintain the agility of the WFIRST mission to respond with the best possible science, particularly in what is likely to be a systematics-dominated weak lensing field.
-The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing in the current phase of mission development is a critical task that this paper will attempt to address. 
+The process of quantifying empirically the robustness of the design requirements of the WFIRST mission for weak lensing in the current phase of mission development is a critical task that this paper will partly address. 
 Precise control of these systematics at the statistical precision offered by current WFIRST mission forecasts (Eifler et al., in prep., 2019a,b) will enable WFIRST to make crucial contributions to the study of new discoveries made in the early years of LSST and Euclid, and to the resolution of any remaining disagreements between surveys.
 
 Toward this goal, we describe in this paper a simulation framework designed to enable the empirical study of requirements flowing down from the WFIRST wide-field imaging survey, in particular for weak lensing. 
 This simulation pipeline can incorporate a realistic simulated survey strategy, galaxy properties, and instrument effects to create a synthetic WFIRST wide-field imaging survey. 
-We present in this paper a set of synthetic WFIRST imaging surveys covering approximately 6 sq.~deg.~to full five-year survey depth in one filter: a fiducial survey and 11 variations incorporating ways in which the point-spread function (PSF) could be mis-estimated. 
+We present in this paper a set of synthetic WFIRST imaging surveys covering approximately 6 sq.~deg.~to full five-year survey depth in one filter: a fiducial survey and 12 variations incorporating ways in which the point-spread function (PSF) could be mis-estimated. 
 The simulation incorporates realistic distributions of photometric properties for galaxies and stars; complex analytic galaxy models; a simulated observing strategy for a reference five year, 2000 sq.~deg. survey; and realistic detector effects, PSF models, and WCS solutions that match current WFIRST design specifications. 
 We use a blending-free version of this simulation to test the impact on weak lensing science of these simulated wavefront modeling errors, including static, low-, and high-frequency biases. 
 
-We discuss the WFIRST weak lensing survey, the current reference survey structure, and the weak lensing requirements process in Sec.~\ref{sec:wfirst}. The  synthetic survey simulation suite is described generally in Sec.~\ref{sec:sim}, where we outline the simulated survey strategy, input galaxy and star catalogs, and the \galsim\ implementation of the WFIRST instrument used to simulate images. We discuss the specific simulation runs produced for this work to study wavefront error propagation in Sec.~\ref{sec:results} and discuss the resulting biases and how these compare to the analytic requirements flowdown in Sec.~\ref{sec:results2}. We discuss future plans for using this simulation suite in validating WFIRST requirements and algorithm design in Sec.~\ref{sec:future} and conclude in Sec.~\ref{sec:conclusion}. 
+We discuss the WFIRST weak lensing survey, the current Reference Survey structure, and the weak lensing requirements process in Sec.~\ref{sec:wfirst}. The  synthetic survey simulation suite is described generally in Sec.~\ref{sec:sim}, where we outline the simulated survey strategy, input galaxy and star catalogs, and the \galsim\ implementation of the WFIRST instrument used to simulate images. We discuss the specific simulation runs produced for this work to study wavefront error propagation in Sec.~\ref{sec:results} and discuss the resulting biases and how these compare to the analytic requirements flowdown in Sec.~\ref{sec:results2}. We discuss future plans for using this simulation suite in validating WFIRST requirements and algorithm design in Sec.~\ref{sec:future} and conclude in Sec.~\ref{sec:conclusion}. 
 
 %\section{WFIRST weak lensing, the requirements process, and the need for simulations}
 \section{WFIRST background}
@@ -167,7 +167,7 @@ The simulation is broken into several stages:
 \includegraphics[width=\columnwidth]{figures/sca.pdf}
 \end{center}
 \caption[]{
-A simulated $\sim$140s exposure Sensor Chip Array (SCA) \#16 image, chosen for the presence of several large, bright galaxies and stars. Each SCA (HgCdTe H4RG) has a useable pixel grid of 4088$\times$4088, with a pixel scale of 0.11\arcsec. A total of 18 SCAs make up the WFIRST camera. For comparison, the size of the Hubble Space Telescope Wide Field Camera 3 is shown as the blue outline. The solid red circle indicates a particularly bright galaxy and the dashed red circle a bright star. Six diffraction spikes due to the WFIRST secondary mirror support struts are visible for both.
+A simulated $\sim$140s exposure Sensor Chip Array (SCA) image, chosen for the presence of several large, bright galaxies and stars. Each SCA (HgCdTe H4RG) has a useable pixel grid of 4088$\times$4088, with a pixel scale of 0.11\arcsec. A total of 18 SCAs make up the WFIRST camera. For comparison, the size of the Hubble Space Telescope Wide Field Camera 3 is shown as the blue outline. Six diffraction spikes due to the WFIRST secondary mirror support struts are clearly visible for most stars.
 \label{fig:sca}}
 \end{figure}
 
@@ -320,7 +320,7 @@ The distribution of simulated galaxies. The mean galaxy density is 40 arcmin$^{-
 \includegraphics[width=\textwidth]{figures/hist.pdf}
 \end{center}
 \caption[]{
-The true (blue) and recovered (orange) distributions of galaxy half-light radius, redshift, and H158 magnitude for galaxies, with a comparison of the magnitude distribution of stars (green). The recovered galaxy magnitude and half-light radius are the distributions inferred from the shape measurement process, while the distribution in redshift simply shows where in redshift objects do not have a valid shape fit -- mostly at low redshift, where some large objects are not used. In general, the measured size and magnitude agree well with the true values.
+The true (blue) and recovered (orange) distributions of galaxy half-light radius, redshift, and H158 magnitude for galaxies, with a comparison of the magnitude distribution of stars (green). The recovered galaxy magnitude and half-light radius are the distributions inferred from the shape measurement process, while the distribution in redshift simply shows where in redshift objects do not have a valid shape fit -- mostly at low redshift, where some large objects are not used. In general, the measured size and magnitude agree well with the true values. Star magnitudes are currently capped at 14 to avoid visual artifacts in the drawn images, which has no impact on the current or most plausible weak lensing studies.
 \label{fig:hist}}
 \end{figure*}
 
@@ -363,7 +363,7 @@ The overall survey strategy has to schedule each pass over each region, while be
 \includegraphics[width=\columnwidth]{figures/pointings.pdf}
 \end{center}
 \caption[]{
-A visualization of the individual pointings of the telescope using the H158 filter in the five-year simulated Reference survey that overlap the region of the sky we are simulating images for (the non-shaded region). There are a total of 189 pointings in H158 that overlap this region. Each marker is an individual pointing, whose color represents the focal plane position angle. Each cluster of pointings typically contains 3-4 very small translational dithers to cover chip gaps. The dither pattern in other filters overlaps in other directions to produce a more homogeneous coverage than is indicated in this figure. 
+A visualization of the individual pointings of the telescope using the H158 filter in the five-year simulated Reference Survey that overlap the region of the sky we are simulating images for (the non-shaded region). There are a total of 189 pointings in H158 that overlap this region. Each marker is an individual pointing, whose color represents the focal plane position angle. Each cluster of pointings typically contains 3-4 very small translational dithers to cover chip gaps. The dither pattern in other filters overlaps in other directions to produce a more homogeneous coverage than is indicated in this figure. 
 \label{fig:pointings}}
 \end{figure}
 
@@ -652,7 +652,7 @@ With planned improvements to the recovery of the near-infrared colors for object
 These matched simulations will enable a range of joint-processing tests at the pixel level to test combinations of ground-based imaging from LSST with space-based imaging from WFIRST.
 
 While the current synthetic survey volume used in this paper is relatively small, due to the necessity of simulating it many times, we plan the production of much larger public simulations in the near future. 
-This will include many of the improvements described above, including multi-band imaging across tens of square degrees at full WFIRST five-year reference survey depth matched to LSST imaging from DESC. 
+This will include many of the improvements described above, including multi-band imaging across tens of square degrees at full WFIRST five-year Reference Survey depth matched to LSST imaging from DESC. 
 
 \section{Conclusion}\label{sec:conclusion}
 
@@ -1519,7 +1519,7 @@ This should be compared to the requirement of $2.65\times 10^{-4}$. The line-of-
 \section{Simulation data access}
 \label{app:data_access}
 
-The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 deg$^2$, full-depth synthetic WFIRST Reference Survey in the H158-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing data. The simulated dataset is available for download via a public shared Globus endpoint.\footnote{The Globus shared endpoint can be found at: \\\url{https://app.globus.org/file-manager?origin_id=53c9dafc-cf41-11e9-98e2-0a63aa6b37da&origin_path=\%2Fwfirst_sim_fiducial\%2F}.}  This endpoint directory includes the following sub-directories:
+The simulated data for the \textsc{Fiducial} run used in this paper form a 2.5$\times$2.5 deg$^2$, full-depth synthetic WFIRST Reference Survey in the H158-band, which is suitable for a variety of uses in testing algorithms to apply to WFIRST weak lensing data. The simulated dataset will be available for download via a public shared Globus endpoint following publication of this paper. This endpoint directory includes the following sub-directories:
 
 \begin{itemize}
 \item \textsc{images}: A set of FITS images for each SCA in each pointing. 
