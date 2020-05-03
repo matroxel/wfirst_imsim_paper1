@@ -19,6 +19,8 @@
 \interfootnotelinepenalty=10000
 \newcommand{\galsim}{\textsc{GalSim}}
 
+\newcommand{\changetext}[1]{\textcolor{red}{#1} }
+
 %\usepackage{lineno}
 %\linenumbers
 
@@ -1564,6 +1566,335 @@ The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size
 \label{fig:psf_oversampling}}
 \end{figure}
 
+\section{\changetext{Error metrics for setting requirements}}
+\label{app:reqpar}
+
+\changetext{In this paper, we have set requirements using the error metric $Z$, which is based on the error in the data vector (length $N_{\rm data}$) relative to its covariance matrix (see \S\ref{ss:req}). This is one of several possible choices. There have also been suggestions to choose an error metric more directly related to the cosmological parameters, since these rather than the data vector are the ultimate science result from the mission. There are several ways to implement this idea. Examples are:
+\begin{list}{$\bullet$}{}
+\item A similar error metric, $r$, defined in the space of cosmological parameters ${\boldsymbol\theta}$ (length $N_{\rm cosmo}$): $r = \sqrt{\Delta{\boldsymbol\theta} \cdot {\boldsymbol\Sigma}_{\boldsymbol\theta}^{-1} \Delta{\boldsymbol\theta}}$, where ${\boldsymbol\Sigma}_{\boldsymbol\theta}$ is the cosmological parameter covariance matrix, and $\Delta{\boldsymbol\theta}$ is the bias in the cosmological parameters. This metric asks not about the data vector, but whether the bias in the cosmological parameters is within the $1\sigma$, $2\sigma$, etc.\ error ellipsoid. If this is done, one presumably fits not just the cosmological parameters to the data vector, but also a set of nuisance parameters ${\boldsymbol\nu}$ (length $N_{\rm nuis}$).
+\item One might use a similar error metric, but only care about some of the cosmological parameters -- e.g., the LSST DESC Science Requirements Document uses the space $(w_0,w_a)$ \citep{2018arXiv180901669T}, and \citet{2013MNRAS.429..661M} considers the bias on the single parameter $w$. This is mathematically the same problem as using $Z_{\rm cosmo}$, but one treats other parameters such as $\Omega_{\rm m}$ or $\sigma_8$ as nuisance parameters.
+\item One could instead treat a systematic error in the data vector as an effective increase in its covariance matrix ${\boldsymbol\Sigma}$: ${\boldsymbol\Sigma} \rightarrow {\boldsymbol\Sigma} + \Delta{\bf C}\,\Delta{\bf C}^{\rm T}$, where $\Delta{\bf C}$ is the bias in the data vector. (One thinks of this as a ``systematics contribution to the data covariance.'') Then one can ask by what factor the ellipsoid volume in cosmological parameter space is increased: $f_{\rm deg} = \sqrt{|{\boldsymbol\Sigma}_{{\boldsymbol\theta},\rm new}|/|{\boldsymbol\Sigma}_{{\boldsymbol\theta},\rm old}|}$. Note that if the cosmological parameter space is $(w_0,w_a)$ (and other parameters are taken as nuisance parameters), this is equivalent to the degradation factor in Dark Energy Task Force Figure of Merit \citep{detf}.
+\end{list}
+The error metrics $Z$ and $r$ satisfy $Z,r\ge 0$, whereas $f_{\rm deg}\ge 1$, with equality holding for no degradation.}
+
+\changetext{Our objective in this appendix is to explore the mathematical properties of these different metrics ($Z$, $r$, and $f_{\rm deg}$), and their robustness under different circumstances. Do these error metrics add linearly, by RSS addition, or in some other way? What happens when we introduce a new nuisance parameter (which may be astrophysical)? What if we shorten the data vector with a scale cut (which is really a special case of adding nuisance parameters)? What if we combine WFIRST weak lensing with an external data set?
+}
+
+\changetext{We note that the $f_{\rm deg}$ error metric treats the systematic error in a probabilistic sense, whereas the others as written treat the error as deterministic but unknown. If we take the probabilistic point of view instead for $Z$ or $r$, we should instead consider the RMS error metrics, $Z_{\rm rms} = \langle Z^{2}\rangle^{1/2}$ or $r_{\rm rms} = \langle r^2\rangle^{1/2}$. This approach is particularly useful in error budgeting when adding systematic contributions that are ``independent'' (indeed, only in the probabilistic point of view does considering systematics to be ``independent'' make sense).}
+
+\changetext{The major results from this appendix are shown in Table~\ref{tab:error-metrics}. Some aspects of these error metrics have been considered before. Section 4.1 of \citet{2013MNRAS.429..661M} discusses at length the determinstic vs.\ probabilistic interpretation of $r$. Appendix B2 of \citet{2018arXiv180901669T} has a discussion of the comparison of $Z$ and $r$.}
+
+\changetext{In this appendix, we use the symbol ${\bf A}\succ 0$ to denote that the symmetric matrix ${\bf A}$ is positive definite (or ${\bf A}\succeq 0$ to indicate semipositive definite) and ${\bf A}\succ{\bf B}$ to denote that ${\bf A}-{\bf B}$ is positive definite. We limit our analysis to the Fisher matrix approximation, where the covariance matrix does not depend on the data vector, and the derivatives of the theory data vector with respect to the parameters are constants. We make extensive use of the fact that all of these error metrics are invariant under general invertible linear transformations of the data vector, GL$(N_{\rm data})$, and of the cosmological parameter space, GL$(N_{\rm cosmo})$. Note that these are general linear transformations, not just rotations. Many results here are easiest to understand and prove using particular choices of basis. For example, general linear transformations allow one to use a basis where ${\boldsymbol\Sigma}$ is the $N_{\rm data}\times N_{\rm data}$ identity matrix ${\mathbb I}_{N_{\rm data}}$.}
+
+\begin{table*}
+\caption{\label{tab:error-metrics}\changetext{The rules governing the systematic error metrics considered here: $Z$, which is the size of the systematic error relative to the statistical error in the data vector; $r$, which is the size of the systematic error relative to the statistical error in the cosmological parameter vector; and $f_{\rm deg}$, which is the increase in volume in parameter space when the systematic error is included in the covariance matrix. For $Z$ and $r$, one may consider the systematic error in either a deterministic sense or a probabilistic sense (in which case we take the RMS). Table entries include ``No rule'' if there is no rule for addition, ``N/A'' for not applicable, ``Triangle ineq.'' for triangle inequality addition, ``RSS'' for RSS addition, and ``$\le$RSS'' when RSS addition provides an upper bound.}}
+\begin{tabular}{l|cc|cc|c}
+\hline\hline
+Error metric & \multicolumn2c{Data vector} & \multicolumn2c{Cosmological parameter} & Volume ratio \\
+& \multicolumn2c{space norms} & \multicolumn2c{space norms} & \\
+ & $Z$ & $Z_{\rm rms}$ & $r$ & $r_{\rm rms}$ & $f_{\rm deg}$ \\
+\hline
+Relations & $Z\le r$ & $Z_{\rm rms}\le r_{\rm rms}$ & & & $f_{\rm deg} \le \left( 1 + \frac{r^2}{N_{\rm cosmo}} \right)^{N_{\rm cosmo}/2}$ \\
+\hline
+Addition of errors (deterministic) & Triangle ineq. & N/A & Triangle ineq. & N/A & No rule \\
+Addition of errors (probabilistic, & N/A & RSS & N/A & RSS & No rule \\
+~~independent) & & & & & \\
+\hline
+Adding nuisance parameter & No effect & No effect & No rule & No rule & No rule \\
+\hline
+Combining independent data sets (A+B): & & & & & \\
+~~~~~-- general & Triangle ineq. & $\le$RSS & No rule & No rule & No rule \\
+~~~~~-- if no common nuisance pars. & Triangle ineq. & $\le$RSS & Triangle ineq. & $\le$RSS &
+ $f_{\rm deg}^{\rm(A+B)} \le f_{\rm deg}^{\rm(A)} f_{\rm deg}^{\rm(B)}$ \\
+ & & & & & (equality only if $f_{\rm deg}^{\rm(A)} = f_{\rm deg}^{\rm(B)}=1$) \\
+\hline\hline
+\end{tabular}
+\end{table*}
+
+\subsection{\changetext{Relations among the error metrics}}
+
+\changetext{Here we show that $Z$ is in some sense the ``most conservative'' of the error metrics, followed by $r$, and then $f_{\rm deg}$. This is essentially because $Z$ counts all systematic errors in the data vector, whereas $r$ counts only those that have a projection onto the cosmological parameters. Finally, $f_{\rm deg}$ treats systematic errors as a contribution to the covariance and hence allows them to be marginalized out.}
+
+\subsubsection{\changetext{Comparison of $Z$ and $r$}}
+
+\changetext{Let's suppose that the cosmological parameters that we fit, ${\boldsymbol\theta}$, have some dependence on the data vector ${\bf C}$: there is a Jacobian, ${\bf R} = \partial {\boldsymbol\theta}/\partial{\bf C}$ (matrix dimension: $N_{\rm cosmo}\times N_{\rm data}$, with $N_{\rm cosmo}\le N_{\rm data}$). Then
+\begin{equation}
+{\boldsymbol\Sigma}_{\boldsymbol\theta} = {\bf R}{\boldsymbol\Sigma}{\bf R}^{\rm T},
+\end{equation}
+and so
+\begin{equation}
+r^2 = \Delta{\bf C}^{\rm T}{\bf R}^{\rm T} ({\bf R}{\boldsymbol\Sigma}{\bf R}^{\rm T})^{-1} {\bf R}\Delta{\bf C}.
+\end{equation}
+If we go to a basis where ${\boldsymbol\Sigma} = {\mathbb I}_{N_{\rm data}}$, and do a singular value decomposition of ${\bf R} = {\bf UDV}^{\rm T}$, where ${\bf U}$ and ${\bf V}$ are orthogonal and ${\bf D}$ has $N_{\rm cosmo}$ diagonal entries, then we find $r^2 = \sum_{i=1}^{N_{\rm cosmo}} ({\bf V}^{\rm T}\Delta{\bf C})_i^2$, whereas $Z^2 = \sum_{i=1}^{N_{\rm data}} ({\bf V}^{\rm T}\Delta{\bf C})_i^2$. This shows that
+% Delta C^T V D^T  ( D D^T )^-1  D V^T C
+\begin{equation}
+Z \le r.
+\label{eq:ZZC}
+\end{equation}
+It follows that this relation holds in the probabilistic sense as well, $Z_{\rm rms}\le r_{\rm rms}$.
+}
+
+\subsubsection{\changetext{Comparison of $Z_{\rm cosmo}$ and $f_{\rm deg}$}}
+\label{ss:czf}
+
+\changetext{
+We now consider $f_{\rm deg}$. First, let's consider what happens {\em without} nuisance parameters. If ${\bf J}$ is the $N_{\rm data} \times N_{\rm cosmo}$ matrix of partial derivatives of the theory data vector with respect to the parameters $\partial{\bf C}_{\rm th}/\partial{\boldsymbol\theta}$, with a partition, then standard Fisher matrix formulae tell us that the covariance matrix of the cosmological+nuisance parameters, ${\boldsymbol\Sigma}_{\boldsymbol\theta}$ is given by
+\begin{equation}
+{\boldsymbol\Sigma}_{\boldsymbol\theta} = ({\bf J}^{\rm T}{\boldsymbol\Sigma}^{-1}{\bf J})^{-1}.
+\end{equation}
+If ${\boldsymbol\Sigma}$ is increased by the addition of a systematics contribution,  ${\boldsymbol\Sigma} \rightarrow {\boldsymbol\Sigma} +\Delta{\boldsymbol\Sigma}$, then 
+\begin{equation}
+f_{\rm deg} = \sqrt{ \frac{ |{\bf J}^{\rm T}{\boldsymbol\Sigma}^{-1}{\bf J} |}
+{| {\bf J}^{\rm T}({\boldsymbol\Sigma}+\Delta{\boldsymbol\Sigma})^{-1}{\bf J} | } }.
+\label{eq:fdeg-.5}
+\end{equation}
+This equation simplifies if we do a general linear transformation on the data vector to make ${\boldsymbol\Sigma} = {\mathbb I}_{N_{\rm data}}$. This does not uniquely define the choice of basis for the data vector space; we may further do a singular value decomposition of ${\bf J} = {\bf UDV}^{\rm T}$, and then do a rotation in data vector space to set ${\bf V} = {\mathbb I}_{N_{\rm data}}$, a rotation in cosmological parameter space to set ${\bf U} = {\mathbb I}_{N_{\rm data}}$, and a rescaling of the $i$th basis vector in cosmological parameter space by $D_{ii}$ to set ${\bf D}$ to 1's down the diagonal. This makes ${\bf J}$ equal to 1's down the diagonal and 0's elsewhere. In this basis, we have
+\begin{equation}
+f_{\rm deg} = \left\{ \det [({\mathbb I}_{N_{\rm data}} + \Delta{\boldsymbol\Sigma})^{-1}]_{N_{\rm cosmo}\,\rm block} \right\}^{-1/2},
+\end{equation}
+where the subscript ``$N_{\rm cosmo}\,\rm block$'' means that we take the upper-left $N_{\rm cosmo}\times N_{\rm cosmo}$ block of the $N_{\rm data}\times N_{\rm data}$ matrix.}
+
+\changetext{Now we want a bound on $f_{\rm deg}$ in terms of $r$. In the basis we have chosen here, the error on the parameters is related to the error in the data vector by
+\begin{equation}
+\Delta{\boldsymbol\theta} = ({\bf J}^{\rm T}{\boldsymbol\Sigma}^{-1}{\bf J})^{-1} {\bf J}^{\rm T}{\boldsymbol\Sigma}^{-1}\Delta{\bf C},
+\end{equation}
+so $\Delta\theta_i = \Delta C_i$ for $1\le i\le N_{\rm cosmo}$ and then
+\begin{equation}
+r^2 = \sum_{i=1}^{N_{\rm cosmo}} \Delta\theta_i^2 = \sum_{i=1}^{N_{\rm cosmo}} \Delta C_i^2
+= {\rm Tr} [\Delta{\boldsymbol\Sigma}]_{N_{\rm cosmo}\,\rm block}.
+\end{equation}
+(Every step in this equality is valid in either a deterministic or probabilistic sense; in the latter case, the left-hand side becomes $r_{\rm rms}^2$.)
+It follows trivially from the block inversion formula that for a positive definite matrix, the determinant of the block of an inverse is greater than or equal to the determinant of the inverse of the block. Therefore, if $\{\lambda_i\}_{i=1}^{N_{\rm cosmo}}$ are the eigenvalues of $[\Delta{\boldsymbol\Sigma}]_{N_{\rm cosmo}\,\rm block}$, then
+\begin{equation}
+f_{\rm deg} \le \sqrt{ \prod_{i=1}^{N_{\rm cosmo}} (1+\lambda_i)}
+~~~{\rm and} ~~
+r^2 = \sum_{i=1}^{N_{\rm cosmo}} \lambda_i.
+\end{equation}
+We may write the formula for $f_{\rm deg}$ in the form
+\begin{equation}
+2\ln f_{\rm deg} = \sum_{i=1}^{N_{\rm cosmo}} \ln (1+\lambda_i),
+\end{equation}
+where the last term has a strictly negative second derivative. This means that for a fixed $\sum_{i=1}^{N_{\rm cosmo}} \lambda_i = r^2$, the maximum value of $2\ln f_{\rm deg}$ is obtained when all of the $\lambda_i$ are the same: $\lambda_i = r^2/{N_{\rm cosmo}}$. Therefore, we have
+\begin{equation}
+f_{\rm deg} \le \left( 1 + \frac{r^2}{N_{\rm cosmo}} \right)^{N_{\rm cosmo}/2}.
+\label{eq:fdeg-ineq}
+\end{equation}
+}
+
+\changetext{This relation still applies if we have nuisance parameters, since inclusion of a nuisance parameter can be thought of as a modification to ${\boldsymbol\Sigma}$: ${\boldsymbol\Sigma} \rightarrow {\boldsymbol\Sigma} + \sigma_p^2 (\partial{\bf C}_{\rm th}/\partial p)(\partial{\bf C}_{\rm th}/\partial p)^{\rm T}$.}
+
+\subsection{\changetext{Addition of error terms}}
+\label{ss:addition-error}
+
+\changetext{A common problem in error budgeting is addition of error terms -- when there are two or more sources of error that must be included in the budget, how should they be added? And what can we say when those two sources of error are independent?}
+
+\changetext{This problem is simplest for $Z$ and $r$, because they are the ordinary vector lengths of $\Delta{\bf C}$ in ${\mathbb R}^{N_{\rm data}}$ and $\Delta{\boldsymbol\theta}$ in ${\mathbb R}^{N_{\rm cosmo}}$ respectively, if we use the bases where ${\boldsymbol\Sigma}$ and ${\boldsymbol\Sigma}_{\boldsymbol\theta}$ are the identity. Therefore they satisfy the ``usual'' rules of error addition:
+\begin{list}{$\bullet$}{}
+\item If we take the deterministic point of view, then $Z$ and $r$ obey the triangle inequality: if there is one source of error (``A'') that produces a bias in the data vector $\Delta{\bf C}^{(\rm A)}$ and another that produces a bias $\Delta{\bf C}^{(\rm B)}$, then always the error metrics satisfy $Z^{(\rm A+B)} \le Z^{(\rm A)} + Z^{(\rm B)}$.
+\item If we take the probabilistic point of view, then $Z_{\rm rms}$ and $r_{\rm rms}$ obey root-sum-square (RSS) addition with two {\em independent} contributions A and B: $Z^{(\rm A+B)\,2}_{\rm rms} = Z^{(\rm A)\,2}_{\rm rms} + Z^{(\rm B)\,2}_{\rm rms}$.
+\end{list}}
+
+\changetext{In contrast, $f_{\rm deg}$ does not obey any simple error addition rule. A simple counterexample to any proposed inequality can be found with $N_{\rm cosmo}=1$, $N_{\rm data}=2$, and matrices in the language of \S\ref{ss:czf}:
+\begin{equation}
+{\bf J} = \left( \begin{array}c 1 \\ 0 \end{array} \right) ~~{\rm and}~~
+{\boldsymbol\Sigma} = \left( \begin{array}{cc} 1 & 0 \\ 0 & 1 \end{array} \right),
+\end{equation}
+with systematic error contributions A and B:
+\begin{equation}
+\Delta{\bf C}^{(\rm A)} =  \left( \begin{array}c \alpha \\ \beta \end{array} \right) ~~{\rm and}~~
+\Delta{\bf C}^{(\rm B)} =  \left( \begin{array}c \alpha \\ -\beta \end{array} \right).
+\end{equation}
+We take these contributions to be additions to the data covariance matrix: ${\boldsymbol\Sigma}$ gets an extra contribution of $\Delta{\bf C}^{(\rm A)}\Delta{\bf C}^{(\rm A)\,T}$, $\Delta{\bf C}^{(\rm B)}\Delta{\bf C}^{(\rm B)\,T}$, or $\Delta{\bf C}^{(\rm A)}\Delta{\bf C}^{(\rm A)\,T} + \Delta{\bf C}^{(\rm B)}\Delta{\bf C}^{(\rm B)\,T}$. Treating the combination of A and B by adding their contributions to the covariance matrix is a direct consequence of supposing them to be independent. However, in this case one can evaluate Eq.~(\ref{eq:fdeg-.5}) and find the degradation factors:
+\begin{equation}
+f_{\rm deg}^{(\rm A)} = f_{\rm deg}^{(\rm B)} = \sqrt{\frac{ 1 + \alpha^2 + \beta^2 }{ 1 + \beta^2 }},
+\end{equation}
+whereas
+\begin{equation}
+f_{\rm deg}^{(\rm A+B)} = \sqrt{1 + 2\alpha^2}.
+\end{equation}
+It is clear that in this case, by making $\alpha$ large enough, we can make $f_{\rm deg}^{(\rm A+B)}$ as large as we want; but then at fixed $\alpha$, by making $\beta$ large enough, we can make $f_{\rm deg}^{(\rm A)}$ and $f_{\rm deg}^{(\rm B)}$ as close to 1 as we want. In other words, using the $f_{\rm deg}$ metric, two systematic error contributions A and B, which are individually arbitrarily small can combine to make an arbitrarily large contribution A+B.}
+
+\changetext{This means that if one builds an error budget using $f_{\rm deg}$ as a metric, one must repeat the full Fisher matrix analysis each time a new term is added and cannot rely on each contribution to the error budget staying within an ``allocation'' (e.g., stating $f_{\rm deg} < 1.02$ or $<2\%$ loss of figure of merit for a particular systematic). Keeping this level of coordination across different contributions to error budgets is a challenge in a large interdisciplinary team, but it can be considered particularly in cases where error budgets based on $r$ or $Z$ become cost, schedule, or engineering risk drivers.}
+
+\subsection{\changetext{Introduction of new nuisance parameters}}
+\label{ss:app-nuisance}
+
+\changetext{We now consider what happens when new nuisance parameters are added. This is simplest in the case of $Z$: since it built entirely in data vector space, $Z$ does not depend on how the data vector is used and is unaffected when nuisance parameters are added.}
+
+\changetext{It turns out that no simple rule occurs for $r$. To see this, let's consider the simple case of 1 cosmological parameter $\theta$ and 1 nuisance parameter $\nu$. We also approximate the theory data vector as a linear function of the parameters over the range of interest, i.e., $\partial{\bf C}_{\rm th}/\partial({\boldsymbol\theta},{\boldsymbol\nu})$ constant. The $\chi^2$ surface for these parameters will generally be of the form
+\begin{equation}
+\chi^2 = \left( \begin{array}{cc} \theta & \nu \end{array} \right) {\bf A}  \left( \begin{array}c \theta \\ \nu \end{array} \right)
+- 2 (b_\theta \theta + b_\nu\nu) + c,
+\end{equation}
+where ${\bf A}$ is the $2\times 2$ inverse covariance matrix, and ${\bf b}$ is a vector. A change in the data vector will lead to a change in $\Delta{\boldsymbol b}$, the slope (it does not affect ${\bf A}$ if the derivatives are constant, and we do not care about $\Delta c$). The bias in the parameters if we include the nuisance parameter is
+\begin{equation}
+\left( \begin{array}c \theta^{(+)} \\ \nu^{(+)} \end{array} \right) = {\bf A}^{-1}\Delta{\boldsymbol b},
+\end{equation}
+so
+\begin{equation}
+\Delta\theta^{(+)} = \frac{A_{\nu\nu}\,\Delta b_\theta + A_{\theta\nu}\,\Delta b_\nu}{A_{\theta\theta} A_{\nu\nu} - A_{\theta\nu}^2}.
+\end{equation}
+If the nuisance parameter is not added, then we look at the $\chi^2$ surface with $\nu$ fixed to 0, in which case the bias in $\theta$ is
+\begin{equation}
+\Delta\theta^{(-)} = \frac{\Delta b_\theta}{A_{\theta\theta}}.
+\end{equation}
+The corresponding values of $r^2 = \Delta\theta^2 / {\rm Var}(\theta)$ are:
+\begin{equation}
+r^{(+)}{^2} = \frac{(A_{\nu\nu}\,\Delta b_\theta + A_{\theta\nu}\,\Delta b_\nu)^2}{A_{\nu\nu}(A_{\theta\theta} A_{\nu\nu} - A_{\theta\nu}^2)}
+\end{equation}
+and
+\begin{equation}
+r^{(-)}{^2} = \frac{(\Delta b_\theta)^2}{A_{\theta\theta}}.
+\end{equation}
+It is now apparent that there is no inequality relating $r^{(+)}$ to $r^{(-)}$: as long as $A_{\theta\nu}\neq 0$, any value of the ordered pair $(\Delta b_\theta, A_{\nu\nu}\,\Delta b_\theta + A_{\theta\nu}\,\Delta b_\nu)\in{\mathbb R}^2$ is possible, and therefore knowledge of $r^{(-)}$ by itself provides no constraint on $r^{(+)}$ and vice versa. So the $r$ error metric may go up, go down, or stay the same when nuisance parameters are added.
+}
+
+\changetext{Finally, we show that there is also no inequality relating $f_{\rm deg}^{(+)}$ (with a nuisance parameter) to $f_{\rm deg}^{(-)}$ (without it). Let us consider the same example above with 1 cosmological parameter and a single nuisance parameter. The degradation factor with and without the extra nuisance parameter is
+\begin{equation}
+f_{\rm deg}^{(+)} = \sqrt{ \frac{
+(A_{\theta\theta}^{\rm(old)} A_{\nu\nu}^{\rm(old)} - [A_{\theta\nu}^{\rm(old)}]^2)/A_{\nu\nu}^{\rm(old)}
+}{
+(A_{\theta\theta}^{\rm(new)} A_{\nu\nu}^{\rm(new)} - [A_{\theta\nu}^{\rm(new)}]^2)/A_{\nu\nu}^{\rm(new)}
+}}
+\end{equation}
+and
+\begin{equation}
+f_{\rm deg}^{(-)} = \sqrt{ \frac{A_{\theta\theta}^{\rm(old)}}{A_{\theta\theta}^{\rm(new)}} },
+\end{equation}
+where ${\bf A}^{\rm(old)}$ or ${\bf A}^{\rm(new)}$ is the old (without degradation) or new (with degradation) inverse covariance matrix. These matrices are given by
+\begin{equation}
+{\bf A}^{\rm(old)} = {\bf J}{\boldsymbol\Sigma}^{-1}{\bf J}^{\rm T}
+~~{\rm and}~~
+{\bf A}^{\rm(new)} = {\bf J}({\boldsymbol\Sigma} + \Delta{\bf C}\,\Delta{\bf C}^{\rm T})^{-1}{\bf J}^{\rm T},
+\end{equation}
+where ${\bf J}$ is the $N_{\rm data}\times 2$ matrix of partial derivatives of the data vector. For the sake of constructing an example that shows there is no inequality relating $f_{\rm deg}^{(+)}$ to $f_{\rm deg}^{(-)}$, we take $N_{\rm data}=2$ and ${\bf J}$ to be the identity. If we take ${\boldsymbol\Sigma}$ to be the $2\times 2$ identity and $\Delta{\bf C} = (\alpha~~\beta)^{\rm T}$, then
+%\begin{equation}
+%{\bf A}^{\rm(old)} = \left( \begin{array}{cc} 1 & 0 \\ 0 & 1 \end{array} \right)
+%~~{\rm and}~~
+%{\bf A}^{\rm(new)} = \frac{1}{1+\alpha^2+\beta^2} \left( \begin{array}{cc} 1+\beta^2 & -\alpha\beta \\ -\alpha\beta & 1+\alpha^2 \end{array} \right).
+%\end{equation}
+\begin{equation}
+f_{\rm deg}^{(+)} = \sqrt{1+\alpha^2} ~~{\rm and}~~ f_{\rm deg}^{(-)} = \sqrt{\frac{1+\alpha^2+\beta^2}{1+\beta^2}}.
+\end{equation}
+We can see that any configuration with $1 \le f_{\rm deg}^{(-)} \le f_{\rm deg}^{(+)}$ can be obtained by choosing $\alpha$ (to get the desired $f_{\rm deg}^{(+)}$) and then $\beta$ (to get the desired $f_{\rm deg}^{(-)}$). However, if alternatively we taken
+\begin{equation}
+{\boldsymbol\Sigma} = \left( \begin{array}{cc} 1 & \rho \\ \rho & 1 \end{array} \right)
+~~~{\rm and}~~~
+\Delta{\bf C} = \left( \begin{array}c \gamma \\ 0 \end{array} \right)
+\end{equation}
+with $|\rho|<1$, then
+%\begin{equation}
+%{\bf A}^{\rm(old)} = \frac1{1-\rho^2} \left( \begin{array}{cc} 1 & -\rho \\ -\rho & 1 \end{array} \right)
+%~~{\rm and}~~
+% 1+gamma^2 rho \\ rho 1 --> det = 1+gamma^2-rho^2
+%{\bf A}^{\rm(new)} = \frac{1}{1+\gamma^2-\rho^2} \left( \begin{array}{cc} 1 & -\rho \\ -\rho & 1+\gamma^2 \end{array} \right).
+%\end{equation}
+\begin{equation}
+f_{\rm deg}^{(+)} = \sqrt{1+\gamma^2} ~~{\rm and}~~ f_{\rm deg}^{(-)} = \sqrt{\frac{1-\rho^2+\gamma^2}{1-\rho^2}}.
+\end{equation}
+This time, we can choose any configuration with $1\le f_{\rm deg}^{(+)}\le f_{\rm deg}^{(-)}$ by choosing $\gamma$ (to get the desired $f_{\rm deg}^{(+)}$) and then $\rho$ (to get the desired $f_{\rm deg}^{(-)}$). Between these two examples, we see that there is no relation between $f_{\rm deg}^{(+)}$ and $f_{\rm deg}^{(-)}$: any behaviour is possible when we add a nuisance parameter.}
+
+\subsection{\changetext{Combination with external data sets}}
+
+\changetext{Finally, we consider combinations with an external data set. In the context of WFIRST weak lensing, this might be another experiment (e.g., cosmic microwave background) or within WFIRST (e.g., the supernova survey). We assume that the data vector for this external data set is independent.}
+
+\changetext{The $Z$ metric undergoes RSS addition between data sets, i.e., if we have data sets A and B, then $Z^2({\rm A+B)} = Z^2({\rm A}) + Z^2({\rm B})$, because the covariance matrix ${\boldsymbol\Sigma}$ of the combined data set A+B is block diagonal. This is true both for the deterministic version of the metric and the probabilistic version, $Z_{\rm rms}$.}
+
+\changetext{What happens to the $r$ and $f_{\rm deg}$ metrics is more complicated. If there are shared nuisance parameters between the experiments, then in general there is no rule on how $Z_{\rm cosmo}$ and $f_{\rm deg}$ change when an external data set is added, because one could consider the limiting case where the external data set effectively fixes a nuisance parameter, and then one has the situation described in \S\ref{ss:app-nuisance}. We note that if $f_{\rm deg}$ is defined in terms of $(w_0,w_a)$ space, and other cosmological parameters such as $\Omega_{\rm m}$ and $H_0$ are treated as nuisance parameters, then almost all practical cases of combined data sets will have shared nuisance parameters.}
+
+\changetext{If there are {\em no} shared nuisance parameters, then it is possible to say more about $r$ and $f_{\rm deg}$. Let's consider $r$ first. When two data sets A and B are combined, and we have Gaussian likelihoods, the bias in parameters in the combined data set is
+\begin{equation}
+\Delta{\boldsymbol\theta}^{(\rm A+B)} =
+[{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}}
++{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)}{^{-1}}]^{-1}
+[{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)} \Delta{\boldsymbol\theta}^{(\rm A)} +
+{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)} \Delta{\boldsymbol\theta}^{(\rm B)}]
+\end{equation}
+and the covariance matrix is $[{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}} + {\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)}{^{-1}}]^{-1}$. Then
+\begin{eqnarray}
+r^{\rm(A+B)}{^2}\!\!\!\! &=& \!\!\!\!
+\Delta{\boldsymbol\theta}^{(\rm A)}{^{\rm T}} {\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)} 
+ [{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}}
++{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)}{^{-1}}]^{-1}
+{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)} \Delta{\boldsymbol\theta}^{(\rm A)}
+\nonumber \\
+&& \!\!\!\!
++
+\Delta{\boldsymbol\theta}^{(\rm B)}{^{\rm T}} {\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)} 
+ [{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}}
++{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)}{^{-1}}]^{-1}
+{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)} \Delta{\boldsymbol\theta}^{(\rm B)}
+\nonumber \\
+&& \!\!\!\!
++ 2
+\Delta{\boldsymbol\theta}^{(\rm A)}{^{\rm T}} {\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)} 
+ [{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}}
++{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)}{^{-1}}]^{-1}
+{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)} \Delta{\boldsymbol\theta}^{(\rm B)}.
+\nonumber \\ &&
+\end{eqnarray}
+Since ${\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)} \succeq [{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}}
++{\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(B)}{^{-1}}]^{-1}$, we know that the first term is $\le \Delta{\boldsymbol\theta}^{(\rm A)}{^{\rm T}} {\boldsymbol\Sigma}_{\boldsymbol\theta}^{\rm(A)}{^{-1}}\Delta{\boldsymbol\theta}^{(\rm A)} = r^{\rm(A)}{^2}$.
+Similarly, the second term is $\le r^{\rm(B)}{^2}$. The Cauchy-Schwarz inequality then shows that the third term is less than or equal to twice the geometric mean of the first two, i.e., $\le 2r^{\rm(A)} r^{\rm(B)}$. So ti follows that $r$ obeys linear addition:
+\begin{equation}
+r^{\rm(A+B)} \le r^{\rm(A)} + r^{\rm(B)}.
+\end{equation}
+If one treats the systematic errors in the two data sets as independent in the probabilistic sense, then when taking an average the third term drops out and $r_{\rm rms}$ obeys RSS addition (with an inequality):
+\begin{equation}
+r_{\rm rms}^{\rm(A+B)}{^2} \le r_{\rm rms}^{\rm(A)}{^2} + r_{\rm rms}^{\rm(B)}{^2}.
+\end{equation}
+}
+
+\changetext{We may also consider $f_{\rm deg}$; for two independent probes A and B and no common nuisance parameters, we have
+\begin{equation}
+f_{\rm deg}^{\rm(A+B)} = \sqrt{ \frac{\det ({\bf F}^{\rm(A,old)} + {\bf F}^{\rm(B,old)})}{\det ({\bf F}^{\rm(A,new)} + {\bf F}^{\rm(B,new)})} },
+\end{equation}
+where ``old'' and ``new'' indicate the Fisher matrices without and with the systematic, respectively (and after the nuisance parameters have been marginalized out). We can understand what happens if we turn this into an integral:
+\begin{equation}
+\ln f_{\rm deg}^{\rm(A+B)} = \frac12 \int_0^1 \frac{d}{d x} \ln \det[{\bf F}^{\rm(A)}(x) + {\bf F}^{\rm(B)}(x)]\,d x,
+\label{eq:2lnf}
+\end{equation}
+with $x=0$ corresponding to the ``new'' Fisher matrix, $x=1$ corresponding to the old:
+\begin{equation}
+{\bf F}^{\rm(A)}(x) = x {\bf F}^{\rm(A,old)} + (1-x) {\bf F}^{\rm(A,new)}.
+\end{equation}
+Since ${\bf F}^{\rm(A,new)}\preceq {\bf F}^{\rm(A,old)}$, we have $d{\bf F}^{\rm(A)}(x)/dx \succeq 0$. The integral in Eq.~(\ref{eq:2lnf}) then represents the degradation of parameter constraint volume as we introduce the systematic. Then the derivative of a log determinant satisfies
+\begin{eqnarray}
+\ln f_{\rm deg}^{\rm(A+B)} &=& \frac12 \int_0^1 {\rm Tr} \Bigl\{ [{\bf F}^{\rm(A)}(x) + {\bf F}^{\rm(B)}(x)]^{-1}
+\nonumber \\ && \times
+\left[ \frac{d{\bf F}^{\rm(A)}(x)}{dx} + \frac{d{\bf F}^{\rm(B)}(x)}{dx} \right]
+\Bigr\}
+\,d x.
+\end{eqnarray}
+Now for any ${\bf A}\succeq0$ and ${\bf B}\succ {\bf D} \succ 0$, we may write ${\bf A} = \sum_{i=1}^{N_{\rm cosmo}} {\bf uu}^{\rm T}$ and then ${\rm Tr}({\bf BA}) = \sum_{i=1}^{N_{\rm cosmo}} {\bf u}^{\rm T}{\bf Bu}$. It follows that ${\rm Tr}({\bf BA})\ge {\rm Tr}({\bf DA})$ (with equality only for ${\bf A}=0$). Applying this to $[{\bf F}^{\rm(A)}(x) + {\bf F}^{\rm(B)}(x)]^{-1} \prec [{\bf F}^{\rm(A)}(x)]^{-1}$ and similarly for B, we show that
+\begin{eqnarray}
+\ln f_{\rm deg}^{\rm(A+B)} \!\!\!\! &\le&\!\!\!\! \frac12 \int_0^1 {\rm Tr} \Bigl\{ [{\bf F}^{\rm(A)}(x)]^{-1}\frac{d{\bf F}^{\rm(A)}(x)}{dx} \Bigr\} \,d x
+\nonumber \\ &&\!\!\!\!
++ \frac12 \int_0^1 {\rm Tr} \Bigl\{ [{\bf F}^{\rm(B)}(x)]^{-1}\frac{d{\bf F}^{\rm(B)}(x)}{dx} \Bigr\} \,d x~~~~
+\nonumber \\
+&=& \ln f_{\rm deg}^{\rm(A)} + \ln f_{\rm deg}^{\rm(B)}.
+\end{eqnarray}
+(Equality holds only when $d{\bf F}^{\rm(A)}/dx = d{\bf F}^{\rm(B)}=0$.) We see that for no shared nuisance parameters,
+\begin{equation}
+f_{\rm deg}^{\rm(A+B)} \le f_{\rm deg}^{\rm(A)} f_{\rm deg}^{\rm(B)},
+\end{equation}
+with equality only in the case where the systematic has no effect on the Fisher matrices, i.e., when $f_{\rm deg}^{\rm(A+B)} = f_{\rm deg}^{\rm(A)} = f_{\rm deg}^{\rm(B)} = 1$.
+}
+
+\changetext{A particular example showing that this inequality cannot be strengthened is in the space of 2 cosmological parameters:
+\begin{equation}
+{\bf F}^{\rm(A,old)} = \left( \begin{array}{cc} 1 & 0 \\ 0 & \epsilon \end{array} \right),
+~~
+{\bf F}^{\rm(B,old)} = \left( \begin{array}{cc} \epsilon & 0 \\ 0 & 1 \end{array} \right),
+\nonumber
+\end{equation}
+\begin{equation}
+{\bf F}^{\rm(A,new)} = \left( \begin{array}{cc} \alpha^{-2} & 0 \\ 0 & \epsilon \end{array} \right),
+~~{\rm and}~~
+{\bf F}^{\rm(B,new)} = \left( \begin{array}{cc} \epsilon & 0 \\ 0 & \beta^{-2} \end{array} \right),
+\end{equation}
+with $\alpha,\beta\ge 1$. By taking the limit of $\epsilon\rightarrow 0$, we see that $f_{\rm deg}^{\rm(A)}\rightarrow\alpha$, $f_{\rm deg}^{\rm(B)}\rightarrow\beta$, and $f_{\rm deg}^{\rm(A+B)}\rightarrow \alpha\beta$.
+}
 
 \bsp	
 \label{lastpage}
