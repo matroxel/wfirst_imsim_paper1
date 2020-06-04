@@ -19,7 +19,7 @@
 \interfootnotelinepenalty=10000
 \newcommand{\galsim}{\textsc{GalSim}}
 
-\newcommand{\changetext}[1]{\textcolor{red}{#1} }
+\newcommand{\changetext}[1]{\textcolor{red}{#1}}
 
 %\usepackage{lineno}
 %\linenumbers
@@ -1211,12 +1211,14 @@ ${\boldsymbol\gamma}_{\rm obs,ref}$ is restricted, with the result
 that $\partial \gamma_{{\rm obs,ref},i}/\partial\psi_j$ may be
 suppressed at zero wavefront error (${\boldsymbol\psi}=0$) and be much
 larger in the realistic case where ${\boldsymbol\psi}\neq 0$ (e.g., 
-\cite{2010SPIE.7731E..1EN}). Therefore we must search the
+\citealt{2010SPIE.7731E..1EN}). 
+\changetext{We do not know {\em a priori} what the static wavefront error will be -- we have set a requirement of $|{\boldsymbol\psi}|<92\,$nm, but until we have the as-built observatory we do not know how this will be distributed among the Zernikes. We address this by expanding the sensitivity matrix $\partial \gamma_{{\rm obs,ref},i}/\partial\psi_j$ to linear order in ${\boldsymbol\psi}$, which means we need $\gamma_{{\rm obs,ref},i}$ Taylor expanded to quadratic order in ${\boldsymbol\psi}$ around ${\boldsymbol\psi}=0$. A consequence of this is that if the static wavefront error ${\boldsymbol\psi}$ is larger, then the sensitivity matrix is also larger and the stability requirements are tighter.
+Then we} search the
 entire space of possible wavefront errors ${\boldsymbol\psi}$ --
 bounded by the top-level requirement that $|{\boldsymbol\psi}|<92\,$nm
 -- to find the place where the operator norm is maximized.
 
-The requirement that the PSF inverts (i.e.\ preserves ellipticity and
+The \changetext{fact} that the PSF inverts (i.e.\ preserves ellipticity and
 hence spurious shear) under
 ${\boldsymbol\psi}\rightarrow-{\boldsymbol\psi}$ implies that
 ${\boldsymbol\gamma}_{\rm obs,ref}$ is an even function of
@@ -1342,11 +1344,12 @@ covariance matrix of the Zernike amplitudes ${\boldsymbol\psi}$ and
 the line-of-sight motion ${\boldsymbol\theta}$. Of this covariance
 matrix, the ``line-of-sight block'' ${\rm
 Cov}({\boldsymbol\theta},{\boldsymbol\theta})$ corresponds to simple
-image motion, and is not related to wavefront jitter. On the other
+image motion, and is not related to wavefront jitter. \changetext{The PSF modeling procedure for WFIRST will explicitly allow for image motion to be fit separately in each exposure \citep{2012SPIE.8442E..10J}, so the presence of ${\rm
+Cov}({\boldsymbol\theta},{\boldsymbol\theta})$ does not represent a bias in fitting the PSF.} On the other
 hand, the blocks ${\rm Cov}({\boldsymbol\theta},{\boldsymbol\psi})$
 and ${\rm Cov}({\boldsymbol\psi},{\boldsymbol\psi})$ involve the
 wavefront jitter, and their effects on ${\boldsymbol\gamma}_{\rm
-obs,ref}$ must be treated here.
+obs,ref}$ must be treated here. \changetext{(Due to the large number of parameters, we cannot fit a full covariance matrix of all the Zernikes in each exposure.)}
 
 We can then write the matrix of second derivatives:
 \begin{align}
