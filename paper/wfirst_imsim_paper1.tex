@@ -460,6 +460,8 @@ We simulate 13 identical 2.5$\times$2.5 deg$^2$ Reference Survey cutouts: a fidu
 These are split into three types of errors in the wavefront model: 1) static biases in the model, which are constant as a function of time, 2) high-frequency biases in the model, which correspond to rapidly changing conditions compared to the timescale of a single exposure, and 3) low-frequency biases in the model, which change over the lifetime of the mission, but can be considered static over the timescale of a single exposure. 
 In each static and low-frequency mode, the (rms) amplitude of the wavefront bias corresponds to 0.005 wavelengths (a fiducial wavelength is taken to be 1293~nm), which is equivalent to approximately 6.5~nm. These PSF changes are summarized in Table~\ref{table:runs}.
 
+\changetext{We emphasize that the purpose of these simulations is to measure the sensitivity (i.e., partial derivatives) of the shear biases $m_i$ and $c_i$ with respect to the PSF parameters. We want to do this with an area that is much less than the Reference Survey area; we choose a change in wavefront $\Delta\psi$ that is considerably greater than the expected requirement so that the partial derivative is not swamped by noise. Similar considerations apply to the pointing jitter.}
+
 \subsection{Static biases}\label{sec:static}
 
 We simulate seven static sources of bias in the PSF model. 
@@ -558,7 +560,7 @@ The time-dependent errors have $\xi_{+}$ consistent with zero, except for the no
 The non-random anisotropic jitter, and the static focus and astigmatism errors, all produce a nearly constant $\xi_{+}$ correlation with angular scale, showing that the results are dominated by uniformly distributed $e_1$, $e_2$.
 
 \begin{table}
-\caption{Additive and multiplicative bias parameter changes in each version of the simulation relative to the \textsc{Fiducial} simulation.\label{table:bias}}
+\caption{Additive and multiplicative bias parameter changes in each version of the simulation relative to the \textsc{Fiducial} simulation.\ \changetext{Note that the wavefront errors injected into these simulations (6.5 nm rms) are much greater than the stability requirements; the variation simulations are designed to measure the partial derivatives of the shear biases with respect to each contribution to the PSF.}\label{table:bias}}
 \begin{center}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{ lcccc }
