@@ -21,8 +21,8 @@
 
 \newcommand{\changetext}[1]{\textcolor{red}{#1} }
 
-%\usepackage{lineno}
-%\linenumbers
+\usepackage{lineno}
+\linenumbers
 
 \title[A Synthetic WFIRST High-Latitude Imaging Survey]{A Synthetic WFIRST High-Latitude Imaging Survey: \\
 Simulation Suite and the Impact of Wavefront Errors \\on Weak Gravitational Lensing}
@@ -156,7 +156,7 @@ For these reasons, we have also estimated the mapping from wavefront error to ga
 
 To empirically test weak lensing requirements, methods, and algorithms in WFIRST, we have designed a synthetic survey suite that, while not entirely realistic in all object properties, contains sufficiently complex and representative objects so as to enable informative tests and preliminary algorithm development. 
 This synthetic survey utilizes several external simulation and data sources, and generates WFIRST-like imaging using the \galsim\ framework and its WFIRST module. 
-The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications.\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper.} 
+The simulation framework is generally capable of producing a full WFIRST HLS imaging survey in all filters matching Cycle 7 specifications.\footnote{These can be found at \url{https://wfirst.gsfc.nasa.gov/science/WFIRST_Reference_Information.html}. Note that updates to match Phase B payload design have not been incorporated into the simulation described in this paper, but this is not expected to impact the results of this paper.} 
 The code is publicly available.\footnote{\url{https://github.com/matroxel/wfirst_imsim}} An example SCA image is shown in Fig.~\ref{fig:sca}. The fiducial simulation run is available for download -- this public dataset is described in App.~\ref{app:data_access}.
 
 This approach to producing (to varying degrees) realistic, synthetic survey realizations is a common approach for weak lensing experiments, both at the catalog level \citep{2018MNRAS.480.4614M,2019arXiv190706530K} and the image level \citep{2016MNRAS.457..786S,2017MNRAS.467.1627F,2018MNRAS.481.3170M,2018MNRAS.475.4524S}. These synthetic surveys can serve as sources of calibration or characterization, validation, or increasingly as end-to-end integration tests for measurement and analysis algorithms and pipelines. Our approach here is similar to the approach being implemented in parallel by the LSST Dark Energy Science Collaboration \citep[DESC;][]{2019arXiv190706530K,dc2all}, with comparable levels of morphological complexity for weak lensing algorithm testing, but less complex true object properties. This approach is described in detail in the following subsections.
@@ -1557,14 +1557,14 @@ Data size  & 25MB & 1GB & $<$1MB  \\
 \section{PSF model resolution}
 \label{app:psf_resol}
 
-For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) within about 1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured at oversampling factors of 1, 2, 4, 8, and 16, relative to a `true' PSF model image with an oversampling factor of 32 and native pixel stamp size of $64\times 64$ pixels. This choice has no impact on the measurement of galaxy shapes as implemented in this paper.
+For this set of image simulations, we have saved the PSF model at the position of galaxies in two resolutions: the native pixel scale and at a pixel scale that is smaller by a factor of 8 to enable unbiased measurements of the PSF model size and ellipticity, which is undersampled in the native pixel resolution. Measurements of PSF properties use this oversampled PSF model image. The motivation for choosing a pixel grid of $8\times8$ pixels and an oversampling factor of 8 was to recover the true model ellipticity ($e_1$ and $e_2$) and size ($T$) to better than 0.1\%. We show in Fig. \ref{fig:psf_oversampling} the fractional difference in the PSF size and shape measured with various oversampling factors relative to a `true', high-resolution PSF image. This choice has no impact on the measurement of galaxy shapes as implemented in this paper.
  
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/psf_oversampling.pdf}
 \end{center}
 \caption[]{
-The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size ($T$) for various factors of PSF model pixel scale oversampling factors of 1, 2, 4, 8, and 16 relative to the native WFIRST pixel scale, in cutouts of size $8\times 8$ native pixels. The fractional error is measured relative to a `true' PSF model, which is represented by a cutout of native pixel size $64\times64$ pixels with a resolution that is oversampled by a factor of 32.
+The fractional error in the recovered PSF ellipticity ($e_1$ and $e_2$) and size ($T$) for various factors of PSF model pixel scale oversampling factors of 1, 2, 4, 8, and 16 relative to the native WFIRST pixel scale, in cutouts of size $8\times 8$ native pixels. The fractional error is measured relative to a `true' PSF model, which is represented by a cutout of native pixel size $64\times64$ pixels with a resolution that is oversampled by a factor of 32. Results both with (square) and without (circle) the pixel convolution are included.
 \label{fig:psf_oversampling}}
 \end{figure}
 
