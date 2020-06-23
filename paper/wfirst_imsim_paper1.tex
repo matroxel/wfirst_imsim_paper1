@@ -746,6 +746,13 @@ the biases, the correction to the power spectrum can be written as
 &= (m_i+m_j)C_\ell^{z_i,z_j}+C_\ell^{c_i,c_j}.
 \label{eq:Delta C}
 \end{align}
+\changetext{If $m$ is spatially variable, there is an additional contribution \citep[e.g.][]{2012MNRAS.423.3163K, 2016MNRAS.455.3319K}:}
+\begin{align}
+\Delta C_\ell^{z_i,z_j} &=
+\int \frac{d^2{\boldsymbol\ell}'}{(2\pi)^2} \, C_{\ell'}^{z_i,z_j} C^{\delta m_i,\delta m_j}_{{\boldsymbol\ell}-{\boldsymbol\ell}'} \cos^2 (2\varphi_{{\boldsymbol\ell},{\boldsymbol\ell}'}),
+\label{eq:DeltaC-mm}
+\end{align}
+\changetext{where $\delta m_i$ is the fluctuation in multiplicative bias of bin $i$, and $\varphi_{{\boldsymbol\ell},{\boldsymbol\ell}'}$ is the angle between the indicated wave vectors. This is second order in the $m$-biases, so we expect it to be small compared to the first order contribution in Eq.~(\ref{eq:Delta C}), which comes from the spatially averaged part of the multiplicative bias. We will briefly discuss this spatially variable contribution again in \S\ref{ss:implement-mult}.}
 
 \subsection{Setting requirements}
 
@@ -1026,7 +1033,7 @@ simply search the $2^{N_z}$ corners by brute force.
 \subsubsection{Implementation: multiplicative systematics}
 \label{ss:implement-mult}
 
-The implementation for multiplicative systematic errors is simpler, since one can work directly with the $m_i$. Once again, we may write $m_i=mw_i$, where $m$ is the multiplicative error in the worst bin (largest absolute value) and $w_i=1$ for that bin, and $|w_i|\le 1$ for all bins; the $w_i$ thus represents the redshift dependence of the multiplicative error. Once again, we may define a scaling factor $S[{\bf w},{\rm mult}]$ for multiplicative biases analogous to Eq.~(\ref{eq:Swa}):
+The implementation for \changetext{the spatial mean part of the} multiplicative systematic errors is simpler, since one can work directly with the $m_i$. Once again, we may write $m_i=mw_i$, where $m$ is the multiplicative error in the worst bin (largest absolute value) and $w_i=1$ for that bin, and $|w_i|\le 1$ for all bins; the $w_i$ thus represents the redshift dependence of the multiplicative error. Once again, we may define a scaling factor $S[{\bf w},{\rm mult}]$ for multiplicative biases analogous to Eq.~(\ref{eq:Swa}):
 \begin{equation}
 S[{\bf w},{\rm mult}] = \frac{Z^2({\rm mult}) \,{\rm for\,this\,}w_i}{Z^2({\rm mult})\,{\rm for\,all\,}w_i=1};
 \end{equation}
@@ -1039,6 +1046,8 @@ where $\sigma_{m,\rm req't}^{\rm flat}$ is the requirement on knowledge of $m$. 
 The worst-case scaling factors $S_{\rm max,+}({\rm mult})$ (conditioned on $0\le w_i\le 1$) and $S_{\rm max,\pm}({\rm mult})$ (allowing either sign) can be defined analogously. In this case, since $\Delta{\bf C}$ is linear in the $m_i$ and hence $w_i$, it is actually $S^2[{\bf w},{\rm mult}]$ that is a semi-positive-definite quadratic function of ${\bf w}$ instead of $S$, but the technique of searching the corners by brute force still applies.
 
 Once again, we initially set $Z({\rm mult})=0.5$, allocating 25\% of the systematic error in an RSS sense to multiplicative systematics; due to changes in the model since the SRD was first written, the allocation is no longer exactly 25\%. The resulting limits are quoted in Table~\ref{tab:addbands}.
+
+\changetext{One may also consider the spatially varying multiplicative systematics, which contribute to the power spectrum via Eq.~(\ref{eq:DeltaC-mm}). As noted in \S\ref{ss:add_mult}, we expected this contribution to be small. As a simple test, we tried assessing a redshift-independent multiplicative bias, with the scale dependence $\ell(\ell+1)C_\ell^{mm}= $\,constant over the range $8\le \ell < 1442$ (i.e., from one wavelength over the survey region to a half-wavelength across an SCA), and with total variance $\sigma^2_m = \sum_\ell (2\ell+1)C_\ell^{mm}/(4\pi)$. The resulting contribution to the error budget is $Z^2 = 0.016(\sigma_m/0.01)^4$. It is thus clear that the requirements on spatially varying multiplicative systematics will be much looser than those on the spatially varying additive systematics, and hence it is the latter that will drive PSF and wavefront stability requirements. The allocation in terms of acceptable $Z^2$ for spatially varying multiplicative systematics the overall \wfirst\ error budget is under discussion.\footnote{We thank the anonymous referee for encouraging us to think about this more carefully.}}
 
 \subsection{Flow-down to PSF requirements}
 
